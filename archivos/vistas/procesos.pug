@@ -1,0 +1,20 @@
+extends layout
+
+block content1
+    div.containerP
+        
+        if accesos == "adp,desarrollo"
+            include procesos/adp/l_adp
+            include procesos/e&d/l_e&d
+        else if accesos == "adp"
+            include procesos/adp/l_adp
+        else if accesos == "desarrollo"
+            include procesos/e&d/l_e&d
+
+        
+    
+    
+
+        
+
+

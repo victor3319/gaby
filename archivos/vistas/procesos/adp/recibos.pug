@@ -1,0 +1,38 @@
+div.containerSp
+    h2.h  Recibos
+    button.hm(name="boton" value="recibos") Cargar Recibos
+        
+    dialog(name="respuesta" open=recibos)
+        h1 Cargar recibos de Sueldo
+        label Legajo
+        input(type="", name="legajo")
+        br
+        label Mes
+        input(type="", name="mes")
+        br
+        label Año
+        input(type="", name="ano")
+        br
+        label Archivo
+        input(type="file", name="archivo")
+        br
+        a(href="/procesos") 
+            button.boton-ok(type= "submit" name="boton" value="cargar") Cargar
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar") 
+
+    dialog(name="completar" open=completar)
+        h1 Debe completar los datos obligatorio
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar") 
+
+    
+                    
+            
+
+        
+
+    
+
+
+    

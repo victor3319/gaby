@@ -1,0 +1,25 @@
+[
+    {
+        "nombre" : "victor",
+        "correo" : "victor3319.vc@gmail.com",
+        "password" : "Anastasia_18",
+        "tipo" : "adm",
+        "accesos": ["adp","desarrollo"]
+    },
+
+    {
+        "nombre" : "marisol",
+        "correo" : "marisol@gmail.com",
+        "password" : "Anastasia_19",
+        "tipo" : "usu",
+        "accesos": ["desarrollo"]
+    },
+
+    {
+        "nombre" : "nadia",
+        "correo" : "nadia@gmail.com",
+        "password" : "Anastasia_20",
+        "tipo" : "usu",
+        "accesos": ["adp"]
+    }
+]

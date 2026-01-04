@@ -1,0 +1,117 @@
+.granback{
+    background-color:rgb(238, 243, 245);
+}
+
+
+.container{
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: dense;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    text-align: center;
+    align-items: center;
+    
+     
+}
+
+
+.img{
+    height: 10rem;
+    width: 15rem;
+    border-radius: 10%;
+    margin: 1rem;
+}
+
+.imgp{
+    height: 5rem;
+    width: 10rem;
+    border-radius: 10%;
+    margin: 1rem;
+}
+
+.imgg{
+    height: auto;
+    width: auto;
+    border-radius: 50%;
+    margin: 1rem;
+}
+
+img.img:hover{
+    transform: scale(1.1);
+}
+
+.nav{
+    float: right;
+}
+
+.cuadro{
+    gap: 1rem;
+    grid-auto-flow: dense;
+    grid-template-rows: auto;
+    grid-template-columns: 2;
+    text-align: center;
+    align-items: center;   
+    background-color: aqua;
+    padding: 2% 5% 2% 5%;
+    margin: 10% 10% 10% 10%;
+    border-radius: 20px;
+
+}
+
+.boton-ok{
+    background-color: chartreuse;
+    padding: 10px 20px;
+    border-radius: 20px;
+    
+}
+
+.boton-nook{
+    background-color: darkred;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+.boton-ok:hover{
+    transform: scale(1.1);
+}
+.boton-nook:hover{
+    transform: scale(1.1);
+}
+
+.containerP{
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: dense;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    text-align: left;
+    background-color: aquamarine;
+    border-radius: 10px;
+    margin: 1%;
+    padding: 1%;
+     
+}
+
+.containerSp{
+    
+    text-align: left;
+    align-items: flex-start;
+    background-color: rgb(255, 227, 127);
+    border-radius: 10px;
+    padding: 3%;
+    height: 110px;
+    width: 1fr;
+    
+
+}
+.h{
+    margin: 0;
+}
+
+.hm:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+

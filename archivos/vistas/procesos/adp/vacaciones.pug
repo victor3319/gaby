@@ -1,0 +1,21 @@
+div.containerSp
+    h2.h Vacaciones
+    button.hm(name="boton" value="vacaciones") Carga de Vacaciones 
+    
+
+    dialog(name="Carga_Vacaciones" open=vacaciones)
+        h3 Seleccione el tipo de carga de vacaciones
+        button.boton-ok(name="masivas", value="masivas") Masivas
+        input.boton-ok(type="button", value="Individuales")
+        a(href="/procesos")
+            button.boton-nook(type="button", value="Cerrar") Cerrar
+
+    dialog(name="Masivas" open=masivas)
+        h3 Seleccione el archivo 
+        input(type="file", name = "archivo", value="Masivas",)
+        button.boton-ok(type= "submit" name="subir", value="cargar") Cargar
+        h3 Descargue el Archivo Ejemplo
+        input.boton-ok(type="button", value="Desacargar Archivo")
+        a(href="/procesos")
+            button.boton-nook(type="button", value="Cerrar") Cerrar
+

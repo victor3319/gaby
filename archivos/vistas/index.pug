@@ -1,0 +1,41 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title victor-RRHH
+        link(rel="stylesheet", href="css/style.css")
+    header 
+        img.imgp(src="img/rowa.JPG", alt="")
+    body.granback 
+        
+
+        div.container
+            div
+                h1 Hola
+                img.imgg(src="img/victor1.JPG", alt="")
+                h3 Bienvenido a nuestro espacio de trabajo
+            form(method="post" action="/new-entry")
+                div.container.cuadro
+                    label Nombre
+                    input(type="", name="nombre")
+                    label Correo
+                    input(type="", name="correo")
+                    label Password
+                    input(type="password", name="password")
+                    button.boton-ok(name="boton" value="ingresar") Ingresar
+                    button.boton-ok(name="boton" value="olvidar") No Recuerdo
+                    
+            dialog(name="respuesta" open=mostrar)
+                h1 Error en Datos
+                p Algunos datos ingresados son erroneos o no te encuentras registrado o autorizado
+                a(href="/")
+                    input.boton-nook(type="button", value="cerrar")
+
+            dialog(name="respuesta" open=olvidar)
+                h1 Si no recuerdas
+                p Sus datos de ingreso son su nombre su correo registrado y como pasword su fecha de nacimiento sin caracteres especiales, en caso de no recordarlo comuniquese con el Administrador
+                a(href="/")
+                    input.boton-nook(type="button", value="Cerrar")
+            
+                    
