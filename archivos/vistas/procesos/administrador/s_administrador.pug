@@ -1,0 +1,44 @@
+div.containerSp
+    h2.h  Servicios de Administrador
+    button.hm(name="boton" value="descargas") Descargas
+    button.hm(name="boton" value="crear_usuario") Crear Usuario
+        
+    dialog(name="descargas" open=descargas)
+        h1 Seleccione Procesos
+        label Proceso
+        input(type="", name="proceso")
+        br
+        label Sub Proceso
+        input(type="", name="s_proceso")
+        br
+        a(href="/procesos") 
+            button.boton-ok(type= "submit" name="boton" value="cargar") Aceptar
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar") 
+
+    dialog(name="completar" open=completar)
+        h1 Debe completar los datos obligatorio
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar") 
+
+    dialog(name="crear_usuario" open=crear_usuario)
+        h1 Crear Usuario
+        label Nombre
+        input(type="", name="nombre")
+        br
+        label Correo
+        input(type="", name="correo")
+        br
+        label Password
+        input(type="", name="password")
+        br
+        label Tipo
+        input(type="", name="tipo")
+        br
+        label Accesos
+        input(type="", name="accesos")
+        br
+        a(href="/procesos") 
+            button.boton-ok(type= "submit" name="boton" value="cargar") Aceptar
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar")

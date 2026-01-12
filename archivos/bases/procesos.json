@@ -1,0 +1,8 @@
+[
+    {"preceso":{
+        "administrador":["ADP","E&D"],
+        "adp":["Recibos","Vacaciones","Fichadas"],
+        "e&d":["Solicitudes","Seleccion","Lectura"]
+    }
+}
+]

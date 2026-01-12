@@ -75,51 +75,31 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 
     //Registrar Recibos
     if(boton == "cargar"){
-        var recibos = []
         const {legajo, mes, ano, archivo} = req.body;
         if(legajo =="" || mes=="" || ano=="" || archivo==""){
             res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], completar : js.mostrar()})
         }
+        
+        var recibosJson = fs.readFileSync("archivos/bases/recibos.json", "utf-8");
+        var recibos = JSON.parse(recibosJson)
         var newRecibo = {
             legajo,
             mes,
             ano,
             archivo
         }
-
+        newRecibo.autor = var_const.usuarioEnUso[1]
+        var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
+        newRecibo.archivo = base64String
         recibos.push(newRecibo)
+        var jsonRecibo = JSON.stringify(recibos);
+
+        fs.writeFileSync("archivos/bases/recibos.json", jsonRecibo, "utf-8");
+        
         console.log(recibos)
         
-        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], recibos : js.mostrar()})
-        /*recibos.push(req.body.legajo)
-        recibos.push(req.body.mes)
-        recibos.push(req.body.ano)
-
-        var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
-        recibos.push(base64String)
-
-        //Leer el JSON del recibos
-        var recibosJson = fs.readFileSync("./archivos/bases/recibos.json")
-        //Convertir el JSON en objeto
-        var recibosObjetos = JSON.parse(recibosJson)
-
-        recibosObjetos.cantidadRegistro = recibos
-
-        var jsonRecibo = JSON.stringify(recibosObjetos);
-            
-        fs.writeFile("./archivos/bases/recibos.json", jsonRecibo, (error)=>{
-            if(error)throw error;
-        })
-
-        console.log(cantidadRegistro)
-        console.log(recibosObjetos)
-        
-        recibosObjetos*/
-        }
-
-        
-
-    
+        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], recibos : js.mostrar()})    
+    }   
 
 
     if(boton == "vacaciones"){
@@ -132,7 +112,16 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     
 })
 
-
+//Rutas de Administrador
+router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
+    var boton = req.body.boton  
+    if(boton == "descargas"){
+        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], descargas : js.mostrar()})
+    } 
+    else if(boton == "crear_usuario"){
+        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], crear_usuario : js.mostrar()})
+    }
+})
 
 
 

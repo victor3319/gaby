@@ -4,7 +4,7 @@
         "correo" : "victor3319.vc@gmail.com",
         "password" : "Anastasia_18",
         "tipo" : "adm",
-        "accesos": ["adp","desarrollo"]
+        "accesos": ["adp","desarrollo","administrador"]
     },
 
     {
