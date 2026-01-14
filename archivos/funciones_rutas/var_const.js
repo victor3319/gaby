@@ -15,8 +15,13 @@ const path = require("path");
     const bUsuarioEnUso = fs.readFileSync("archivos/bases/UsuarioEnUso.json", "utf-8");
     const usuarioEnUso = JSON.parse(bUsuarioEnUso);
 
+    //Procesos
+    const baseProceso = fs.readFileSync("archivos/bases/procesos.json", "utf-8");
+    const procesos = JSON.parse(baseProceso)
+
 module.exports = {
     usuarios : usuarios,
     //recibos : recibos,
-    usuarioEnUso : usuarioEnUso
+    usuarioEnUso : usuarioEnUso,
+    procesos : procesos
 }

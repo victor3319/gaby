@@ -77,13 +77,46 @@ function cambioPassword(datos, usuarios){
     }
 }
 
+//LISTA DE PROCESOS
+function listadoProcesos(procesos, dato){
+    //var dato = "adp"
+    var procesos = procesos
+    var listadoProcesos = []
+    var listaSubProcesos = []
+    var a = []
+
+   //Formar Array de Procesos    
+    for( var i = 0; i < procesos.length; i++){
+        a.push(Object.keys(procesos[i]))
+        
+    }
+    for(var x = 0; x < a.length; x++){
+        listadoProcesos.push(a[x][0])
+    }
+
+    //Formar Array de Subprocesos
+
+    listaSubProcesos = Object.values(procesos.find(prop => prop.dato == dato))[0]
+    
+    console.log(procesos)
+    console.log(a)
+    console.log(listadoProcesos)
+    console.log(listaSubProcesos)
+
+
+    //console.log(listadoProcesos[1][0])
+
+
+}
+
 
 
 
 module.exports = {
     validacion : validacion,
     mostrar : mostrar,
-    cambioPassword : cambioPassword
+    cambioPassword : cambioPassword,
+    listadoProcesos : listadoProcesos
 }
 
 
