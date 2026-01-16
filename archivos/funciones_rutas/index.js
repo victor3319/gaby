@@ -116,10 +116,20 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton  
     if(boton == "descargas"){
-        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], descargas : js.mostrar(), proceos : js.listadoProcesos(var_const.procesos)})
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            descargas : js.mostrar(), 
+            procesos : ["1", "a", "procesos"]
+        })
     } 
     else if(boton == "crear_usuario"){
-        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], crear_usuario : js.mostrar()})
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            crear_usuario : js.mostrar()
+
+        })
     }
 })
 

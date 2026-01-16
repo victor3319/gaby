@@ -5,8 +5,9 @@ div.containerSp
         
     dialog(name="descargas" open=descargas)
         h1 Seleccione Procesos
-        label Proceso
-        input(type="", name="proceso")
+        label Procesos
+        each item in procesos
+            li= item
         br
         label Sub Proceso
         input(type="", name="s_proceso")
