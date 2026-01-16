@@ -15,16 +15,20 @@ html(lang="en")
                 h1 Hola
                 img.imgg(src="img/victor1.JPG", alt="")
                 h3 Bienvenido a nuestro espacio de trabajo
-            form(method="post" action="/new-entry")
-                div.container.cuadro
-                    label Nombre
-                    input(type="", name="nombre")
-                    label Correo
-                    input(type="", name="correo")
-                    label Password
-                    input(type="password", name="password")
-                    button.boton-ok(name="boton" value="ingresar") Ingresar
-                    button.boton-ok(name="boton" value="olvidar") No Recuerdo
+                h2 Servicios
+                button.hm(name="boton" value="libreria") Libreria
+            div
+                h1 Si eres parte del Equipo de RRHH Ingresa tus credenciales
+                form(method="post" action="/new-entry")
+                    div.container.cuadro
+                        label Nombre
+                        input(type="", name="nombre")
+                        label Correo
+                        input(type="", name="correo")
+                        label Password
+                        input(type="password", name="password")
+                        button.boton-ok(name="boton" value="ingresar") Ingresar
+                        button.boton-ok(name="boton" value="olvidar") No Recuerdo
                     
             dialog(name="respuesta" open=mostrar)
                 h1 Error en Datos
