@@ -21,5 +21,12 @@
         "password" : "Anastasia_20",
         "tipo" : "usu",
         "accesos": ["adp"]
+    },
+    {
+        "nombre" : "dayana",
+        "correo" : "dayana@gmail.com",
+        "password" : "Anastasia_18",
+        "tipo" : "adm",
+        "accesos": ["adp","desarrollo","administrador"]
     }
 ]
