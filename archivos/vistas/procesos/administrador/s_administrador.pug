@@ -6,14 +6,17 @@ div.containerSp
     dialog(name="descargas" open=descargas)
         h1 Seleccione Procesos
         label Procesos
-        each item in procesos
-            li= item
+        select(name="")
+            option(name="procesos" value="procesos") --Selecciones un Proceso--  
+            each proceso in procesos
+                option(value="") #{proceso}
         br
         label Sub Proceso
-        input(type="", name="s_proceso")
+        select(name="subprocesos" value="subprocesos")
+        
         br
         a(href="/procesos") 
-            button.boton-ok(type= "submit" name="boton" value="cargar") Aceptar
+            button.boton-ok(type= "submit" name="boton" value="procesos") Aceptar
         a(href="/procesos") 
             input.boton-nook(type="button", value="Cerrar") 
 

@@ -36,7 +36,11 @@ router.get("/home", (req, res, next) =>{
 
 router.get("/procesos", (req, res, next) =>{
     
-    res.render("procesos.pug",{h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2]})
+    res.render("procesos.pug",{
+        h1 : var_const.usuarioEnUso[0], 
+        accesos: var_const.usuarioEnUso[2],
+        procesos : js.listadoProcesos(var_const.procesos)
+    })
     
     next()
 })
@@ -70,14 +74,24 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     
     var boton = req.body.boton  
     if(boton == "recibos"){
-        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], recibos : js.mostrar()})
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            recibos : js.mostrar(),
+            procesos : js.listadoProcesos(var_const.procesos)
+        })
     }
 
     //Registrar Recibos
     if(boton == "cargar"){
         const {legajo, mes, ano, archivo} = req.body;
         if(legajo =="" || mes=="" || ano=="" || archivo==""){
-            res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], completar : js.mostrar()})
+            res.render("procesos.pug", {
+                h1 : var_const.usuarioEnUso[0], 
+                accesos: var_const.usuarioEnUso[2], 
+                completar : js.mostrar(),
+                procesos : js.listadoProcesos(var_const.procesos)
+            })
         }
         
         var recibosJson = fs.readFileSync("archivos/bases/recibos.json", "utf-8");
@@ -98,37 +112,65 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         
         console.log(recibos)
         
-        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], recibos : js.mostrar()})    
-    }   
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            recibos : js.mostrar(),
+            procesos : js.listadoProcesos(var_const.procesos)
+        })    
+    }
+    
+    //Cruce de Novedades
+    if(boton == "cruce_novedades"){
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            cruce : js.mostrar(),
+            procesos : js.listadoProcesos(var_const.procesos)
+        })
+    }
 
 
     if(boton == "vacaciones"){
-        res.render("procesos.pug", {h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2], masivas : js.mostrar()})       
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            masivas : js.mostrar(),
+            procesos : js.listadoProcesos(var_const.procesos)
+        })       
     }
-    /*if(vacaciones == "vacaciones"){
-        res.render("procesos.pug", {vacaciones : js.mostrar()})
-    }*/    
+    
     next()
     
 })
 
 //Rutas de Administrador
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
-    var boton = req.body.boton  
+    var boton = req.body.boton 
     if(boton == "descargas"){
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
             descargas : js.mostrar(), 
-            procesos : ["1", "a", "procesos"]
+            procesos : js.listadoProcesos(var_const.procesos)
         })
-    } 
-    else if(boton == "crear_usuario"){
+    }
+    if(boton == "procesos"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            descargas : js.mostrar(), 
+            procesos : js.listadoProcesos(var_const.procesos)
+        })
+
+    }
+
+    else if(boton == "crear_usuario"){ 
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            crear_usuario : js.mostrar()
-
+            crear_usuario : js.mostrar(),
+            procesos : js.listadoProcesos(var_const.procesos)
         })
     }
 })

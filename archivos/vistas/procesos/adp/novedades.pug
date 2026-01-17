@@ -1,0 +1,18 @@
+div.containerSp
+    h2.h Novedades
+    button.hm(name="boton" value="cruce_novedades") Cruce de Novedades
+
+    dialog(name="cruce" open=cruce)
+        h1 Cargar las Fichadas  
+        label Archivo Fichadas
+        input(type="file", name="archivo")
+        br
+        h1 Cargar las Novedades  
+        label Archivo Novedades
+        input(type="file", name="archivo")
+        br
+
+        a(href="/procesos") 
+            button.boton-ok(type= "submit" name="boton" value="cargar") Cargar
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar") 
