@@ -77,17 +77,16 @@ function cambioPassword(datos, usuarios){
     }
 }
 
-//LISTA DE PROCESOS
-function listadoProcesos(procesos){
+//LISTA DE SUBPROCESOS
+function listadoSubProcesos(procesos){
     var procesos = procesos[0]
-    var listadoProcesos = Object.keys(procesos)
-    console.log(procesos)
-    console.log(listadoProcesos)
-    return listadoProcesos
+    var listaProcesos = []
+
+    //var a = procesos.Object.key(procesos)
+
+    //console.log(a)
+    return procesos
     
-    //var dato = "e&d"
-    //var listaSubProcesos = procesos[dato]
-    //console.log(listaSubProcesos)
 }
 
 
@@ -97,7 +96,7 @@ module.exports = {
     validacion : validacion,
     mostrar : mostrar,
     cambioPassword : cambioPassword,
-    listadoProcesos : listadoProcesos
+    listadoSubProcesos : listadoSubProcesos
 }
 
 

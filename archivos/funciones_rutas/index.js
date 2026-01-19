@@ -39,7 +39,7 @@ router.get("/procesos", (req, res, next) =>{
     res.render("procesos.pug",{
         h1 : var_const.usuarioEnUso[0], 
         accesos: var_const.usuarioEnUso[2],
-        procesos : js.listadoProcesos(var_const.procesos)
+        procesos : js.listadoSubProcesos(var_const.procesos)
     })
     
     next()
@@ -77,8 +77,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            recibos : js.mostrar(),
-            procesos : js.listadoProcesos(var_const.procesos)
+            recibos : js.mostrar()
         })
     }
 
@@ -89,8 +88,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
             res.render("procesos.pug", {
                 h1 : var_const.usuarioEnUso[0], 
                 accesos: var_const.usuarioEnUso[2], 
-                completar : js.mostrar(),
-                procesos : js.listadoProcesos(var_const.procesos)
+                completar : js.mostrar()
             })
         }
         
@@ -115,8 +113,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            recibos : js.mostrar(),
-            procesos : js.listadoProcesos(var_const.procesos)
+            recibos : js.mostrar()
         })    
     }
     
@@ -125,8 +122,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            cruce : js.mostrar(),
-            procesos : js.listadoProcesos(var_const.procesos)
+            cruce : js.mostrar()
         })
     }
 
@@ -135,8 +131,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            masivas : js.mostrar(),
-            procesos : js.listadoProcesos(var_const.procesos)
+            masivas : js.mostrar()
         })       
     }
     
@@ -146,31 +141,44 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 
 //Rutas de Administrador
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
-    var boton = req.body.boton 
+    var boton = req.body.boton
+    var proceso = req.body.accesos
+    var subProcesos = req.body.subProcesos
     if(boton == "descargas"){
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            descargas : js.mostrar(), 
-            procesos : js.listadoProcesos(var_const.procesos)
+            descargas : js.mostrar(),
+            procesos : js.listadoSubProcesos(var_const.procesos)
         })
     }
-    if(boton == "procesos"){
+    if(proceso == "procesos" || subProcesos == "subProcesos"){
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2], 
+            descargas : js.mostrar(),
+            //subProcesos : js.listadoSubProcesos(var_const.procesos),
+            completar : js.mostrar()})
+    }
+
+    if(boton == "procesos" && proceso != "procesos" && subProcesos != "subProcesos"){
+        var proceso = req.body.proceso
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
-            descargas : js.mostrar(), 
-            procesos : js.listadoProcesos(var_const.procesos)
+            descargas : js.mostrar(),
+            //subProcesos : js.listadoSubProcesos(var_const.procesos)
         })
-
+   
     }
 
-    else if(boton == "crear_usuario"){ 
+    else if(boton == "crear_usuario"){
+        var proceso = req.body.proceso
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
             crear_usuario : js.mostrar(),
-            procesos : js.listadoProcesos(var_const.procesos)
+            //subProcesos : js.listadoSubProcesos(var_const.procesos)
         })
     }
 })

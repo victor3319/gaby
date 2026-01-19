@@ -4,7 +4,7 @@
         "correo" : "victor3319.vc@gmail.com",
         "password" : "Anastasia_18",
         "tipo" : "adm",
-        "accesos": ["adp","desarrollo","administrador"]
+        "accesos": ["ADP","E&D","administrador"]
     },
 
     {
@@ -12,7 +12,7 @@
         "correo" : "marisol@gmail.com",
         "password" : "Anastasia_19",
         "tipo" : "usu",
-        "accesos": ["desarrollo"]
+        "accesos": ["E&D"]
     },
 
     {
@@ -20,13 +20,13 @@
         "correo" : "nadia@gmail.com",
         "password" : "Anastasia_20",
         "tipo" : "usu",
-        "accesos": ["adp"]
+        "accesos": ["ADP","administrador"]
     },
     {
         "nombre" : "dayana",
         "correo" : "dayana@gmail.com",
         "password" : "Anastasia_18",
         "tipo" : "adm",
-        "accesos": ["adp","desarrollo","administrador"]
+        "accesos": ["ADP","E&D","administrador"]
     }
 ]
