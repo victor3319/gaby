@@ -12,10 +12,7 @@ div.containerSp
                 option(value="acceso") #{acceso}
         br
         label Sub Proceso
-        select(name="subProcesos" value=subProcesos)
-            option(name="subProcesos" value="subProcesos") --Selecciones un Sub Proceso-- 
-            each proceso in procesos
-                option(value="proceso") #{proceso}
+        
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="procesos") Aceptar

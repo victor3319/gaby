@@ -142,8 +142,11 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 //Rutas de Administrador
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
-    var proceso = req.body.accesos
+    var proceso = req.body.proceso
     var subProcesos = req.body.subProcesos
+
+
+
     if(boton == "descargas"){
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 

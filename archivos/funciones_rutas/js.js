@@ -80,14 +80,17 @@ function cambioPassword(datos, usuarios){
 //LISTA DE SUBPROCESOS
 function listadoSubProcesos(procesos){
     var procesos = procesos[0]
+    
     var listaProcesos = []
+    for(let elemento in procesos){
+        listaProcesos.push(procesos[elemento])
+    }
+console.log(listaProcesos)
 
-    //var a = procesos.Object.key(procesos)
-
-    //console.log(a)
-    return procesos
+    return listaProcesos
     
 }
+
 
 
 
