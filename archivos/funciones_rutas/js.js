@@ -77,21 +77,15 @@ function cambioPassword(datos, usuarios){
     }
 }
 
-//LISTA DE SUBPROCESOS
-function listadoSubProcesos(procesos){
+//LISTADO SECUNDARIO
+function listadoSecundario(procesos, dato){
     var procesos = procesos[0]
-    
-    var listaProcesos = []
-    for(let elemento in procesos){
-        listaProcesos.push(procesos[elemento])
-    }
-console.log(listaProcesos)
-
-    return listaProcesos
+    var dato = dato
+    var listaSecundaria = procesos[dato]
+    console.log(listaSecundaria)
+    return listaSecundaria
     
 }
-
-
 
 
 
@@ -99,7 +93,6 @@ module.exports = {
     validacion : validacion,
     mostrar : mostrar,
     cambioPassword : cambioPassword,
-    listadoSubProcesos : listadoSubProcesos
+    listadoSecundario : listadoSecundario
 }
-
 

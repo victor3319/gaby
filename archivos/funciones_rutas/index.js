@@ -35,11 +35,11 @@ router.get("/home", (req, res, next) =>{
 })
 
 router.get("/procesos", (req, res, next) =>{
-    
+    var proceso = req.body.proceso
     res.render("procesos.pug",{
         h1 : var_const.usuarioEnUso[0], 
         accesos: var_const.usuarioEnUso[2],
-        procesos : js.listadoSubProcesos(var_const.procesos)
+        subProcesos : js.listadoSecundario(var_const.procesos, proceso)
     })
     
     next()
@@ -143,36 +143,38 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
     var proceso = req.body.proceso
-    var subProcesos = req.body.subProcesos
-
-
-
+    var subProceso = req.body.subProceso
     if(boton == "descargas"){
-        res.render("procesos.pug", {
+        res.render("procesos.pug",{
             h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
-            descargas : js.mostrar(),
-            procesos : js.listadoSubProcesos(var_const.procesos)
+            accesos: var_const.usuarioEnUso[2],
+            descargas : js.mostrar()
         })
     }
-    if(proceso == "procesos" || subProcesos == "subProcesos"){
+    if(boton == "procesos" && proceso == "accesos"){
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
-            descargas : js.mostrar(),
-            //subProcesos : js.listadoSubProcesos(var_const.procesos),
-            completar : js.mostrar()})
+            accesos: var_const.usuarioEnUso[2],
+            subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
+            completar : js.mostrar()
+        })
     }
 
-    if(boton == "procesos" && proceso != "procesos" && subProcesos != "subProcesos"){
-        var proceso = req.body.proceso
+    if(boton == "procesos" && proceso != "accesos"){
+        res.render("procesos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
+            descargas2 : js.mostrar()
+        })
+    }
+
+    if(boton == "subProcesos" && subProceso == "subProcesos"){
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
-            descargas : js.mostrar(),
-            //subProcesos : js.listadoSubProcesos(var_const.procesos)
+            accesos: var_const.usuarioEnUso[2],
+            subProcesos : js.listadoSecundario(var_const.procesos, proceso)
         })
-   
     }
 
     else if(boton == "crear_usuario"){

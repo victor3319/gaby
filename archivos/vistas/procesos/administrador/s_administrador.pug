@@ -7,17 +7,27 @@ div.containerSp
         h1 Seleccione Procesos
         label Procesos
         select(name="proceso")
-            option(name="accesos" value="accesos") --Selecciones un Proceso--  
+            option(name="accesos" value="accesos") --Seleccione un Proceso--  
             each acceso in accesos
-                option(value="acceso") #{acceso}
-        br
-        label Sub Proceso
-        
+                option(value= acceso) #{acceso}
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="procesos") Aceptar
         a(href="/procesos") 
-            input.boton-nook(type="button", value="Cerrar") 
+            input.boton-nook(type="button", value="Cerrar")
+
+    dialog(name="subProcesos" open=descargas2)
+        h1 Seleccione Sub Procesos
+        label Sub Procesos
+        select(name="subProceso")
+            option(name="subProcesos" value="subProcesos") --Seleccione un Sub Proceso--
+           
+        br
+        a(href="/procesos") 
+            button.boton-ok(type= "submit" name="boton" value="subprocesos") Aceptar
+        a(href="/procesos") 
+            input.boton-nook(type="button", value="Cerrar")
+
 
     dialog(name="completar" open=completar)
         h1 Debe completar los datos, son obligatorio
