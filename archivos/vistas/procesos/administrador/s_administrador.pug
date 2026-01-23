@@ -10,11 +10,11 @@ div.containerSp
     dialog(name="descargas" open=descargas)
         h1 Seleccione Procesos
         label Procesos
-        p#resultado
         select(name="proceso" onchange="handleChange(this)")
             option(name="accesos" value="accesos") --Seleccione un Proceso--  
             each acceso in accesos
                 option(value= acceso) #{acceso}
+        p#resultado
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="procesos") Aceptar
