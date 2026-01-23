@@ -2,11 +2,16 @@ div.containerSp
     h2.h  Servicios de Administrador
     button.hm(name="boton" value="descargas") Descargas
     button.hm(name="boton" value="crear_usuario") Crear Usuario
-        
+    script.
+      function handleChange(element) {
+        console.log("Nuevo valor: " + element.value);
+        document.getElementById("resultado").innerText = "Seleccionaste: " + element.value;
+      }    
     dialog(name="descargas" open=descargas)
         h1 Seleccione Procesos
         label Procesos
-        select(name="proceso")
+        p#resultado
+        select(name="proceso" onchange="handleChange(this)")
             option(name="accesos" value="accesos") --Seleccione un Proceso--  
             each acceso in accesos
                 option(value= acceso) #{acceso}
