@@ -1,13 +1,12 @@
 div.containerSp
     h2.h  Servicios de Administrador
     button.hm(name="boton" value="descargas") Descargas
-    button.hm(name="boton" value="crear_usuario") Crear Usuario
     script.
-    - var seleccion = function handleChange(element) {
-        return element.value 
-        //console.log("Nuevo valor: " + element.value);
-        //document.getElementById("resultado").innerText = "Seleccionaste: " + element.value;
-      }    
+        function handleChange(element){
+            console.log("Nuevo valor: " + element.value);
+            document.getElementById("resultado").innerText = "Seleccionaste: " + element.value;
+            document.getElementById("proceso") = element.value;}
+                            
     dialog(name="descargas" open=descargas)
         h1 Seleccione Procesos
         label Procesos
@@ -15,7 +14,7 @@ div.containerSp
             option(name="accesos" value="accesos") --Seleccione un Proceso--  
             each acceso in accesos
                 option(value= acceso) #{acceso}
-        p resultado
+        p#resultado
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="procesos") Aceptar
@@ -25,9 +24,8 @@ div.containerSp
     dialog(name="subProcesos" open=descargas2)
         h1 Seleccione Sub Procesos
         label Sub Procesos
-        select(name="subProceso")
-            option(name="subProcesos" value="subProcesos") --Seleccione un Sub Proceso--
-           
+        select(name="subProceso" onchange="subProcesos(proceso)")
+            option(name="subProcesos" value="subProcesos") --Seleccione un Sub Proceso--           
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="subprocesos") Aceptar
@@ -37,27 +35,5 @@ div.containerSp
 
     dialog(name="completar" open=completar)
         h1 Debe completar los datos, son obligatorio
-        a(href="/procesos") 
-            input.boton-nook(type="button", value="Cerrar") 
-
-    dialog(name="crear_usuario" open=crear_usuario)
-        h1 Crear Usuario
-        label Nombre
-        input(type="", name="nombre")
-        br
-        label Correo
-        input(type="", name="correo")
-        br
-        label Password
-        input(type="", name="password")
-        br
-        label Tipo
-        input(type="", name="tipo")
-        br
-        label Accesos
-        input(type="", name="accesos")
-        br
-        a(href="/procesos") 
-            button.boton-ok(type= "submit" name="boton" value="cargar") Aceptar
         a(href="/procesos") 
             input.boton-nook(type="button", value="Cerrar")

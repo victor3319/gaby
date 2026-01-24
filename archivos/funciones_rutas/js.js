@@ -27,7 +27,7 @@ function validacion(datos, usuarios){
         usuarioEnUso.push(datosNombre)
         usuarioEnUso.push(datosCorreo)
         var accesos = usuarios.find(prop => prop.correo == datosCorreo)
-        usuarioEnUso.push(accesos.accesos)
+        usuarioEnUso.push(Object.keys(accesos.accesos[0]))
         
         var jsonUsuarioEnUso = JSON.stringify(usuarioEnUso);
         
@@ -78,12 +78,15 @@ function cambioPassword(datos, usuarios){
 }
 
 //LISTADO SECUNDARIO
-function listadoSecundario(procesos, dato){
-    var procesos = procesos[0]
-    var dato = dato
-    var listaSecundaria = procesos[dato]
-    console.log(listaSecundaria)
-    return listaSecundaria
+function listadoSecundario(base, dato){
+    var datos = base[0]
+    var lista = []
+    for(const elemento in datos){
+        lista.push(Object.values(datos))
+    };
+    console.log(datos)
+    console.log(lista)
+    return dato
     
 }
 

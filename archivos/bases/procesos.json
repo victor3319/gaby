@@ -1,7 +1,5 @@
 [
-    {"administrador":["ADP","E&D"],
-    "ADP":["Recibos","Vacaciones","Fichadas"],
+    {"ADP":["Recibos","Vacaciones","Fichadas"],
     "E&D":["Solicitudes","Seleccion","Lectura"]
 }
-    
 ]

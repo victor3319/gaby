@@ -1,7 +1,7 @@
 div.containerSp
     h2.h  Recibos
-    button.hm(name="boton" value="recibos") Cargar Recibos
-        
+    button.hm(name="boton" value="cargarRecibos") Nuevo Recibo
+            
     dialog(name="respuesta" open=recibos)
         h1 Cargar recibos de Sueldo
         label Legajo
@@ -18,8 +18,8 @@ div.containerSp
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="cargar") Cargar
-        a(href="/procesos") 
-            input.boton-nook(type="button", value="Cerrar") 
+        a(href="/procesosEspecificos") 
+            button.boton-nook(type="submit", name="boton" value="cerrar") Cerrar
 
     dialog(name="completar" open=completar)
         h1 Debe completar los datos obligatorio

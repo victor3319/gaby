@@ -1,5 +1,9 @@
 extends layout
 
 block content1
-    div.containerP
-        h1 Prueba
+    form(method="post" action="/adp" enctype="multipart/form-data")
+        div.containerP
+            if proceso == "recibos" || proceso == "cargarRecibos" || proceso == "cerrar"
+                include procesos/adp/recibos
+            if proceso == "novedades"
+                include procesos/adp/novedades

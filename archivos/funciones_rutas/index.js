@@ -71,12 +71,20 @@ router.post("/new-entry", (req, res, next)=>{
 
 //Rutas de ADP
 router.post("/adp", upload.single('archivo'), (req, res, next)=>{   
-    
     var boton = req.body.boton  
-    if(boton == "recibos"){
-        res.render("procesos.pug", {
+    if(boton == "recibos" || boton == "cerrar"){
+        res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: boton,
+            //recibos : js.mostrar()
+        })
+    }
+    if(boton == "cargarRecibos"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0],
+            accesos: var_const.usuarioEnUso[2],
+            proceso: boton,
             recibos : js.mostrar()
         })
     }
@@ -118,11 +126,12 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     }
     
     //Cruce de Novedades
-    if(boton == "cruce_novedades"){
-        res.render("procesos.pug", {
+    if(boton == "novedades"){
+        res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
-            cruce : js.mostrar()
+            accesos: var_const.usuarioEnUso[2],
+            proceso: boton, 
+            //cruce : js.mostrar()
         })
     }
 
@@ -148,6 +157,7 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
         res.render("procesos.pug",{
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
+            subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
             descargas : js.mostrar()
         })
     }
@@ -164,7 +174,7 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
-            subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
+            subProcesos : js.listadoSecundario(var_const.procesos, proceso),
             descargas2 : js.mostrar()
         })
     }
@@ -176,14 +186,26 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
             subProcesos : js.listadoSecundario(var_const.procesos, proceso)
         })
     }
+})
 
-    else if(boton == "crear_usuario"){
-        var proceso = req.body.proceso
-        res.render("procesos.pug", {
+//RUTA VOLVER DE PROCESOS ESPECIFICOS
+router.post("/procesosEspecificos", upload.single('archivo'), (req, res, next)=>{
+    var boton = req.body.boton
+    if(boton == "cargarRecibos"){
+        res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
-            crear_usuario : js.mostrar(),
-            //subProcesos : js.listadoSubProcesos(var_const.procesos)
+            accesos: var_const.usuarioEnUso[2],
+            proceso: boton
+            //recibos : js.mostrar()
+        })
+    }
+
+    if(boton == "novedades"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: boton 
+            //cruce : js.mostrar()
         })
     }
 })

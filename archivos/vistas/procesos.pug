@@ -6,19 +6,12 @@ block content1
         if accesos == "ADP,E&D"
             include procesos/adp/l_adp
             include procesos/e&d/l_e&d
+            include procesos/administrador/l_administrador
         else if accesos == "ADP"
             include procesos/adp/l_adp
+            include procesos/administrador/l_administrador
         else if accesos == "E&D"
             include procesos/e&d/l_e&d
-        else if accesos == "ADP,E&D,administrador"
-            include procesos/adp/l_adp
-            include procesos/e&d/l_e&d
-            include procesos/administrador/l_administrador
-        else if accesos == "E&D,administrador"
-            include procesos/e&d/l_e&d
-            include procesos/administrador/l_administrador
-        else if accesos == "ADP,administrador"
-            include procesos/adp/l_adp
             include procesos/administrador/l_administrador
 
         

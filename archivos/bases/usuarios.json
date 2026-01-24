@@ -4,7 +4,9 @@
         "correo" : "victor3319.vc@gmail.com",
         "password" : "Anastasia_18",
         "tipo" : "adm",
-        "accesos": ["ADP","E&D","administrador"]
+        "accesos": [{
+            "ADP":["Recibos","Vacaciones","Fichadas"],
+            "E&D":["Solicitudes","Seleccion","Lectura"]}]
     },
 
     {
@@ -20,13 +22,13 @@
         "correo" : "nadia@gmail.com",
         "password" : "Anastasia_20",
         "tipo" : "usu",
-        "accesos": ["ADP","administrador"]
+        "accesos": ["ADP"]
     },
     {
         "nombre" : "dayana",
         "correo" : "dayana@gmail.com",
         "password" : "Anastasia_18",
         "tipo" : "adm",
-        "accesos": ["ADP","E&D","administrador"]
+        "accesos": ["ADP","E&D"]
     }
 ]

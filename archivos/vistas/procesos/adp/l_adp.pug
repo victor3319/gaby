@@ -2,7 +2,9 @@ div.cuadro
     form(method="post" action="/adp" enctype="multipart/form-data")
         h1 Administracion de Personal
         div.container
-            include recibos
+            button.hm(name="boton" value="recibos") Recibos
+            button.hm(name="boton" value="novedades") Novedades
+            button.hm(name="boton" value="vacaciones") Vacaciones
             include vacaciones
             include Novedades 
                     
