@@ -3,9 +3,10 @@ div.containerSp
     button.hm(name="boton" value="descargas") Descargas
     button.hm(name="boton" value="crear_usuario") Crear Usuario
     script.
-      function handleChange(element) {
-        console.log("Nuevo valor: " + element.value);
-        document.getElementById("resultado").innerText = "Seleccionaste: " + element.value;
+    - var seleccion = function handleChange(element) {
+        return element.value 
+        //console.log("Nuevo valor: " + element.value);
+        //document.getElementById("resultado").innerText = "Seleccionaste: " + element.value;
       }    
     dialog(name="descargas" open=descargas)
         h1 Seleccione Procesos
@@ -14,7 +15,7 @@ div.containerSp
             option(name="accesos" value="accesos") --Seleccione un Proceso--  
             each acceso in accesos
                 option(value= acceso) #{acceso}
-        p#resultado
+        p resultado
         br
         a(href="/procesos") 
             button.boton-ok(type= "submit" name="boton" value="procesos") Aceptar
