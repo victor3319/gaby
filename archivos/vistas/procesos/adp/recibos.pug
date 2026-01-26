@@ -1,6 +1,7 @@
 div.containerSp
     h2.h  Recibos
     button.hm(name="boton" value="cargarRecibos") Nuevo Recibo
+    h2.h Filtrar
             
     dialog(name="respuesta" open=recibos)
         h1 Cargar recibos de Sueldo
@@ -16,15 +17,15 @@ div.containerSp
         label Archivo
         input(type="file", name="archivo")
         br
-        a(href="/procesos") 
+        a(href="/procesosEspecificos") 
             button.boton-ok(type= "submit" name="boton" value="cargar") Cargar
         a(href="/procesosEspecificos") 
             button.boton-nook(type="submit", name="boton" value="cerrar") Cerrar
 
     dialog(name="completar" open=completar)
         h1 Debe completar los datos obligatorio
-        a(href="/procesos") 
-            input.boton-nook(type="button", value="Cerrar") 
+        a(href="/procesosEspecificos") 
+            button.boton-nook(type="submit", name="boton" value="cerrar") Cerrar
 
     
                     

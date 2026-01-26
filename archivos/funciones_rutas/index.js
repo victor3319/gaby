@@ -76,8 +76,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
-            proceso: boton,
-            //recibos : js.mostrar()
+            proceso: boton
         })
     }
     if(boton == "cargarRecibos"){
@@ -93,36 +92,38 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     if(boton == "cargar"){
         const {legajo, mes, ano, archivo} = req.body;
         if(legajo =="" || mes=="" || ano=="" || archivo==""){
-            res.render("procesos.pug", {
+            res.render("procesosEspecificos.pug", {
                 h1 : var_const.usuarioEnUso[0], 
-                accesos: var_const.usuarioEnUso[2], 
+                accesos: var_const.usuarioEnUso[2],
+                proceso: boton, 
                 completar : js.mostrar()
             })
-        }
+        }else{            
+                res.render("procesosEspecificos.pug", {
+                    h1 : var_const.usuarioEnUso[0], 
+                    accesos: var_const.usuarioEnUso[2],
+                    proceso: boton
+                })    
         
-        var recibosJson = fs.readFileSync("archivos/bases/recibos.json", "utf-8");
-        var recibos = JSON.parse(recibosJson)
-        var newRecibo = {
-            legajo,
-            mes,
-            ano,
-            archivo
-        }
-        newRecibo.autor = var_const.usuarioEnUso[1]
-        var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
-        newRecibo.archivo = base64String
-        recibos.push(newRecibo)
-        var jsonRecibo = JSON.stringify(recibos);
-
-        fs.writeFileSync("archivos/bases/recibos.json", jsonRecibo, "utf-8");
+                var recibosJson = fs.readFileSync("archivos/bases/recibos.json", "utf-8");
+                var recibos = JSON.parse(recibosJson)
+                var newRecibo = {
+                        legajo,
+                        mes,
+                        ano,
+                        archivo
+                    }
+                newRecibo.autor = var_const.usuarioEnUso[1]
+                var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
+                newRecibo.archivo = base64String
+                recibos.push(newRecibo)
+                var jsonRecibo = JSON.stringify(recibos);
+            
+                fs.writeFileSync("archivos/bases/recibos.json", jsonRecibo, "utf-8");
         
-        console.log(recibos)
-        
-        res.render("procesos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2], 
-            recibos : js.mostrar()
-        })    
+                console.log(recibos)
+                
+            }   
     }
     
     //Cruce de Novedades
