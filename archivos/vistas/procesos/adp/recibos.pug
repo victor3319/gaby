@@ -3,19 +3,20 @@ div.containerSp
     button.hm(name="boton" value="cargarRecibos") Nuevo Recibo
     h2.h Filtrar
             
-    dialog(name="respuesta" open=recibos)
+    dialog.ventana(name="respuesta" open=recibos)
         h1 Cargar recibos de Sueldo
-        label Legajo
-        input(type="", name="legajo")
-        br
-        label Mes
-        input(type="", name="mes")
-        br
-        label Año
-        input(type="", name="ano")
-        br
-        label Archivo
-        input(type="file", name="archivo")
+        div.input-group
+            label Legajo
+            input.input(type="", name="legajo")
+            br
+            label Mes
+            input.input(type="", name="mes")
+            br
+            label Año
+            input.input(type="", name="ano")
+            br
+            label Archivo
+            input.input(type="file", name="archivo")
         br
         a(href="/procesosEspecificos") 
             button.boton-ok(type= "submit" name="boton" value="cargar") Cargar

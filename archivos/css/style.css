@@ -11,8 +11,6 @@
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     text-align: center;
     align-items: center;
-    
-     
 }
 
 
@@ -52,7 +50,7 @@ img.img:hover{
     grid-template-columns: 2;
     text-align: center;
     align-items: center;   
-    background-color: aqua;
+    background-color: #2C87BF;
     padding: 2% 5% 2% 5%;
     margin: 10% 10% 10% 10%;
     border-radius: 20px;
@@ -86,7 +84,7 @@ img.img:hover{
     grid-template-rows: auto;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     text-align: left;
-    background-color: aquamarine;
+    background-color: #5EA4BF;
     border-radius: 10px;
     margin: 1%;
     padding: 1%;
@@ -114,4 +112,12 @@ img.img:hover{
     cursor: pointer;
 }
 
+.input{
+    width: 100%;
+    border-radius: 5px;
+    margin: 5px;
+}
 
+.ventana{
+    border-radius: 15px;
+}
