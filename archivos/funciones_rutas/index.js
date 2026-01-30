@@ -5,7 +5,14 @@ const var_const = require("./var_const");
 const js = require("./js");
 const path = require ("path");
 const multer = require("multer");
+const pdf = require("pdf-parse-new");
 
+//leer pdf
+const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
+pdf(dataBuffer).then(function(datos){
+    console.log(datos.numpages)
+})
+// Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
 
 
 var usuario = []
