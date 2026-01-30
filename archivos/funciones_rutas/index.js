@@ -7,6 +7,7 @@ const path = require ("path");
 const multer = require("multer");
 
 
+
 var usuario = []
 
 //Configurar almacenamiento
