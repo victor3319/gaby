@@ -10,7 +10,7 @@ const pdf = require("pdf-parse-new");
 //leer pdf
 const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
 pdf(dataBuffer).then(function(datos){
-    console.log(datos.numpages)
+    console.log(datos.text)
 })
 // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
 
