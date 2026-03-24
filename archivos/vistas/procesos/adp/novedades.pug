@@ -1,7 +1,10 @@
 div.containerSp
     h2.h Novedades
     button.hm(name="boton" value="cruce") Cruce de Novedades
-    dialog(name="cruce" open=cruce)
+    button.hm(name="boton" value="fichadas") Fichadas
+    button.hm(name="boton" value="fNovedades") Novedades
+
+    dialog.ventana(name="respuesta" open=cruce)
         h1 Cargar las Fichadas  
         label Archivo Fichadas
         input.input(type="file", name="archivo")
@@ -12,6 +15,31 @@ div.containerSp
         br
 
         a(href="/procesos") 
-            button.boton-ok(type= "submit" name="boton" value="cargar") Cargar
-        a(href="/procesos") 
-            input.boton-nook(type="button", value="Cerrar") 
+            button.boton-ok(type= "submit" name="boton" value="cargarN") Cargar
+        a(href="/procesosEspecificos") 
+            button.boton-nook(type="submit", name="boton" value="cerrarN") Cerrar
+table 
+    tr
+        th
+        th Legajo
+        th Nombre
+        th Periodo
+        th Acción
+    tr 
+        td
+        td 4961
+        td Victor Caruci 
+        td mar2026 
+        td
+    tr 
+        td
+        td 5066
+        td Marisol Perez 
+        td mar2026
+        td
+    tr 
+        td
+        td 4889
+        td Nadia Gerez 
+        td mar2026
+        td

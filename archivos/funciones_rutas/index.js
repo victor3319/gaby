@@ -80,7 +80,7 @@ router.post("/new-entry", (req, res, next)=>{
 //Rutas de ADP
 router.post("/adp", upload.single('archivo'), (req, res, next)=>{   
     var boton = req.body.boton  
-    if(boton == "recibos" || boton == "cerrar"){
+    if(boton == "recibos" || boton == "cerrarR"){
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
@@ -135,12 +135,19 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     }
     
     //Cruce de Novedades
-    if(boton == "novedades"){
+    if(boton == "novedades" || boton == "cerrarN"){
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
-            proceso: boton, 
-            //cruce : js.mostrar()
+            proceso: boton
+        })
+    }
+    if(boton == "cruce"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: boton,
+            cruce : js.mostrar()   
         })
     }
 
