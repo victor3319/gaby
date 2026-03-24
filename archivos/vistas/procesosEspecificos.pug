@@ -3,7 +3,7 @@ extends layout
 block content1
     form(method="post" action="/adp" enctype="multipart/form-data")
         div.containerP
-            if proceso == "recibos" || proceso == "cargarRecibos" || proceso == "cerrar" || proceso == "cargar"
+            if proceso == "recibos" || proceso == "cargarRecibos" || proceso == "cerrarR" || proceso == "cargarR"
                 include procesos/adp/recibos
-            if proceso == "novedades"
+            if proceso == "novedades" || proceso == "cruce" || proceso == "cerrarN" || proceso == "cargarN"
                 include procesos/adp/novedades
