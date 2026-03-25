@@ -1,0 +1,11 @@
+extends layout2 
+
+block content2
+    form(method="post" action="/externo" enctype="multipart/form-data")
+        div.containerP
+            if proceso == "fichaje"
+                include procesos/adp/fichada
+            if proceso == "solicitud"
+                include procesos/e&d/solicitud
+            if proceso == "undefined"
+                include enConstruccion

@@ -164,6 +164,16 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     
 })
 
+//RUTAS EXTERNAS
+router.post("/externo", upload.single('archivo'), (req, res, next)=>{
+    var boton = req.body.boton
+    console.log(boton)
+    res.render("procesosExternos.pug", {
+        proceso: boton
+    })
+})
+
+
 //Rutas de Administrador
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
