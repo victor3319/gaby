@@ -128,8 +128,6 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
                 var jsonRecibo = JSON.stringify(recibos);
             
                 fs.writeFileSync("archivos/bases/recibos.json", jsonRecibo, "utf-8");
-        
-                console.log(recibos)
                 
             }   
     }
@@ -167,7 +165,6 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 //RUTAS EXTERNAS
 router.post("/externo", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
-    console.log(boton)
     res.render("procesosExternos.pug", {
         proceso: boton
     })
@@ -235,7 +232,6 @@ router.post("/procesosEspecificos", upload.single('archivo'), (req, res, next)=>
         })
     }
 })
-
 
 
 
