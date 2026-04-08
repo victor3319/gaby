@@ -84,7 +84,7 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
-            proceso: boton
+            proceso: "recibos"
         })
     }
     if(boton == "cargarRecibos"){
@@ -165,11 +165,72 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 //RUTAS EXTERNAS
 router.post("/externo", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
-    res.render("procesosExternos.pug", {
-        proceso: boton
-    })
-})
+    var datos = req.body
+    var cv = req.file
+    var solicitudes = var_const.solicitudes
+    
+    //SOLICITUD DE EMPLEO
+    if(boton == "solicitud" || boton == "cerrar"){
+        res.render("procesosExternos.pug", {
+            proceso: "solicitud"
+        })
+    }
 
+    if(boton == "postular"){
+        const {nombres, apellidos, telefono, email, carrera, sueldo, archivo} = req.body;
+        //VALIDADION DE DATOS OBLIGATORIOS
+        if(
+            nombres =="" || 
+            apellidos =="" || 
+            telefono =="" || 
+            email =="" || 
+            carrera =="" || 
+            sueldo =="" || 
+            archivo ==""){
+            res.render("procesosExternos.pug", {
+                proceso: "solicitud",
+                completar: js.mostrar()
+            })  
+        }
+        //VALIDACION DE ARCHIVO PDF
+        if(js.pdf(cv)== false || cv ==undefined){
+            res.render("procesosExternos.pug", {
+                proceso: "solicitud",
+                pdf: js.mostrar()
+            })  
+        }
+        // VALIDACIONN DE REGISTRO
+        if(js.registro(datos, solicitudes)== false){
+            res.render("procesosExternos.pug", {
+                proceso: "solicitud",
+                registro: js.mostrar()
+            })
+        // REGISTRAR SOLICITUD  
+        }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
+            
+            //var datosSolicitud = {nombres, apellidos, telefono, email, carrera, sueldo}
+
+            res.render("procesosExternos.pug", {
+                proceso: "solicitud",
+                ejecucion: js.solicitud(datos, cv, solicitudes),
+                exito: js.mostrar()
+            })  
+        }
+        
+    }
+
+
+
+    //FICHADA
+    if(boton == "fichaje"){
+        res.render("procesosExternos.pug", {
+            proceso: boton
+        })
+    }
+
+
+})
+    
 
 //Rutas de Administrador
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{

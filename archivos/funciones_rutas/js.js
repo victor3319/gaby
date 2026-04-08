@@ -51,6 +51,13 @@ function mostrar(){
     return mostrar
 }
 
+//COVERTIR BASE64
+
+/*function bse64(){
+    var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
+    return base64String
+}*/
+
 //CAMBIO DE CONTRASEÑA
 function cambioPassword(datos, usuarios){
     var nombres = []
@@ -90,12 +97,43 @@ function listadoSecundario(base, dato){
     
 }
 
+//EXTERNO
+function pdf(archivo){
+    if(archivo == undefined){
+        return false
+    }else{
+        var nomArchivo = archivo.originalname
+        var extArchivo = String(nomArchivo).split(".").pop()
+        
+        if(extArchivo != "pdf"){
+            return false
+        }
+    }
+}
+
+function registro(datos,base){
+    for( var i= 0; i < base.length; i++){
+        if(datos.email == base[i].email){
+            return false
+        }    
+    }
+}
+
+function solicitud(datos, archivo, solicitudes){
+    
+    
+    console.log(datos, archivo)
+}
+
 
 
 module.exports = {
     validacion : validacion,
     mostrar : mostrar,
     cambioPassword : cambioPassword,
-    listadoSecundario : listadoSecundario
+    listadoSecundario : listadoSecundario,
+    pdf : pdf,
+    registro : registro,
+    solicitud : solicitud
 }
 

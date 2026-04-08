@@ -1,3 +1,23 @@
 [
-    
+    {
+        "nombres" : "Victor Manuel",
+        "apellidos" : "Caruci Briones",
+        "telefono" : 1123927942,
+        "email" : "victor3319.vc@gmail.com",
+        "carrera" : "RRHH",
+        "sueldo" : 3000000,
+        "linkedIn" : "",
+        "archivo" : ""
+    },
+
+    {
+        "nombres" : "Marisol",
+        "apellidos" : "Perez",
+        "telefono" : 1123927942,
+        "email" : "mperez@gmail.com",
+        "carrera" : "RRHH",
+        "sueldo" : 3000000,
+        "linkedIn" : "",
+        "archivo" : ""
+    }
 ]
