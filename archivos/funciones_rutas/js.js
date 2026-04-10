@@ -62,12 +62,14 @@ function base64(){
 //EXTRAER TEXTO PDF
 function textoPdf(){
     const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
-    pdf(dataBuffer).then(function(datos){
-        return datos.text
-    })
+    var texto = "1"
+    /*pdf(dataBuffer).then(function(datos){
+        texto = datos.text
+        })*/
     // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
-    
-}
+
+    console.log(texto)
+    }
 
 
 //CAMBIO DE CONTRASEÑA
@@ -134,8 +136,8 @@ function registro(datos,base){
 function solicitud(datos, archivo, solicitudes){
     delete datos.boton
     var base = base64()
-    textoPdf()    
-    console.log(base)
+    var texto = textoPdf()    
+    console.log(texto)
 }
 
 

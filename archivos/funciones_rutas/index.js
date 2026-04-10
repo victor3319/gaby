@@ -212,7 +212,7 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
 
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                ejecucion: js.solicitud(datos, cv, solicitudes),
+                ejecucion: js.solicitud(datos),
                 exito: js.mostrar()
             })  
         }
