@@ -8,12 +8,12 @@ const multer = require("multer");
 const pdf = require("pdf-parse-new");
 
 //leer pdf
-const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
+/*const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
 pdf(dataBuffer).then(function(datos){
     console.log(datos.text)
 })
 // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
-
+*/
 
 var usuario = []
 
@@ -193,7 +193,7 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
             })  
         }
         //VALIDACION DE ARCHIVO PDF
-        if(js.pdf(cv)== false || cv ==undefined){
+        if(js.pdfA(cv)== false || cv ==undefined){
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
                 pdf: js.mostrar()

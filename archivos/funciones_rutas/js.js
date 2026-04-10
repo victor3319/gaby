@@ -1,5 +1,6 @@
 const var_const = require("./var_const")
 const fs = require("fs")
+const pdf = require("pdf-parse-new");
 
 //VALIDACION DE USUARIOS
 function validacion(datos, usuarios){
@@ -53,10 +54,21 @@ function mostrar(){
 
 //COVERTIR BASE64
 
-/*function bse64(){
+function base64(){
     var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
     return base64String
-}*/
+}
+
+//EXTRAER TEXTO PDF
+function textoPdf(){
+    const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
+    pdf(dataBuffer).then(function(datos){
+        return datos.text
+    })
+    // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
+    
+}
+
 
 //CAMBIO DE CONTRASEÑA
 function cambioPassword(datos, usuarios){
@@ -98,7 +110,7 @@ function listadoSecundario(base, dato){
 }
 
 //EXTERNO
-function pdf(archivo){
+function pdfA(archivo){
     if(archivo == undefined){
         return false
     }else{
@@ -120,9 +132,10 @@ function registro(datos,base){
 }
 
 function solicitud(datos, archivo, solicitudes){
-    
-    
-    console.log(datos, archivo)
+    delete datos.boton
+    var base = base64()
+    textoPdf()    
+    console.log(base)
 }
 
 
@@ -132,7 +145,9 @@ module.exports = {
     mostrar : mostrar,
     cambioPassword : cambioPassword,
     listadoSecundario : listadoSecundario,
-    pdf : pdf,
+    textoPdf : textoPdf,
+    base64 : base64,
+    pdfA : pdfA,
     registro : registro,
     solicitud : solicitud
 }
