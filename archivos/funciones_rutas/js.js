@@ -60,15 +60,18 @@ function base64(){
 }
 
 //EXTRAER TEXTO PDF
-function textoPdf(){
-    const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
-    var texto = "1"
-    /*pdf(dataBuffer).then(function(datos){
-        texto = datos.text
-        })*/
-    // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
 
-    console.log(texto)
+
+
+function textoPdf(){
+    
+    const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
+    var letras = pdf(dataBuffer).then((datos)=> letras = datos.text)
+    
+    return letras
+        
+    // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
+    
     }
 
 
@@ -133,10 +136,10 @@ function registro(datos,base){
     }
 }
 
-function solicitud(datos, archivo, solicitudes){
+async function solicitud(datos, archivo, solicitudes){
     delete datos.boton
-    var base = base64()
-    var texto = textoPdf()    
+    var base = await base64()
+    var texto = await textoPdf()    
     console.log(texto)
 }
 
