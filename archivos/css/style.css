@@ -43,7 +43,7 @@ img.img:hover{
     float: right;
 }
 
-.cuadro{
+.cuadroP{
     gap: 1rem;
     grid-auto-flow: dense;
     grid-template-rows: auto;
@@ -92,16 +92,14 @@ img.img:hover{
 }
 
 .containerSp{
-    
-    text-align: left;
-    align-items: flex-start;
-    background-color: rgb(255, 227, 127);
-    border-radius: 10px;
-    padding: 3%;
-    height: 110px;
-    width: 1fr;
-    
-
+    gap: 1rem;
+    grid-auto-flow: dense;
+    grid-template-rows: auto;
+    grid-template-columns: 2;
+    background-color: #8aa9bd;
+    padding: 2%;
+    margin: 1%;
+    border-radius: 20px;
 }
 .h{
     margin: 0;
@@ -126,7 +124,7 @@ th{
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #04AA6D;
+  background-color: #8d9ead;
   color: white;
 }
 
@@ -138,4 +136,8 @@ tr:hover {background-color: #ddd;}
 
 td, th{border: 1px solid #ddd;
   padding: 8px;
+}
+
+table{
+    margin: 1%;
 }

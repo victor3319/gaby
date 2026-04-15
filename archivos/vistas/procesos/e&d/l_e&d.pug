@@ -1,7 +1,7 @@
-div.cuadro
-    form(method="post" action="/e&d")
+div.cuadroP
+    form(method="post" action="/e&d" enctype="multipart/form-data")
         h1 Empleo y Desarrollo
         div.container
-            include lectura
-            include seleccion
+            button.hm(name="boton" value="seleccion") Selección y Empleo
+            button.hm(name="boton" value="desarrollo") Desarrollo
             

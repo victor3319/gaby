@@ -77,8 +77,8 @@ router.post("/new-entry", (req, res, next)=>{
 })
 
 
-//Rutas de ADP
-router.post("/adp", upload.single('archivo'), (req, res, next)=>{   
+//RUTAS ADP
+router.post("/prcEsp", upload.single('archivo'), (req, res, next)=>{   
     var boton = req.body.boton  
     if(boton == "recibos" || boton == "cerrarR"){
         res.render("procesosEspecificos.pug", {
@@ -148,15 +148,23 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
             cruce : js.mostrar()   
         })
     }
+    if(boton == "solicitudes" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion",
+            tSolicitudes : js.mostrar()
+        })
+    }
 
 
-    if(boton == "vacaciones"){
+    /*if(boton == "vacaciones"){
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2], 
             masivas : js.mostrar()
         })       
-    }
+    }*/
     
     next()
     
@@ -167,7 +175,8 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
     var datos = req.body
     var cv = req.file
-    var solicitudes = var_const.solicitudes
+    var ruta = var_const.rutaSolicitudes
+    
     
     //SOLICITUD DE EMPLEO
     if(boton == "solicitud" || boton == "cerrar"){
@@ -200,7 +209,7 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
             })  
         }
         // VALIDACIONN DE REGISTRO
-        if(js.registro(datos, solicitudes)== false){
+        if(js.validarRegistro(datos, ruta)== false){
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
                 registro: js.mostrar()
@@ -212,7 +221,7 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
 
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                ejecucion: js.solicitud(datos),
+                ejecucion: js.solicitud(datos, ruta),
                 exito: js.mostrar()
             })  
         }
@@ -230,7 +239,25 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
 
 
 })
+
+
+
+//RUTAS EMPLEO Y DESARROLLO
+router.post("/e&d", upload.single('archivo'), (req, res, next)=>{   
+    var boton = req.body.boton  
+    if(boton == "seleccion" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion"
+        })
+    }
     
+
+
+     next()
+})
+
 
 //Rutas de Administrador
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{

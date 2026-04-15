@@ -128,7 +128,8 @@ function pdfA(archivo){
     }
 }
 
-function registro(datos,base){
+function validarRegistro(datos,ruta){
+    var base = JSON.parse(fs.readFileSync(ruta, "utf-8"));
     for( var i= 0; i < base.length; i++){
         if(datos.email == base[i].email){
             return false
@@ -136,11 +137,21 @@ function registro(datos,base){
     }
 }
 
-async function solicitud(datos, archivo, solicitudes){
+function registrar(datos, ruta){
+    var base = JSON.parse(fs.readFileSync(ruta, "utf-8"));
+    base.push(datos)
+    var nuevaBase = JSON.stringify(base)
+    fs.writeFileSync(ruta, nuevaBase, "utf-8");
+    //return nuevaBase
+}
+
+async function solicitud(datos,solicitudes){
     delete datos.boton
     var base = await base64()
-    var texto = await textoPdf()    
-    console.log(texto)
+    var texto = await textoPdf()
+    datos.texto = texto
+    datos.archivo = base
+    var registro = registrar(datos, solicitudes)
 }
 
 
@@ -153,7 +164,8 @@ module.exports = {
     textoPdf : textoPdf,
     base64 : base64,
     pdfA : pdfA,
-    registro : registro,
-    solicitud : solicitud
+    validarRegistro : validarRegistro,
+    solicitud : solicitud,
+    registrar : registrar,
 }
 
