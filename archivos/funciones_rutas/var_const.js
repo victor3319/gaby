@@ -20,13 +20,12 @@ const path = require("path");
     const procesos = JSON.parse(baseProceso)
 
     //Solicitudes
-    const bSolicitudes = fs.readFileSync("archivos/bases/solicitudesEmpleos.json", "utf-8");
-    const solicitudes = JSON.parse(bSolicitudes)
+    const rutaSolicitudes = "archivos/bases/solicitudesEmpleos.json"
 
 module.exports = {
     usuarios : usuarios,
     //recibos : recibos,
     usuarioEnUso : usuarioEnUso,
     procesos : procesos,
-    solicitudes : solicitudes
+    rutaSolicitudes : rutaSolicitudes
 }

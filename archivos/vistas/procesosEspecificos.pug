@@ -1,9 +1,15 @@
 extends layout
 
 block content1
-    form(method="post" action="/adp" enctype="multipart/form-data")
-        div.containerP
+    a(href="/procesos")
+        button.hm(name="boton" value="volver") Volver
+    form(method="post" action="/prcEsp" enctype="multipart/form-data")
+        div
             if proceso == "recibos" || proceso == "cargarRecibos" || proceso == "cerrarR" || proceso == "cargarR"
                 include procesos/adp/recibos
             if proceso == "novedades" || proceso == "cruce" || proceso == "cerrarN" || proceso == "cargarN"
                 include procesos/adp/novedades
+            if proceso == "seleccion" || proceso == "cerrarS" || proceso == "cargarS"
+                include procesos/e&d/seleccion
+            if proceso == "undefined"
+                include enConstruccion
