@@ -1,6 +1,8 @@
+const { rejects } = require("assert");
 const var_const = require("./var_const")
 const fs = require("fs")
 const pdf = require("pdf-parse-new");
+const { response } = require("express");
 
 //VALIDACION DE USUARIOS
 function validacion(datos, usuarios){
@@ -59,17 +61,13 @@ function base64(){
     return base64String
 }
 
-//EXTRAER TEXTO PDF
+/*//EXTRAER TEXTO PDF
 function textoPdf(){
     const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
-    var texto = "1"
-    /*pdf(dataBuffer).then(function(datos){
-        texto = datos.text
-        })*/
-    // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
-
-    console.log(texto)
-    }
+    return pdf(dataBuffer).then((datos)=>{
+        datos.text
+    })
+}*/
 
 
 //CAMBIO DE CONTRASEÑA
@@ -134,10 +132,12 @@ function registro(datos,base){
 }
 
 function solicitud(datos, archivo, solicitudes){
+    const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
     delete datos.boton
     var base = base64()
-    var texto = textoPdf()    
-    console.log(texto)
+    var texto = pdf(dataBuffer).then((datos)=>{datos.text})
+    datos.texto = texto
+    console.log(datos)
 }
 
 
