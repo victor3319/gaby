@@ -38,7 +38,10 @@ router.get("/", (req, res, next) =>{
 })
 
 router.get("/home", (req, res, next) =>{
-    res.render("home.pug",{h1 : var_const.usuarioEnUso[0], accesos: var_const.usuarioEnUso[2]})
+    res.render("home.pug",{
+        h1 : var_const.usuarioEnUso[0], 
+        accesos: var_const.usuarioEnUso[2]
+    })
     next()
 })
 
@@ -61,7 +64,10 @@ router.post("/new-entry", (req, res, next)=>{
     }else{
         var validacion = js.validacion(req.body, var_const.usuarios);
         if(validacion == true){
-            res.render("home.pug", {h1 : req.body.nombre, accesos: var_const.usuarioEnUso[2]})
+            res.render("home.pug", {
+                h1 : req.body.nombre, 
+                accesos: var_const.usuarioEnUso[2]
+            })
         }
         else{
             res.render("index.pug", {mostrar : js.mostrar()})
@@ -78,7 +84,7 @@ router.post("/new-entry", (req, res, next)=>{
 
 
 //RUTAS ADP
-router.post("/prcEsp", upload.single('archivo'), (req, res, next)=>{   
+router.post("/adp", upload.single('archivo'), (req, res, next)=>{   
     var boton = req.body.boton  
     if(boton == "recibos" || boton == "cerrarR"){
         res.render("procesosEspecificos.pug", {
@@ -145,34 +151,17 @@ router.post("/prcEsp", upload.single('archivo'), (req, res, next)=>{
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
             proceso: boton,
-            cruce : js.mostrar()   
+            cruce : js.mostrar() 
         })
     }
-    if(boton == "solicitudes" || boton == "cerrarS"){
-        res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
-            proceso: "seleccion",
-            solicitudes : js.mostrarOcultarContenido(),
-            solicitantes : 1
-        })
-    }
-    if(boton == "busquedas" || boton == "cerrarS"){
-        res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
-            proceso: "seleccion",
-            busquedas : js.mostrarOcultarContenido()
-        })
-    }
-    if(boton == "postulados" || boton == "cerrarS"){
-        res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
-            proceso: "seleccion",
-            postulados : js.mostrarOcultarContenido()
-        })
-    }
+
+    
+    
+
+
+
+
+    
 
 
     /*if(boton == "vacaciones"){
@@ -266,9 +255,43 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
-            proceso: "seleccion"
+            proceso: "seleccion",
+            base1 : var_const.objetoSolicitudes
         })
     }
+
+//TABLA DE SOLICITUDES
+    if(boton == "solicitudes" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion",
+            solicitudes : js.mostrarOcultarContenido(),
+            base1 : var_const.objetoSolicitudes,
+            tabla : js.accionesTablas(req.body)
+        })
+    }
+//TABLA BUSQUEDAS
+    if(boton == "busquedas" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion",
+            busquedas : js.mostrarOcultarContenido(),
+            base1 : var_const.objetoSolicitudes
+        })
+    }
+//TABLA POSTULACIONES
+    if(boton == "postulados" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion",
+            postulados : js.mostrarOcultarContenido(),
+            base1 : var_const.objetoSolicitudes
+        })
+    }
+    
     
 
 
@@ -276,7 +299,7 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
 })
 
 
-//Rutas de Administrador
+//RUTAS DE ADMINISTRADOR
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton
     var proceso = req.body.proceso

@@ -21,11 +21,13 @@ const path = require("path");
 
     //Solicitudes
     const rutaSolicitudes = "archivos/bases/solicitudesEmpleos.json"
+    const objetoSolicitudes =JSON.parse(fs.readFileSync("archivos/bases/solicitudesEmpleos.json"))
 
 module.exports = {
     usuarios : usuarios,
     //recibos : recibos,
     usuarioEnUso : usuarioEnUso,
     procesos : procesos,
-    rutaSolicitudes : rutaSolicitudes
+    rutaSolicitudes : rutaSolicitudes,
+    objetoSolicitudes : objetoSolicitudes
 }

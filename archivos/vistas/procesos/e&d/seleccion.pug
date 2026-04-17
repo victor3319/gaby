@@ -1,83 +1,77 @@
-div.containerP
-    h2.h  Selección y Empleo
-    button.hm(name="boton" value="solicitudes") Solicitudes de Empleo
-    button.hm(name="boton" value="busquedas") Búsqueda
-    button.hm(name="boton" value="postulados") Postulados
-    h3 #{tSolicitudes}
+form(method="post" action="/e&d" enctype="multipart/form-data")
+    div.containerP
+        h2.h  Selección y Empleo
+        button.hm(name="boton" value="solicitudes") Solicitudes de Empleo
+        button.hm(name="boton" value="busquedas") Búsqueda
+        button.hm(name="boton" value="postulados") Postulados
+
+    div.containerSp(name="solicitudes" style={display : solicitudes})           
+        h1.h Solicitudes de Empleo
+        input.input(type="", name="filtroSolicitudes")
+        table 
+            thead 
+                tr
+                    th #
+                    th Nombre
+                    th Apellido
+                    th Teléfono
+                    th Email
+                    th Carrera o Especialidad 
+                    th Bruto Pretendido
+                    th LinkedIn 
+                    th CV
+                    th Acción
+            tbody 
+                each solicitante in base1
+                    tr(name= solicitante.email)
+                        td= i
+                        td= solicitante.nombres
+                        td= solicitante.apellidos
+                        td= solicitante.telefono
+                        td= solicitante.email
+                        td= solicitante.carrera
+                        td= solicitante.sueldo
+                        td= solicitante.linkedIn
+                        td
+                            a(href="/")
+                                    img.imgIcono(src="img/PDF.png", alt="")
+                        td
+                            button.hm(onclick="eliminarFila(this)") Eliminar 
+                            button.hm Postular
 
 
-div.containerSp(name="solicitudes" style={display : solicitudes})           
-    h1.h Solicitudes de Empleo
-    input.input(type="", name="filtroSolicitudes")
-    table 
-        tr
-            th
-            th Nombre
-            th Apellido
-            th Teléfono
-            th Email
-            th Carrera o Especialidad 
-            th LinkedIn 
-            th Curriculum
-            th Acción
-        tr 
-            td
-            td 4961
-            td Victor Caruci 
-            td mar2026 
-            td
-            td 
-            td 
-            td 
-        tr 
-            td
-            td 5066
-            td Marisol Perez 
-            td mar2026
-            td
-            td 
-            td 
-            td 
-        tr 
-            td
-            td 4889
-            td Nadia Gerez 
-            td mar2026
-            td
-            td 
-            td 
-            td 
+                
 
-div.containerSp(name="postulados" style={display : postulados})
-    h1.h Postulados
-    input.input(type="", name="filtroPostulados")
-    table 
-        tr
-            th Nombre
-            th Apellido
-            th Cargo
-            th Carrera O Especialidad
-            th Curriculum
-            th Estatus
-            th Acción
+    div.containerSp(name="postulados" style={display : postulados})
+        h1.h Postulados
+        input.input(type="", name="filtroPostulados")
+        table 
+            tr
+                th Nombre
+                th Apellido
+                th Cargo
+                th Carrera O Especialidad
+                th CV
+                th Estatus
+                th Acción
 
-div.containerSp(name="busquedas" style={display : busquedas})
-    h1.h Búsquedas
-    input.input(type="", name="filtroBusquedas")
-    table 
-        tr
-            th Códibo
-            th Cargo
-            th Departamento
-            th Fecha de Solicitud
-            th Fecha de Cierre
-            th Estatus
-            th Postulaciones Activas
-            th Postulaciones Evaluadas
-            th Entrevistas RRHH 
-            th Entrevistas Jefe 
-            th Médico
-            th Ambiental
-            th Acción
+    div.containerSp(name="busquedas" style={display : busquedas})
+        h1.h Búsquedas
+        input.input(type="", name="filtroBusquedas")
+        table 
+            tr
+                th Código
+                th Cargo
+                th Departamento
+                th Fecha de Solicitud
+                th Fecha de Cierre
+                th Estatus
+                th Postulaciones Activas
+                th Postulaciones Evaluadas
+                th Entrevistas RRHH 
+                th Entrevistas Jefe 
+                th Médico
+                th Ambiental
+                th Acción
 
 script(src=".../archivos/funciones_rutas/js.js")

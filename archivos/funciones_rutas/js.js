@@ -113,6 +113,19 @@ function listadoSecundario(base, dato){
 }
 
 
+//MOSTRAR Y OCULTAR CONTENIDO DIV
+function mostrarOcultarContenido(){
+    var contenido = "block"
+   return contenido
+}
+
+//ACCIONES EN TABLAS
+function accionesTablas(tabla){
+    var tabla = tabla
+    console.log(tabla)
+}
+
+
 
 
 //EXTERNO
@@ -164,10 +177,7 @@ async function solicitud(datos,solicitudes){
     var registro = registrar(datos, solicitudes)
 }
 
-function mostrarOcultarContenido(){
-    var contenido = "block"
-   return contenido
-}
+
 
 
 
@@ -185,4 +195,5 @@ module.exports = {
     solicitud : solicitud,
     registrar : registrar,
     mostrarOcultarContenido : mostrarOcultarContenido,
+    accionesTablas : accionesTablas,
 }
