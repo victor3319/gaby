@@ -61,18 +61,7 @@ function base64(){
     return base64String
 }
 
-<<<<<<< HEAD
-/*//EXTRAER TEXTO PDF
-function textoPdf(){
-    const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
-    return pdf(dataBuffer).then((datos)=>{
-        datos.text
-    })
-}*/
-=======
 //EXTRAER TEXTO PDF
-
-
 
 function textoPdf(){
     
@@ -84,8 +73,6 @@ function textoPdf(){
     // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
     
     }
->>>>>>> 0a23298489f2fa0a51970252b9a81edfd1627016
-
 
 //CAMBIO DE CONTRASEÑA
 function cambioPassword(datos, usuarios){
@@ -123,8 +110,10 @@ function listadoSecundario(base, dato){
     console.log(datos)
     console.log(lista)
     return dato
-    
 }
+
+
+
 
 //EXTERNO
 function pdfA(archivo){
@@ -149,7 +138,7 @@ function validarRegistro(datos,ruta){
     }
 }
 
-<<<<<<< HEAD
+
 function solicitud(datos, archivo, solicitudes){
     const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
     delete datos.boton
@@ -157,13 +146,13 @@ function solicitud(datos, archivo, solicitudes){
     var texto = pdf(dataBuffer).then((datos)=>{datos.text})
     datos.texto = texto
     console.log(datos)
-=======
+}
+
 function registrar(datos, ruta){
     var base = JSON.parse(fs.readFileSync(ruta, "utf-8"));
     base.push(datos)
     var nuevaBase = JSON.stringify(base)
     fs.writeFileSync(ruta, nuevaBase, "utf-8");
-    //return nuevaBase
 }
 
 async function solicitud(datos,solicitudes){
@@ -173,8 +162,14 @@ async function solicitud(datos,solicitudes){
     datos.texto = texto
     datos.archivo = base
     var registro = registrar(datos, solicitudes)
->>>>>>> 0a23298489f2fa0a51970252b9a81edfd1627016
 }
+
+function mostrarOcultarContenido(){
+    var contenido = "block"
+   return contenido
+}
+
+
 
 
 
@@ -189,5 +184,5 @@ module.exports = {
     validarRegistro : validarRegistro,
     solicitud : solicitud,
     registrar : registrar,
+    mostrarOcultarContenido : mostrarOcultarContenido,
 }
-

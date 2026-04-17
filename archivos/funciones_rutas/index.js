@@ -153,7 +153,24 @@ router.post("/prcEsp", upload.single('archivo'), (req, res, next)=>{
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
             proceso: "seleccion",
-            tSolicitudes : js.mostrar()
+            solicitudes : js.mostrarOcultarContenido(),
+            solicitantes : 1
+        })
+    }
+    if(boton == "busquedas" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion",
+            busquedas : js.mostrarOcultarContenido()
+        })
+    }
+    if(boton == "postulados" || boton == "cerrarS"){
+        res.render("procesosEspecificos.pug", {
+            h1 : var_const.usuarioEnUso[0], 
+            accesos: var_const.usuarioEnUso[2],
+            proceso: "seleccion",
+            postulados : js.mostrarOcultarContenido()
         })
     }
 
