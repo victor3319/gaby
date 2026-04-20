@@ -13,6 +13,7 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                 thead 
                     tr
                         th #
+                        th Select
                         th Nombre
                         th Apellido
                         th Teléfono
@@ -30,6 +31,8 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                             td
                                 input(type="text" name="cantidad" value=cantidad readonly)
                             td
+                                input(type="checkbox" name="select"+cantidad value=solicitante.email)
+                            td
                                 input(name="nombres" value=solicitante.nombres readonly)
                             td(name="apellidos")= solicitante.apellidos
                             td(name="telefono")= solicitante.telefono
@@ -42,9 +45,8 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                                 a(href="/")
                                         img.imgIcono(src="img/PDF.png", alt="")
                             td
-                                button.hm(type="submit" name="boton" value="eliminar" id=solicitante.email onclick="tabla(this.id)") Eliminar
+                                button.hm(type="sudmit" name="boton" value="eliminar" id=solicitante.email) Eliminar
                                 button.hm(name="boton" value="postular") Postular
-                                button.hm(id=`btn-${cantidad}`) Botón 2
                                     
 
                 
@@ -80,5 +82,12 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                 th Médico
                 th Ambiental
                 th Acción
+    script.
+        function eliminar(id){
+            console.log(id)
+        }
 
 script(src=".../archivos/funciones_rutas/js.js")
+
+
+    
