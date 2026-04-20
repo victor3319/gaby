@@ -8,37 +8,44 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
     div.containerSp(name="solicitudes" style={display : solicitudes})           
         h1.h Solicitudes de Empleo
         input.input(type="", name="filtroSolicitudes")
-        table 
-            thead 
-                tr
-                    th #
-                    th Nombre
-                    th Apellido
-                    th Teléfono
-                    th Email
-                    th Carrera o Especialidad 
-                    th Bruto Pretendido
-                    th LinkedIn 
-                    th CV
-                    th Acción
-            tbody 
-                each solicitante in base1
-                    tr(name= solicitante.email)
-                        td= i
-                        td= solicitante.nombres
-                        td= solicitante.apellidos
-                        td= solicitante.telefono
-                        td= solicitante.email
-                        td= solicitante.carrera
-                        td= solicitante.sueldo
-                        td= solicitante.linkedIn
-                        td
-                            a(href="/")
-                                    img.imgIcono(src="img/PDF.png", alt="")
-                        td
-                            button.hm(onclick="eliminarFila(this)") Eliminar 
-                            button.hm Postular
-
+        form(method="post" action="/123")
+            table(name="tabla")
+                thead 
+                    tr
+                        th #
+                        th Nombre
+                        th Apellido
+                        th Teléfono
+                        th Email
+                        th Carrera o Especialidad 
+                        th Bruto Pretendido
+                        th LinkedIn 
+                        th CV
+                        th Acción
+                tbody
+                    -var cantidad=0 
+                    each solicitante in base1
+                        -cantidad=cantidad+1
+                        tr
+                            td
+                                input(type="text" name="cantidad" value=cantidad readonly)
+                            td
+                                input(name="nombres" value=solicitante.nombres readonly)
+                            td(name="apellidos")= solicitante.apellidos
+                            td(name="telefono")= solicitante.telefono
+                            td
+                                input(name="email" value=solicitante.email readonly)
+                            td(name="carrera")= solicitante.carrera
+                            td(name="sueldo")= solicitante.sueldo
+                            td(name="linkedin")= solicitante.linkedIn
+                            td
+                                a(href="/")
+                                        img.imgIcono(src="img/PDF.png", alt="")
+                            td
+                                button.hm(type="submit" name="boton" value="eliminar" id=solicitante.email onclick="tabla(this.id)") Eliminar
+                                button.hm(name="boton" value="postular") Postular
+                                button.hm(id=`btn-${cantidad}`) Botón 2
+                                    
 
                 
 

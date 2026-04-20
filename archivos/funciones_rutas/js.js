@@ -121,8 +121,10 @@ function mostrarOcultarContenido(){
 
 //ACCIONES EN TABLAS
 function accionesTablas(tabla){
-    var tabla = tabla
-    console.log(tabla)
+    var nuevo = tabla
+    
+    console.log(nuevo)
+    return nuevo
 }
 
 

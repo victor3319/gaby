@@ -247,7 +247,6 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
 })
 
 
-
 //RUTAS EMPLEO Y DESARROLLO
 router.post("/e&d", upload.single('archivo'), (req, res, next)=>{   
     var boton = req.body.boton  
@@ -261,15 +260,17 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
     }
 
 //TABLA DE SOLICITUDES
-    if(boton == "solicitudes" || boton == "cerrarS"){
-        res.render("procesosEspecificos.pug", {
+    if(boton == "solicitudes" || boton == "eliminar" || boton == "postular"){
+        const tDatos=req.body
+        res.render("procesosEspecificos.pug",{
             h1 : var_const.usuarioEnUso[0], 
             accesos: var_const.usuarioEnUso[2],
             proceso: "seleccion",
             solicitudes : js.mostrarOcultarContenido(),
             base1 : var_const.objetoSolicitudes,
-            tabla : js.accionesTablas(req.body)
+            tabla : js.accionesTablas()
         })
+
     }
 //TABLA BUSQUEDAS
     if(boton == "busquedas" || boton == "cerrarS"){
