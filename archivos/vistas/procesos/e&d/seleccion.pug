@@ -42,10 +42,10 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                             td(name="sueldo")= solicitante.sueldo
                             td(name="linkedin")= solicitante.linkedIn
                             td
-                                a(href="/")
+                                a(href="/e&d")
                                         img.imgIcono(src="img/PDF.png", alt="")
                             td
-                                button.hm(type="sudmit" name="boton" value="eliminar" id=solicitante.email) Eliminar
+                                button.hm(name="boton" value="eliminar" id=solicitante.email) Eliminar
                                 button.hm(name="boton" value="postular") Postular
                                     
 
