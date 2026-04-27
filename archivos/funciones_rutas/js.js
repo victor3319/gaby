@@ -127,6 +127,15 @@ function accionesTablas(tabla){
     return nuevo
 }
 
+function botonTabla(name, registros){
+    var body = name.split("-")
+    var accion = body[0]
+    var registro = body[1]
+
+    console.log(registro)
+    return body
+}
+
 
 
 
@@ -198,4 +207,5 @@ module.exports = {
     registrar : registrar,
     mostrarOcultarContenido : mostrarOcultarContenido,
     accionesTablas : accionesTablas,
+    botonTabla : botonTabla,
 }

@@ -260,7 +260,7 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
     }
 
 //TABLA DE SOLICITUDES
-    if(boton == "solicitudes" || boton == "eliminar" || boton == "postular"){
+    if(boton == "solicitudes" || boton == "eliminar-victor3319.vc@gmail.com" || boton == "postular"){
         const tDatos=req.body
         res.render("procesosEspecificos.pug",{
             h1 : var_const.usuarioEnUso[0], 
@@ -268,7 +268,7 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
             proceso: "seleccion",
             solicitudes : js.mostrarOcultarContenido(),
             base1 : var_const.objetoSolicitudes,
-            tabla : js.accionesTablas(req.params.id)
+            tabla : js.botonTabla(req.body.boton)
         })
 
     }
