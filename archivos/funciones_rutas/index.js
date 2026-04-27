@@ -268,7 +268,9 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
             proceso: "seleccion",
             solicitudes : js.mostrarOcultarContenido(),
             base1 : var_const.objetoSolicitudes,
-            tabla : js.botonTabla(req.body.boton)
+            tabla : js.botonTabla(req.body.boton),
+            tabla1 : js.accionesTablas()
+
         })
 
     }
