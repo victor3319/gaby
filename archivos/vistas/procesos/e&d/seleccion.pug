@@ -13,7 +13,6 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                 thead 
                     tr
                         th #
-                        th Select
                         th Nombre
                         th Apellido
                         th Teléfono
@@ -28,16 +27,11 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                     each solicitante in base1
                         -cantidad=cantidad+1
                         tr
-                            td
-                                input(type="text" name="cantidad" value=cantidad readonly)
-                            td
-                                input(type="checkbox" name="select"+cantidad value=solicitante.email)
-                            td
-                                input(name="nombres" value=solicitante.nombres readonly)
+                            td(name="cantidad")= cantidad
+                            td(name="nombres")= solicitante.nombres
                             td(name="apellidos")= solicitante.apellidos
                             td(name="telefono")= solicitante.telefono
-                            td
-                                input(name="email" value=solicitante.email readonly)
+                            td(name="email")= solicitante.email
                             td(name="carrera")= solicitante.carrera
                             td(name="sueldo")= solicitante.sueldo
                             td(name="linkedin")= solicitante.linkedIn
@@ -45,12 +39,8 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                                 a(href="/e&d")
                                         img.imgIcono(src="img/PDF.png", alt="")
                             td
-<<<<<<< HEAD
-                                button.hm(type="sudmit" name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
-=======
-                                button.hm(name="boton" value="eliminar" id=solicitante.email) Eliminar
->>>>>>> 62495c53b06b3c72d15f798cbd38538202f1e39d
-                                button.hm(name="boton" value="postular") Postular
+                                button.hm(name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
+                                button.hm(name="boton" value="editar"+"-"+solicitante.email) Editar
                                     
 
                 

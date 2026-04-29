@@ -3,6 +3,7 @@ const var_const = require("./var_const")
 const fs = require("fs")
 const pdf = require("pdf-parse-new");
 const { response } = require("express");
+const { registerHooks } = require("module");
 
 //VALIDACION DE USUARIOS
 function validacion(datos, usuarios){
@@ -120,20 +121,23 @@ function mostrarOcultarContenido(){
 }
 
 //ACCIONES EN TABLAS
-function accionesTablas(tabla){
-    var nuevo = tabla
-    
-    console.log(nuevo)
-    return nuevo
+function eliminarRegistro(registro, rutaRegistros){
+    var baseNueva = []
+    var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
+    var nuevosRegistros = base.filter(item => item.email !== registro)
+    var nuevaBase = JSON.stringify(nuevosRegistros)
+    fs.writeFileSync(rutaRegistros, nuevaBase, "utf-8");
 }
 
-function botonTabla(name, registros){
-    var body = name.split("-")
-    var accion = body[0]
-    var registro = body[1]
-
-    console.log(registro)
-    return body
+function accionTabla(array, rutaRegistro){
+    var registro = array[1]
+    if(array[0] == "eliminar"){
+        eliminarRegistro(registro, rutaRegistro)
+    }else if(array[0] == "editar"){
+        console.log(registro)
+    }else{
+        console.log(array)
+    }
 }
 
 
@@ -206,6 +210,5 @@ module.exports = {
     solicitud : solicitud,
     registrar : registrar,
     mostrarOcultarContenido : mostrarOcultarContenido,
-    accionesTablas : accionesTablas,
-    botonTabla : botonTabla,
+    accionTabla : accionTabla,
 }

@@ -249,7 +249,8 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
 
 //RUTAS EMPLEO Y DESARROLLO
 router.post("/e&d", upload.single('archivo'), (req, res, next)=>{   
-    var boton = req.body.boton  
+    var boton = req.body.boton
+    var rutaSolicitudes = var_const.rutaSolicitudes
     if(boton == "seleccion" || boton == "cerrarS"){
         res.render("procesosEspecificos.pug", {
             h1 : var_const.usuarioEnUso[0], 
@@ -260,19 +261,17 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
     }
 
 //TABLA DE SOLICITUDES
-    if(boton == "solicitudes" || boton == "eliminar-victor3319.vc@gmail.com" || boton == "postular"){
-        const tDatos=req.body
-        res.render("procesosEspecificos.pug",{
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
-            proceso: "seleccion",
-            solicitudes : js.mostrarOcultarContenido(),
-            base1 : var_const.objetoSolicitudes,
-            tabla : js.botonTabla(req.body.boton),
-            tabla1 : js.accionesTablas()
-
+var datosBoton = req.body.boton.split("-")
+var boton = datosBoton[0]
+if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
+    res.render("procesosEspecificos.pug",{
+        tabla : js.accionTabla(datosBoton, var_const.rutaSolicitudes),
+        h1 : var_const.usuarioEnUso[0], 
+        accesos: var_const.usuarioEnUso[2],
+        proceso: "seleccion",
+        solicitudes : js.mostrarOcultarContenido(),
+        base1 : var_const.objetoSolicitudes
         })
-
     }
 //TABLA BUSQUEDAS
     if(boton == "busquedas" || boton == "cerrarS"){
