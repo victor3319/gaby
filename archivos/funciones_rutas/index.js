@@ -223,8 +223,6 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
         // REGISTRAR SOLICITUD  
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
             
-            //var datosSolicitud = {nombres, apellidos, telefono, email, carrera, sueldo}
-
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
                 ejecucion: js.solicitud(datos, ruta),
@@ -264,13 +262,13 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
 var datosBoton = req.body.boton.split("-")
 var boton = datosBoton[0]
 if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
+    var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
     res.render("procesosEspecificos.pug",{
-        tabla : js.accionTabla(datosBoton, var_const.rutaSolicitudes),
         h1 : var_const.usuarioEnUso[0], 
         accesos: var_const.usuarioEnUso[2],
         proceso: "seleccion",
         solicitudes : js.mostrarOcultarContenido(),
-        base1 : var_const.objetoSolicitudes
+        base1 : base
         })
     }
 //TABLA BUSQUEDAS

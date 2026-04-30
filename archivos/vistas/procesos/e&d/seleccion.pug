@@ -36,8 +36,8 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                             td(name="sueldo")= solicitante.sueldo
                             td(name="linkedin")= solicitante.linkedIn
                             td
-                                a(href="/e&d")
-                                        img.imgIcono(src="img/PDF.png", alt="")
+                                a(href=solicitante.email target="_blank")
+                                        input.imgIcono(type="image" src="img/PDF.png", name="boton" value= solicitante.email alt="Botón Acción")
                             td
                                 button.hm(name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
                                 button.hm(name="boton" value="editar"+"-"+solicitante.email) Editar
@@ -76,12 +76,5 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                 th Médico
                 th Ambiental
                 th Acción
-    script.
-        function eliminar(id){
-            console.log(id)
-        }
-
-script(src=".../archivos/funciones_rutas/js.js")
-
 
     

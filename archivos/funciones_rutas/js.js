@@ -127,16 +127,20 @@ function eliminarRegistro(registro, rutaRegistros){
     var nuevosRegistros = base.filter(item => item.email !== registro)
     var nuevaBase = JSON.stringify(nuevosRegistros)
     fs.writeFileSync(rutaRegistros, nuevaBase, "utf-8");
+
+    return nuevosRegistros
 }
 
-function accionTabla(array, rutaRegistro){
+function accionTabla(array, rutaRegistro, objetoRegistro){
     var registro = array[1]
     if(array[0] == "eliminar"){
-        eliminarRegistro(registro, rutaRegistro)
+        var eli = eliminarRegistro(registro, rutaRegistro)
+        return eli
     }else if(array[0] == "editar"){
         console.log(registro)
+        return objetoRegistro
     }else{
-        console.log(array)
+       return objetoRegistro
     }
 }
 
@@ -164,16 +168,6 @@ function validarRegistro(datos,ruta){
             return false
         }    
     }
-}
-
-
-function solicitud(datos, archivo, solicitudes){
-    const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
-    delete datos.boton
-    var base = base64()
-    var texto = pdf(dataBuffer).then((datos)=>{datos.text})
-    datos.texto = texto
-    console.log(datos)
 }
 
 function registrar(datos, ruta){
