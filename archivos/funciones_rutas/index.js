@@ -261,7 +261,7 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
 //TABLA DE SOLICITUDES
 var datosBoton = req.body.boton.split("-")
 var boton = datosBoton[0]
-if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
+if(boton == "solicitudes" || boton == "eliminar" || boton == "editar" || boton == "cv"){
     var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
     res.render("procesosEspecificos.pug",{
         h1 : var_const.usuarioEnUso[0], 

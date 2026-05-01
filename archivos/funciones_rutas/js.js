@@ -137,9 +137,13 @@ function accionTabla(array, rutaRegistro, objetoRegistro){
         var eli = eliminarRegistro(registro, rutaRegistro)
         return eli
     }else if(array[0] == "editar"){
-        console.log(registro)
+        console.log(registro + "editar")
         return objetoRegistro
-    }else{
+    }else if(array[0] == "cv"){
+        console.log(registro + "cv")
+        return objetoRegistro
+    }
+    else{
        return objetoRegistro
     }
 }
