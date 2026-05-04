@@ -36,8 +36,9 @@ form(method="post" action="/e&d" enctype="multipart/form-data")
                             td(name="sueldo")= solicitante.sueldo
                             td(name="linkedin")= solicitante.linkedIn
                             td
-                                button.hmi(name="boton" value="cv"+"-"+solicitante.email)
-                                    img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.email alt="Botón Acción")
+                                Form(action="/e&d" method="post" target="_blank")
+                                    button.hmi(name="boton" value="cv"+"-"+solicitante.email)
+                                        img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.email alt="Botón Acción")
                             td
                                 button.hm(name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
                                 button.hm(name="boton" value="editar"+"-"+solicitante.email) Editar

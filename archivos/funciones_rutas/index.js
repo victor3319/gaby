@@ -261,7 +261,7 @@ router.post("/e&d", upload.single('archivo'), (req, res, next)=>{
 //TABLA DE SOLICITUDES
 var datosBoton = req.body.boton.split("-")
 var boton = datosBoton[0]
-if(boton == "solicitudes" || boton == "eliminar" || boton == "editar" || boton == "cv"){
+if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
     var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
     res.render("procesosEspecificos.pug",{
         h1 : var_const.usuarioEnUso[0], 
@@ -271,6 +271,15 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar" || boton =
         base1 : base
         })
     }
+if(boton == "cv"){
+    res.render("procesosEspecificos.pug",{
+        h1 : var_const.usuarioEnUso[0], 
+        accesos: var_const.usuarioEnUso[2],
+        proceso: "vista",
+        solicitudes : js.mostrarOcultarContenido(),
+        base1 : base
+        })
+}
 //TABLA BUSQUEDAS
     if(boton == "busquedas" || boton == "cerrarS"){
         res.render("procesosEspecificos.pug", {

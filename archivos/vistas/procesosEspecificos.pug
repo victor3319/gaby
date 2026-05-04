@@ -15,5 +15,7 @@ block content1
         div 
             if proceso == "seleccion" || proceso == "cerrarS" || proceso == "cargarS"
                 include procesos/e&d/seleccion
+            if proceso == "vista"
+                include vista
             if proceso == "undefined"
                 include enConstruccion

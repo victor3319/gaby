@@ -131,6 +131,11 @@ function eliminarRegistro(registro, rutaRegistros){
     return nuevosRegistros
 }
 
+function filtrarRegistro(registro, rutaRegistros){
+    var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
+    var registroBuscado = base.filter(item => item.email == registro)
+}
+
 function accionTabla(array, rutaRegistro, objetoRegistro){
     var registro = array[1]
     if(array[0] == "eliminar"){
@@ -140,6 +145,7 @@ function accionTabla(array, rutaRegistro, objetoRegistro){
         console.log(registro + "editar")
         return objetoRegistro
     }else if(array[0] == "cv"){
+
         console.log(registro + "cv")
         return objetoRegistro
     }
