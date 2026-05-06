@@ -270,16 +270,12 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
         solicitudes : js.mostrarOcultarContenido(),
         base1 : base
         })
-    }
-if(boton == "cv"){
-    res.render("procesosEspecificos.pug",{
-        h1 : var_const.usuarioEnUso[0], 
-        accesos: var_const.usuarioEnUso[2],
-        proceso: "vista",
-        solicitudes : js.mostrarOcultarContenido(),
-        base1 : base
-        })
+    }else if(boton == "cv"){
+        res.setHeader('Content-Type', 'application/pdf');
+        res.send(js.mostrarArchivo(datosBoton[1], var_const.rutaSolicitudes))
 }
+
+
 //TABLA BUSQUEDAS
     if(boton == "busquedas" || boton == "cerrarS"){
         res.render("procesosEspecificos.pug", {
@@ -300,13 +296,8 @@ if(boton == "cv"){
             base1 : var_const.objetoSolicitudes
         })
     }
-    
-    
-
-
      next()
 })
-
 
 //RUTAS DE ADMINISTRADOR
 router.post("/administrador", upload.single('archivo'), (req, res, next)=>{

@@ -1,81 +1,77 @@
-form(method="post" action="/e&d" enctype="multipart/form-data")
-    div.containerP
-        h2.h  Selección y Empleo
-        button.hm(name="boton" value="solicitudes") Solicitudes de Empleo
-        button.hm(name="boton" value="busquedas") Búsqueda
-        button.hm(name="boton" value="postulados") Postulados
+div.containerP
+    h2.h  Selección y Empleo
+    button.hm(name="boton" value="solicitudes") Solicitudes de Empleo
+    button.hm(name="boton" value="busquedas") Búsqueda
+    button.hm(name="boton" value="postulados") Postulados
 
-    div.containerSp(name="solicitudes" style={display : solicitudes})           
-        h1.h Solicitudes de Empleo
-        input.input(type="", name="filtroSolicitudes")
-        form(method="post" action="/123")
-            table(name="tabla")
-                thead 
-                    tr
-                        th #
-                        th Nombre
-                        th Apellido
-                        th Teléfono
-                        th Email
-                        th Carrera o Especialidad 
-                        th Bruto Pretendido
-                        th LinkedIn 
-                        th CV
-                        th Acción
-                tbody
-                    -var cantidad=0 
-                    each solicitante in base1
-                        -cantidad=cantidad+1
-                        tr
-                            td(name="cantidad")= cantidad
-                            td(name="nombres")= solicitante.nombres
-                            td(name="apellidos")= solicitante.apellidos
-                            td(name="telefono")= solicitante.telefono
-                            td(name="email")= solicitante.email
-                            td(name="carrera")= solicitante.carrera
-                            td(name="sueldo")= solicitante.sueldo
-                            td(name="linkedin")= solicitante.linkedIn
-                            td
-                                Form(action="/e&d" method="post" target="_blank")
-                                    button.hmi(name="boton" value="cv"+"-"+solicitante.email)
-                                        img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.email alt="Botón Acción")
-                            td
-                                button.hm(name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
-                                button.hm(name="boton" value="editar"+"-"+solicitante.email) Editar
+div.containerSp(name="solicitudes" style={display : solicitudes})           
+    h1.h Solicitudes de Empleo
+    table(name="tabla")
+        thead 
+            tr
+                th #
+                th Nombre
+                th Apellido
+                th Teléfono
+                th Email
+                th Carrera o Especialidad 
+                    input.input(type="", name="filtrocarrera")
+                th CV
+                    input.input(type="", name="filtrocv")
+                th LinkedIn 
+                th Acción
+        tbody
+        -var cantidad=0 
+            each solicitante in base1
+                -cantidad=cantidad+1
+                tr
+                    td(name="cantidad")= cantidad
+                    td(name="nombres")= solicitante.nombres
+                    td(name="apellidos")= solicitante.apellidos
+                    td(name="telefono")= solicitante.telefono
+                    td(name="email")= solicitante.email
+                    td(name="carrera")= solicitante.carrera
+                    td
+                        button.hmi(name="boton" value="cv"+"-"+solicitante.email formtarget="_blank")
+                            img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.email alt="Botón Acción")
+                    td(name="linkedin")= solicitante.linkedIn
+                    td
+                        button.hm(name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
+                        button.hm(name="boton" value="editar"+"-"+solicitante.email) Editar
                                     
 
                 
 
-    div.containerSp(name="postulados" style={display : postulados})
-        h1.h Postulados
-        input.input(type="", name="filtroPostulados")
-        table 
-            tr
-                th Nombre
-                th Apellido
-                th Cargo
-                th Carrera O Especialidad
-                th CV
-                th Estatus
-                th Acción
+div.containerSp(name="postulados" style={display : postulados})
+    h1.h Postulados
+    input.input(type="", name="filtroPostulados")
+    table 
+        tr
+            th Nombre
+            th Apellido
+            th Cargo
+            th Carrera O Especialidad
+            th CV
+            th Estatus
+            th Acción
 
-    div.containerSp(name="busquedas" style={display : busquedas})
-        h1.h Búsquedas
-        input.input(type="", name="filtroBusquedas")
-        table 
-            tr
-                th Código
-                th Cargo
-                th Departamento
-                th Fecha de Solicitud
-                th Fecha de Cierre
-                th Estatus
-                th Postulaciones Activas
-                th Postulaciones Evaluadas
-                th Entrevistas RRHH 
-                th Entrevistas Jefe 
-                th Médico
-                th Ambiental
-                th Acción
+div.containerSp(name="busquedas" style={display : busquedas})
+    h1.h Búsquedas
+    input.input(type="", name="filtroBusquedas")
+    table 
+        tr
+            th Código
+            th Cargo
+            th Departamento
+            th Fecha de Solicitud
+            th Fecha de Cierre
+            th Estatus
+            th Postulaciones Activas
+            th Postulaciones Evaluadas
+            th Entrevistas RRHH 
+            th Entrevistas Jefe 
+            th Médico
+            th Ambiental
+            th Acción
 
     

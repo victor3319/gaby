@@ -4,6 +4,7 @@ const fs = require("fs")
 const pdf = require("pdf-parse-new");
 const { response } = require("express");
 const { registerHooks } = require("module");
+const { basename } = require("path");
 
 //VALIDACION DE USUARIOS
 function validacion(datos, usuarios){
@@ -55,11 +56,22 @@ function mostrar(){
     return mostrar
 }
 
-//COVERTIR BASE64
+//CONVERTIR DE ARCHIVO A BASE64
 
 function base64(){
     var base64String = fs.readFileSync('./uploads/recibos/archivo-.pdf', {encoding: "base64"})
     return base64String
+}
+
+//CONVERTIR DE BASE64 A ARCHIVO
+
+function mostrarArchivo(registro, rutaRegistros){
+    var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
+    var registroBuscado = base.filter(item => item.email == registro)
+    var base64 = registroBuscado[0].archivo
+    var buffer = Buffer.from(base64, 'base64');
+    
+    return buffer
 }
 
 //EXTRAER TEXTO PDF
@@ -144,17 +156,10 @@ function accionTabla(array, rutaRegistro, objetoRegistro){
     }else if(array[0] == "editar"){
         console.log(registro + "editar")
         return objetoRegistro
-    }else if(array[0] == "cv"){
-
-        console.log(registro + "cv")
-        return objetoRegistro
-    }
-    else{
+    }else{
        return objetoRegistro
     }
 }
-
-
 
 
 //EXTERNO
@@ -215,4 +220,5 @@ module.exports = {
     registrar : registrar,
     mostrarOcultarContenido : mostrarOcultarContenido,
     accionTabla : accionTabla,
+    mostrarArchivo : mostrarArchivo,
 }
