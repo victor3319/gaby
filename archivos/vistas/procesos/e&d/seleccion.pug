@@ -6,6 +6,8 @@ div.containerP
 
 div.containerSp(name="solicitudes" style={display : solicitudes})           
     h1.h Solicitudes de Empleo
+    button.hm(name="boton" value="fCv") Filtrar
+    input.input(type="text" name="filtrocv")
     table(name="tabla")
         thead 
             tr
@@ -14,10 +16,8 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 th Apellido
                 th Teléfono
                 th Email
-                th Carrera o Especialidad 
-                    input.input(type="", name="filtrocarrera")
+                th Carrera o Especialidad
                 th CV
-                    input.input(type="", name="filtrocv")
                 th LinkedIn 
                 th Acción
         tbody

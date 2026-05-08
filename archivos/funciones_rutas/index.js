@@ -155,15 +155,6 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         })
     }
 
-    
-    
-
-
-
-
-    
-
-
     /*if(boton == "vacaciones"){
         res.render("procesos.pug", {
             h1 : var_const.usuarioEnUso[0], 
@@ -270,9 +261,19 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
         solicitudes : js.mostrarOcultarContenido(),
         base1 : base
         })
-    }else if(boton == "cv"){
-        res.setHeader('Content-Type', 'application/pdf');
-        res.send(js.mostrarArchivo(datosBoton[1], var_const.rutaSolicitudes))
+}else if(boton == "cv"){
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(js.mostrarArchivo(datosBoton[1], var_const.rutaSolicitudes))
+}else if(boton == "fCv"){
+    var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes, req.body.filtrocv)
+    res.render("procesosEspecificos.pug", {
+        h1 : var_const.usuarioEnUso[0], 
+        accesos: var_const.usuarioEnUso[2],
+        proceso: "seleccion",
+        solicitudes : js.mostrarOcultarContenido(),
+        base1 : base
+        })
+
 }
 
 

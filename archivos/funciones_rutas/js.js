@@ -143,12 +143,25 @@ function eliminarRegistro(registro, rutaRegistros){
     return nuevosRegistros
 }
 
-function filtrarRegistro(registro, rutaRegistros){
+function filtrarTabla(datos, rutaRegistros){
     var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
-    var registroBuscado = base.filter(item => item.email == registro)
+    var array = datos.split(" ")
+
+    var resultados = base.filter(registro => {
+    // Convierte a minúsculas para búsqueda insensible a mayúsculas
+    const nombreMinusculas = registro.texto.toLowerCase();
+    
+    // Verifica si alguna palabra clave está incluida en el nombre
+    return array.some(palabra => 
+        nombreMinusculas.includes(palabra.toLowerCase())
+    );
+});
+
+return resultados
+    
 }
 
-function accionTabla(array, rutaRegistro, objetoRegistro){
+function accionTabla(array, rutaRegistro, objetoRegistro, datos){
     var registro = array[1]
     if(array[0] == "eliminar"){
         var eli = eliminarRegistro(registro, rutaRegistro)
@@ -156,6 +169,9 @@ function accionTabla(array, rutaRegistro, objetoRegistro){
     }else if(array[0] == "editar"){
         console.log(registro + "editar")
         return objetoRegistro
+    }else if(array[0] == "fCv"){
+        var filtrado = filtrarTabla(datos, rutaRegistro)
+        return filtrado
     }else{
        return objetoRegistro
     }
@@ -221,4 +237,5 @@ module.exports = {
     mostrarOcultarContenido : mostrarOcultarContenido,
     accionTabla : accionTabla,
     mostrarArchivo : mostrarArchivo,
+    filtrarTabla : filtrarTabla,
 }
