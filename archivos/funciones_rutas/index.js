@@ -7,6 +7,7 @@ const path = require ("path");
 const multer = require("multer");
 const pdf = require("pdf-parse-new");
 
+
 //leer pdf
 /*const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
 pdf(dataBuffer).then(function(datos){

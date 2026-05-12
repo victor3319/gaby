@@ -6,6 +6,8 @@ const path = require ("path");
 const morgan = require("morgan");
 const pdf = require("pdf-parse-new")
 
+const fUsuarioEnUso = require("./archivos/bases/usuarioEnuso.json")
+
 
 const statics = path.join(__dirname,"archivos")
 
@@ -36,6 +38,7 @@ app.use((req, res, next) =>{
 //express bases
 app.set("bases", path.join(__dirname,"./archivos/bases"))
 
+app.set("usuarioEnUso", fUsuarioEnUso)
 
 module.exports = app
 
