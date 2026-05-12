@@ -12,7 +12,8 @@ const path = require("path");
     const recibos = JSON.parse(bRecibos)*/
     
     //Datos de Usuario en uso
-    const bUsuarioEnUso = fs.readFileSync("./archivos/bases/UsuarioEnUso.json", "utf-8");
+    //const bUsuarioEnUso = fs.readFileSync("./archivos/bases/UsuarioEnUso.json", "utf-8");
+    const bUsuarioEnUso = fs.readFileSync(path.join("./archivos/bases/usuarioEnUso.json"));
     const usuarioEnUso = JSON.parse(bUsuarioEnUso);
 
     //Procesos
