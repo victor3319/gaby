@@ -1,4 +1,4 @@
-const app = require("./app")
+/*const app = require("./app")
 const port = app.get("port")
 
 async function main (){
@@ -6,4 +6,4 @@ async function main (){
     console.log("Server on port", app.get("port"))
 }
 
-main();
+main();*/
