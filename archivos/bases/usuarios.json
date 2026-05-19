@@ -23,7 +23,8 @@
         "correo" : "nadia@gmail.com",
         "password" : "Anastasia_20",
         "tipo" : "usu",
-        "accesos": ["ADP"]
+        "accesos": [{
+            "ADP":["Recibos","Vacaciones","Fichadas"]}]
     },
     {
         "nombre" : "dayana",
