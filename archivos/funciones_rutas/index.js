@@ -76,6 +76,7 @@ router.post("/new-entry", (req, res, next)=>{
 
         usuario.push(js.nombre(req.body));
         usuario.push(js.accesos(req.body, var_const.usuarios))
+
      
         return usuario
     }

@@ -14,7 +14,8 @@
         "correo" : "marisol@gmail.com",
         "password" : "Anastasia_19",
         "tipo" : "usu",
-        "accesos": ["E&D"]
+        "accesos": [{
+            "E&D":["Solicitudes","Seleccion","Lectura"]}]
     },
 
     {
