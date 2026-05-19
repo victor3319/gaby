@@ -9,7 +9,10 @@ const pdf = require("pdf-parse-new")
 
 const statics = path.join(__dirname,"archivos")
 
-app.set("port", process.env.PORT || 5000)
+//Configuración de Puerto
+const PORT = process.env.PORT || 5000;
+
+//app.set("port", process.env.PORT || 5000)
 
 //express vistas
 app.set("views", path.join(__dirname,"./archivos/vistas"))
@@ -35,6 +38,9 @@ app.use((req, res, next) =>{
 
 //express bases
 app.set("bases", path.join(__dirname,"./archivos/bases"))
+
+//Escucha del Servidor
+app.listen(process.env.PORT || 5000);
 
 
 
