@@ -7,6 +7,9 @@ const path = require ("path");
 const multer = require("multer");
 const pdf = require("pdf-parse-new");
 
+//MODELOS IMPORTADOS
+const usuarioEnUso = require("../modelos/usuarioEnUso");
+const usuariosDB = require("../modelos/usuarios");
 
 //leer pdf
 /*const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
@@ -57,10 +60,18 @@ router.get("/procesos", (req, res, next) =>{
     next()
 })
 
-router.post("/new-entry", (req, res, next)=>{   
-    
+router.post("/new-entry", async (req, res, next)=>{   
+    const usuarios = await usuariosDB.find()
+    var datos = req.body
     var boton = req.body.boton
-    if(boton == "olvidar"){
+    res.render("home.pug", {
+                datos : js.validacion2(datos, usuarios)})
+    
+    
+    /*var boton = req.body.boton
+    var todos = await usuarioEnUso.find()
+    console.log(todos)*/
+    /*if(boton == "olvidar"){
         res.render("index.pug", {olvidar : js.mostrar()})
     }else{
         var validacion = js.validacion(req.body, var_const.usuarios);
@@ -79,7 +90,7 @@ router.post("/new-entry", (req, res, next)=>{
 
      
         return usuario
-    }
+    }*/
     next()
     
 })

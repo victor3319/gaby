@@ -31,6 +31,8 @@
         "correo" : "dayana@gmail.com",
         "password" : "Anastasia_18",
         "tipo" : "adm",
-        "accesos": ["ADP","E&D"]
+        "accesos": [{
+            "ADP":["Recibos","Vacaciones","Fichadas"],
+            "E&D":["Solicitudes","Seleccion","Lectura"]}]
     }
 ]

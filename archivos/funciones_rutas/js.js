@@ -8,6 +8,8 @@ const { basename } = require("path");
 
 //VALIDACION DE USUARIOS
 function validacion(datos, usuarios){
+    var {nombre, correo, password} = datos
+    
     var nombres = []
     var correos = []
     var passwords = []
@@ -23,6 +25,10 @@ function validacion(datos, usuarios){
     var valNombre = nombres.includes(datosNombre)
     var valCorreo = correos.includes(datosCorreo)
     var valPassword = passwords.includes(datosPassword)
+    console.log(nombre)
+    console.log(correo)
+    console.log(password)
+    
 
 
 //Validación de usuario y crear usuario en uso    
@@ -46,6 +52,17 @@ function validacion(datos, usuarios){
     }else{
         return false
     }
+}
+
+function validacion2(datos, usuarios){
+    console.log(usuarios)
+    console.log(datos)
+    const existe = usuarios.some(obj =>
+        obj.nombre === datos.nombre &&
+        obj.correo === datos.correo &&
+        obj.password === datos.password
+    );
+    console.log(existe)
 }
 
 //MOSTRAR VENTANA MODAL
@@ -238,4 +255,5 @@ module.exports = {
     accionTabla : accionTabla,
     mostrarArchivo : mostrarArchivo,
     filtrarTabla : filtrarTabla,
+    validacion2 : validacion2,
 }
