@@ -1,11 +1,23 @@
 const express = require('express');
 const app = express();
-
+const dotenv = require("dotenv");
+dotenv.config()
 const fs = require("fs");
 const path = require ("path");
 const morgan = require("morgan");
 const pdf = require("pdf-parse-new")
+const mongoose = require('mongoose');
 
+async function conectarDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_DB_URI);
+    console.log('✅ Conectado a MongoDB Atlas');
+  } catch (error) {
+    console.error('❌ Error de conexión:', error);
+  }
+}
+
+conectarDB();
 
 const statics = path.join(__dirname,"archivos")
 
@@ -40,7 +52,9 @@ app.use((req, res, next) =>{
 app.set("bases", path.join(__dirname,"./archivos/bases"))
 
 //Escucha del Servidor
-app.listen(process.env.PORT || 3000);
+app.listen(PORT, () => {
+     console.log(`Servidor escuchando en http://localhost:${PORT}`)
+});
 
 
 
