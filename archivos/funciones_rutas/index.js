@@ -222,7 +222,6 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
         // REGISTRAR SOLICITUD  
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
             var nuevaSolicitud = await js.solicitud(datos)
-            //await usuarioEnUsoDB.deleteOne({correo: usuarioborrado});
             await solicitudesEmpleoDB.create(nuevaSolicitud);
             console.log(nuevaSolicitud)
             res.render("procesosExternos.pug", {
@@ -265,8 +264,10 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
 //TABLA DE SOLICITUDES
 var datosBoton = req.body.boton.split("-")
 var boton = datosBoton[0]
-if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
-    var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
+var registro = datosBoton[1]
+if(boton == "solicitudes"){
+    var base = solicitudesEmpleo
+    //var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
     res.render("procesosEspecificos.pug",{
         h1 : usuarioNavegacion.nombre, 
         accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -274,9 +275,22 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
         solicitudes : js.mostrarOcultarContenido(),
         base1 : base
         })
+    }else if(boton == "eliminar"){
+        var base = solicitudesEmpleo
+        console.log(datosBoton)
+        await solicitudesEmpleoDB.deleteOne({correo: registro});
+        var borrado = await solicitudesEmpleoDB.find()
+        //var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
+    res.render("procesosEspecificos.pug",{
+        h1 : usuarioNavegacion.nombre, 
+        accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+        proceso: "seleccion",
+        solicitudes : js.mostrarOcultarContenido(),
+        base1 : borrado
+        })
 }else if(boton == "cv"){
     res.setHeader('Content-Type', 'application/pdf');
-    res.send(js.mostrarArchivo(datosBoton[1], var_const.rutaSolicitudes))
+    res.send(js.mostrarArchivo(datosBoton[1], solicitudesEmpleo))
 }else if(boton == "fCv"){
     var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes, req.body.filtrocv)
     res.render("procesosEspecificos.pug", {

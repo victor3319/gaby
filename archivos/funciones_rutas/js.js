@@ -46,7 +46,7 @@ function base64(){
 
 function mostrarArchivo(registro, rutaRegistros){
     var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
-    var registroBuscado = base.filter(item => item.email == registro)
+    var registroBuscado = base.filter(item => item.correo == registro)
     var base64 = registroBuscado[0].archivo
     var buffer = Buffer.from(base64, 'base64');
     
@@ -139,6 +139,7 @@ function filtrarTabla(datos, rutaRegistros){
 return resultados
     
 }
+
 
 function accionTabla(array, rutaRegistro, objetoRegistro, datos){
     var registro = array[1]

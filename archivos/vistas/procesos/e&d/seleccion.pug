@@ -29,15 +29,15 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                     td(name="nombres")= solicitante.nombres
                     td(name="apellidos")= solicitante.apellidos
                     td(name="telefono")= solicitante.telefono
-                    td(name="email")= solicitante.email
+                    td(name="correo")= solicitante.correo
                     td(name="carrera")= solicitante.carrera
                     td
-                        button.hmi(name="boton" value="cv"+"-"+solicitante.email formtarget="_blank")
-                            img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.email alt="Botón Acción")
+                        button.hmi(name="boton" value="cv"+"-"+solicitante.correo formtarget="_blank")
+                            img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.correo alt="Botón Acción")
                     td(name="linkedin")= solicitante.linkedIn
                     td
-                        button.hm(name="boton" value="eliminar"+"-"+solicitante.email) Eliminar
-                        button.hm(name="boton" value="editar"+"-"+solicitante.email) Editar
+                        button.hm(name="boton" value="eliminar"+"-"+solicitante.correo) Eliminar
+                        button.hm(name="boton" value="editar"+"-"+solicitante.correo) Editar
                                     
 
                 
