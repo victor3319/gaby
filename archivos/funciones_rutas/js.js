@@ -6,63 +6,25 @@ const { response } = require("express");
 const { registerHooks } = require("module");
 const { basename } = require("path");
 
+
 //VALIDACION DE USUARIOS
-function validacion(datos, usuarios){
-    var {nombre, correo, password} = datos
-    
-    var nombres = []
-    var correos = []
-    var passwords = []
-    var datosNombre = datos.nombre
-    var datosCorreo = datos.correo
-    var datosPassword = datos.password
 
-    usuarios.map((item) => nombres.push(item.nombre))
-    usuarios.map((item) => correos.push(item.correo))
-    usuarios.map((item) => passwords.push(item.password))
-    
-
-    var valNombre = nombres.includes(datosNombre)
-    var valCorreo = correos.includes(datosCorreo)
-    var valPassword = passwords.includes(datosPassword)
-    console.log(nombre)
-    console.log(correo)
-    console.log(password)
-    
-
-
-//Validación de usuario y crear usuario en uso    
-    if(valNombre == true && valCorreo == true && valPassword == true){
-        var usuarios = var_const.usuarios
-        var usuarioEnUso = []
-        usuarioEnUso.push(datosNombre)
-        usuarioEnUso.push(datosCorreo)
-        var accesos = usuarios.find(prop => prop.correo == datosCorreo)
-        usuarioEnUso.push(Object.keys(accesos.accesos[0]))
-        
-        var jsonUsuarioEnUso = JSON.stringify(usuarioEnUso);
-        
-        fs.writeFile("./archivos/bases/usuarioEnUso.json", jsonUsuarioEnUso, (error)=>{
-                    if(error)throw error;
-                    console.log("Informacion Recibida");
-                })
-
-        return true
-        
-    }else{
-        return false
-    }
-}
-
-function validacion2(datos, usuarios){
-    console.log(usuarios)
-    console.log(datos)
+function validacionUsuario(datos, usuarios){
     const existe = usuarios.some(obj =>
         obj.nombre === datos.nombre &&
         obj.correo === datos.correo &&
         obj.password === datos.password
     );
-    console.log(existe)
+    var datosIngreso = []
+    datosIngreso.push(existe, datos.nombre, datos.correo, datos.password)
+    return datosIngreso
+}
+
+function validarRegistro(datos,registros){
+    const existe = registros.some(obj =>
+        obj.correo === datos.correo
+    );
+    return existe
 }
 
 //MOSTRAR VENTANA MODAL
@@ -209,15 +171,6 @@ function pdfA(archivo){
     }
 }
 
-function validarRegistro(datos,ruta){
-    var base = JSON.parse(fs.readFileSync(ruta, "utf-8"));
-    for( var i= 0; i < base.length; i++){
-        if(datos.email == base[i].email){
-            return false
-        }    
-    }
-}
-
 function registrar(datos, ruta){
     var base = JSON.parse(fs.readFileSync(ruta, "utf-8"));
     base.push(datos)
@@ -225,23 +178,19 @@ function registrar(datos, ruta){
     fs.writeFileSync(ruta, nuevaBase, "utf-8");
 }
 
-async function solicitud(datos,solicitudes){
+async function solicitud(datos){
     delete datos.boton
     var base = await base64()
     var texto = await textoPdf()
     datos.texto = texto
     datos.archivo = base
-    var registro = registrar(datos, solicitudes)
+    return datos
 }
 
 
 
 
-
-
-
 module.exports = {
-    validacion : validacion,
     mostrar : mostrar,
     cambioPassword : cambioPassword,
     listadoSecundario : listadoSecundario,
@@ -255,5 +204,5 @@ module.exports = {
     accionTabla : accionTabla,
     mostrarArchivo : mostrarArchivo,
     filtrarTabla : filtrarTabla,
-    validacion2 : validacion2,
+    validacionUsuario : validacionUsuario,
 }

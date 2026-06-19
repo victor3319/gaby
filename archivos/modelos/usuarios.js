@@ -1,16 +1,5 @@
 const mongoose = require("mongoose");
 
-//SUB ESQUEMA 
-const accesosEsquema = new mongoose.Schema({
- ADP : {
-    type: String
- },
- EYD : {
-    type: String
- }
- 
-})
-
 //ESQUEMA
 const usuariosEsquema = new mongoose.Schema({
     nombre:{
@@ -29,10 +18,10 @@ const usuariosEsquema = new mongoose.Schema({
         type:String,
         required: true
     },
-    accesos: {
-        type: [accesosEsquema],
-        required: true
-    }
+    accesos: [{
+        ADP : {type: mongoose.Schema.Types.Mixed},
+        EYD : {type: mongoose.Schema.Types.Mixed}
+    }]
 })
 
 const usuariosModelo = new mongoose.model("usuarios", usuariosEsquema)

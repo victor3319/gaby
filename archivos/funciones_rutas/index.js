@@ -8,8 +8,10 @@ const multer = require("multer");
 const pdf = require("pdf-parse-new");
 
 //MODELOS IMPORTADOS
-const usuarioEnUso = require("../modelos/usuarioEnUso");
+const usuarioEnUsoDB = require("../modelos/usuarioEnUso");
 const usuariosDB = require("../modelos/usuarios");
+const solicitudesEmpleoDB = require("../modelos/solicitudesEmpleo")
+const console = require("console");
 
 //leer pdf
 /*const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
@@ -19,7 +21,7 @@ pdf(dataBuffer).then(function(datos){
 // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
 */
 
-var usuario = []
+var usuarioNavegacion = ""
 
 //Configurar almacenamiento
         const storage = multer.diskStorage({
@@ -41,20 +43,21 @@ router.get("/", (req, res, next) =>{
     return usuario
 })
 
-router.get("/home", (req, res, next) =>{
+router.get("/home", async(req, res, next) =>{
+    console.log(usuarioNavegacion)
     res.render("home.pug",{
-        h1 : var_const.usuarioEnUso[0], 
-        accesos: var_const.usuarioEnUso[2]
+        h1 : usuarioNavegacion.nombre,
+        accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
     })
     next()
 })
 
-router.get("/procesos", (req, res, next) =>{
+router.get("/procesos", async(req, res, next) =>{
+    const usuarioEnUso = await usuarioEnUsoDB.find()
     var proceso = req.body.proceso
     res.render("procesos.pug",{
-        h1 : var_const.usuarioEnUso[0], 
-        accesos: var_const.usuarioEnUso[2],
-        subProcesos : js.listadoSecundario(var_const.procesos, proceso)
+        h1 : usuarioNavegacion.nombre, 
+        accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1)
     })
     
     next()
@@ -62,37 +65,29 @@ router.get("/procesos", (req, res, next) =>{
 
 router.post("/new-entry", async (req, res, next)=>{   
     const usuarios = await usuariosDB.find()
+    const usuarioEnUso = await usuarioEnUsoDB.find()
+    
     var datos = req.body
     var boton = req.body.boton
-    res.render("home.pug", {
-                datos : js.validacion2(datos, usuarios)})
     
-    
-    /*var boton = req.body.boton
-    var todos = await usuarioEnUso.find()
-    console.log(todos)*/
-    /*if(boton == "olvidar"){
+    if(boton == "olvidar"){
         res.render("index.pug", {olvidar : js.mostrar()})
     }else{
-        var validacion = js.validacion(req.body, var_const.usuarios);
-        if(validacion == true){
+        var validacion = js.validacionUsuario(datos, usuarios);
+        if(validacion[0] == true){
+            var usuariobase = (usuarios.filter(usuario => usuario.correo === validacion[2]))[0]
+            usuarioNavegacion = usuariobase.toObject()
+
             res.render("home.pug", {
-                h1 : req.body.nombre, 
-                accesos: var_const.usuarioEnUso[2]
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             })
         }
         else{
             res.render("index.pug", {mostrar : js.mostrar()})
-        }
-
-        usuario.push(js.nombre(req.body));
-        usuario.push(js.accesos(req.body, var_const.usuarios))
-
-     
-        return usuario
-    }*/
+        }       
+    }
     next()
-    
 })
 
 
@@ -101,15 +96,15 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     var boton = req.body.boton  
     if(boton == "recibos" || boton == "cerrarR"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: "recibos"
         })
     }
     if(boton == "cargarRecibos"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0],
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: boton,
             recibos : js.mostrar()
         })
@@ -120,15 +115,15 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         const {legajo, mes, ano, archivo} = req.body;
         if(legajo =="" || mes=="" || ano=="" || archivo==""){
             res.render("procesosEspecificos.pug", {
-                h1 : var_const.usuarioEnUso[0], 
-                accesos: var_const.usuarioEnUso[2],
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: boton, 
                 completar : js.mostrar()
             })
         }else{            
                 res.render("procesosEspecificos.pug", {
-                    h1 : var_const.usuarioEnUso[0], 
-                    accesos: var_const.usuarioEnUso[2],
+                    h1 : usuarioNavegacion.nombre, 
+                    accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                     proceso: boton
                 })    
         
@@ -154,15 +149,15 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
     //Cruce de Novedades
     if(boton == "novedades" || boton == "cerrarN"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: boton
         })
     }
     if(boton == "cruce"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: boton,
             cruce : js.mostrar() 
         })
@@ -181,11 +176,11 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 })
 
 //RUTAS EXTERNAS
-router.post("/externo", upload.single('archivo'), (req, res, next)=>{
+router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
     var boton = req.body.boton
     var datos = req.body
     var cv = req.file
-    var ruta = var_const.rutaSolicitudes
+    var solicitudesEmpleo = await solicitudesEmpleoDB.find()
     
     
     //SOLICITUD DE EMPLEO
@@ -219,17 +214,20 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
             })  
         }
         // VALIDACIONN DE REGISTRO
-        if(js.validarRegistro(datos, ruta)== false){
+        if(js.validarRegistro(datos, solicitudesEmpleo)== true){
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
                 registro: js.mostrar()
             })
         // REGISTRAR SOLICITUD  
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
-            
+            var nuevaSolicitud = await js.solicitud(datos)
+            //await usuarioEnUsoDB.deleteOne({correo: usuarioborrado});
+            await solicitudesEmpleoDB.create(nuevaSolicitud);
+            console.log(nuevaSolicitud)
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                ejecucion: js.solicitud(datos, ruta),
+                //ejecucion: js.solicitud(datos, ruta),
                 exito: js.mostrar()
             })  
         }
@@ -250,15 +248,17 @@ router.post("/externo", upload.single('archivo'), (req, res, next)=>{
 
 
 //RUTAS EMPLEO Y DESARROLLO
-router.post("/e&d", upload.single('archivo'), (req, res, next)=>{   
+router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{   
     var boton = req.body.boton
+    var solicitudesEmpleo = await solicitudesEmpleoDB.find()
     var rutaSolicitudes = var_const.rutaSolicitudes
+    
     if(boton == "seleccion" || boton == "cerrarS"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: "seleccion",
-            base1 : var_const.objetoSolicitudes
+            base1 : solicitudesEmpleo
         })
     }
 
@@ -268,8 +268,8 @@ var boton = datosBoton[0]
 if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
     var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes)
     res.render("procesosEspecificos.pug",{
-        h1 : var_const.usuarioEnUso[0], 
-        accesos: var_const.usuarioEnUso[2],
+        h1 : usuarioNavegacion.nombre, 
+        accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
         proceso: "seleccion",
         solicitudes : js.mostrarOcultarContenido(),
         base1 : base
@@ -280,8 +280,8 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
 }else if(boton == "fCv"){
     var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes, req.body.filtrocv)
     res.render("procesosEspecificos.pug", {
-        h1 : var_const.usuarioEnUso[0], 
-        accesos: var_const.usuarioEnUso[2],
+        h1 : usuarioNavegacion.nombre, 
+        accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
         proceso: "seleccion",
         solicitudes : js.mostrarOcultarContenido(),
         base1 : base
@@ -293,8 +293,8 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
 //TABLA BUSQUEDAS
     if(boton == "busquedas" || boton == "cerrarS"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: "seleccion",
             busquedas : js.mostrarOcultarContenido(),
             base1 : var_const.objetoSolicitudes
@@ -303,8 +303,8 @@ if(boton == "solicitudes" || boton == "eliminar" || boton == "editar"){
 //TABLA POSTULACIONES
     if(boton == "postulados" || boton == "cerrarS"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: "seleccion",
             postulados : js.mostrarOcultarContenido(),
             base1 : var_const.objetoSolicitudes
@@ -320,16 +320,16 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
     var subProceso = req.body.subProceso
     if(boton == "descargas"){
         res.render("procesos.pug",{
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
             descargas : js.mostrar()
         })
     }
     if(boton == "procesos" && proceso == "accesos"){
         res.render("procesos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
             completar : js.mostrar()
         })
@@ -337,8 +337,8 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
 
     if(boton == "procesos" && proceso != "accesos"){
         res.render("procesos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             subProcesos : js.listadoSecundario(var_const.procesos, proceso),
             descargas2 : js.mostrar()
         })
@@ -346,8 +346,8 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
 
     if(boton == "subProcesos" && subProceso == "subProcesos"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             subProcesos : js.listadoSecundario(var_const.procesos, proceso)
         })
     }
@@ -358,8 +358,8 @@ router.post("/procesosEspecificos", upload.single('archivo'), (req, res, next)=>
     var boton = req.body.boton
     if(boton == "cargarRecibos"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: boton
             //recibos : js.mostrar()
         })
@@ -367,8 +367,8 @@ router.post("/procesosEspecificos", upload.single('archivo'), (req, res, next)=>
 
     if(boton == "novedades"){
         res.render("procesosEspecificos.pug", {
-            h1 : var_const.usuarioEnUso[0], 
-            accesos: var_const.usuarioEnUso[2],
+            h1 : usuarioNavegacion.nombre, 
+            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             proceso: boton 
             //cruce : js.mostrar()
         })
