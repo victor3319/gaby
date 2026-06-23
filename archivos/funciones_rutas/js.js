@@ -44,9 +44,8 @@ function base64(){
 
 //CONVERTIR DE BASE64 A ARCHIVO
 
-function mostrarArchivo(registro, rutaRegistros){
-    var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
-    var registroBuscado = base.filter(item => item.correo == registro)
+function mostrarArchivo(registro, registros){
+    var registroBuscado = registros.filter(item => item.correo == registro)
     var base64 = registroBuscado[0].archivo
     var buffer = Buffer.from(base64, 'base64');
     
@@ -112,21 +111,12 @@ function mostrarOcultarContenido(){
 }
 
 //ACCIONES EN TABLAS
-function eliminarRegistro(registro, rutaRegistros){
-    var baseNueva = []
-    var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
-    var nuevosRegistros = base.filter(item => item.email !== registro)
-    var nuevaBase = JSON.stringify(nuevosRegistros)
-    fs.writeFileSync(rutaRegistros, nuevaBase, "utf-8");
 
-    return nuevosRegistros
-}
-
-function filtrarTabla(datos, rutaRegistros){
-    var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
+function filtrarTabla(datos, registros){
+    //var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
     var array = datos.split(" ")
 
-    var resultados = base.filter(registro => {
+    var resultados = registros.filter(registro => {
     // Convierte a minúsculas para búsqueda insensible a mayúsculas
     const nombreMinusculas = registro.texto.toLowerCase();
     
@@ -138,23 +128,6 @@ function filtrarTabla(datos, rutaRegistros){
 
 return resultados
     
-}
-
-
-function accionTabla(array, rutaRegistro, objetoRegistro, datos){
-    var registro = array[1]
-    if(array[0] == "eliminar"){
-        var eli = eliminarRegistro(registro, rutaRegistro)
-        return eli
-    }else if(array[0] == "editar"){
-        console.log(registro + "editar")
-        return objetoRegistro
-    }else if(array[0] == "fCv"){
-        var filtrado = filtrarTabla(datos, rutaRegistro)
-        return filtrado
-    }else{
-       return objetoRegistro
-    }
 }
 
 
@@ -202,7 +175,6 @@ module.exports = {
     solicitud : solicitud,
     registrar : registrar,
     mostrarOcultarContenido : mostrarOcultarContenido,
-    accionTabla : accionTabla,
     mostrarArchivo : mostrarArchivo,
     filtrarTabla : filtrarTabla,
     validacionUsuario : validacionUsuario,

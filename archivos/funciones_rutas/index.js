@@ -37,6 +37,7 @@ var usuarioNavegacion = ""
 
 
 router.get("/", (req, res, next) =>{
+    usuarioNavegacion = ""
     res.render("index.pug")
     next()
     usuario = []
@@ -292,7 +293,8 @@ if(boton == "solicitudes"){
     res.setHeader('Content-Type', 'application/pdf');
     res.send(js.mostrarArchivo(datosBoton[1], solicitudesEmpleo))
 }else if(boton == "fCv"){
-    var base = js.accionTabla(datosBoton, var_const.rutaSolicitudes, var_const.objetoSolicitudes, req.body.filtrocv)
+    var base = js.filtrarTabla(req.body.filtrocv, solicitudesEmpleo)
+    console.log(base)
     res.render("procesosEspecificos.pug", {
         h1 : usuarioNavegacion.nombre, 
         accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),

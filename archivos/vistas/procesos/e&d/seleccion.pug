@@ -57,13 +57,15 @@ div.containerSp(name="postulados" style={display : postulados})
 
 div.containerSp(name="busquedas" style={display : busquedas})
     h1.h Búsquedas
+    button.hm(name="boton" value="nuevaBusqueda") Agregar Busqueda
+    button.hm(name="boton" value="fBusqueda") Filtrar
     input.input(type="", name="filtroBusquedas")
     table 
         tr
-            th Código
             th Cargo
-            th Departamento
-            th Fecha de Solicitud
+            th Cliente
+            th Correo Cliente
+            th Fecha de Inicio
             th Fecha de Cierre
             th Estatus
             th Postulaciones Activas

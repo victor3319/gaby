@@ -38,6 +38,8 @@ const solicitudesEmpleoEsquema = new mongoose.Schema({
         type:String,
         required: true
     },
+    fechaSolicitud: { 
+        type: Date, default: Date.now }
 })
 
 const solicitudesEmpleoModelo = new mongoose.model("solicitudesEmpleo", solicitudesEmpleoEsquema)
