@@ -163,7 +163,6 @@ async function solicitud(datos){
 
 
 
-
 module.exports = {
     mostrar : mostrar,
     cambioPassword : cambioPassword,

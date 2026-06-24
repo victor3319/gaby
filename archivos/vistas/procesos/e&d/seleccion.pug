@@ -6,8 +6,8 @@ div.containerP
 
 div.containerSp(name="solicitudes" style={display : solicitudes})           
     h1.h Solicitudes de Empleo
-    button.hm(name="boton" value="fCv") Filtrar
-    input.input(type="text" name="filtrocv")
+    button.hm(name="boton" value="fCv1") Filtrar
+    input.input(type="text" name="filtrocv1")
     table(name="tabla")
         thead 
             tr
@@ -17,7 +17,11 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 th Teléfono
                 th Email
                 th Carrera o Especialidad
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
                 th CV
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
                 th LinkedIn 
                 th Acción
         tbody
@@ -50,9 +54,17 @@ div.containerSp(name="postulados" style={display : postulados})
             th Nombre
             th Apellido
             th Cargo
+                br
+                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
             th Carrera O Especialidad
             th CV
+            th Entrevistas RRHH
+            th Entrevistas Jefe 
+            th Médico
+            th Ambiental 
             th Estatus
+                br
+                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
             th Acción
 
 div.containerSp(name="busquedas" style={display : busquedas})
@@ -62,14 +74,16 @@ div.containerSp(name="busquedas" style={display : busquedas})
     input.input(type="", name="filtroBusquedas")
     table 
         tr
+            th Codigo
             th Cargo
+                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
             th Cliente
+                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
             th Correo Cliente
             th Fecha de Inicio
             th Fecha de Cierre
             th Estatus
-            th Postulaciones Activas
-            th Postulaciones Evaluadas
+                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
             th Entrevistas RRHH 
             th Entrevistas Jefe 
             th Médico
