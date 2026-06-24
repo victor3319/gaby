@@ -90,4 +90,33 @@ div.containerSp(name="busquedas" style={display : busquedas})
             th Ambiental
             th Acción
 
+    dialog.ventana(name="busqueda" open=busqueda)
+        h1 Aguegue los datos de la Nueva Busqueda
+        div.input-group
+            label Codigo
+            input.input(type="", name="codigo")
+            br
+            label Cargo
+            input.input(type="", name="cargo")
+            br
+            label Cliente
+            input.input(type="", name="cliente")
+            br
+            label Correo Cliente
+            input.input(type="", name="correoCliente")
+            br
+            label Fecha Inicio
+            input.input(type="", name="fInicioBusqueda")
+            br
+            label Responsabilidades
+            input.input(type="", name="responsabilidades")
+            br
+            label Lugar de Trabajo
+            input.input(type="", name="lTrabajo")
+            
+        a(href="/procesosEspecificos") 
+            button.boton-ok(type= "submit" name="boton" value="cargarR") Cargar
+        a(href="/externo")
+            button.boton-nook(name="boton" value="cerrar") Cerrar
+
     
