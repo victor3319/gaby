@@ -30,15 +30,15 @@ html(lang="en")
                         label Password
                         input.input(type="password", name="password")
                         button.boton-ok(name="boton" value="ingresar") Ingresar
-                        button.boton-ok(name="boton" value="olvidar") No Recuerdo
+                        button.boton-nook(name="boton" value="olvidar") No Recuerdo
                     
-            dialog(name="respuesta" open=mostrar)
+            dialog.ventana(name="respuesta" open=mostrar)
                 h1 Error en Datos
                 p Algunos datos ingresados son erroneos o no te encuentras registrado o autorizado
                 a(href="/")
                     input.boton-nook(type="button", value="cerrar")
 
-            dialog(name="respuesta" open=olvidar)
+            dialog.ventana(name="respuesta" open=olvidar)
                 h1 Si no recuerdas
                 p Sus datos de ingreso son su nombre su correo registrado y como pasword su fecha de nacimiento sin caracteres especiales, en caso de no recordarlo comuniquese con el Administrador
                 a(href="/")

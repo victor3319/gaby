@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 //ESQUEMA
 const busquedasEsquema = new mongoose.Schema({
+    codigo:{
+        type:String,
+        required: true
+    },
     cargo:{
         type:String,
         required: true
@@ -26,34 +30,21 @@ const busquedasEsquema = new mongoose.Schema({
         type:String,
         required: true
     },
-    postulacionesActivas: {
+    postulados: {
         type:String,
         required: true
     },
-    postulacionesEvaluadas: {
+    enProceso: {
+        RRHH : {type: mongoose.Schema.Types.Mixed},
+        jefe : {type: mongoose.Schema.Types.Mixed},
+        pruebas : {type: mongoose.Schema.Types.Mixed},
+        medico : {type: mongoose.Schema.Types.Mixed},
+        ambiental : {type: mongoose.Schema.Types.Mixed}
+    },
+    descartados: {
         type:String,
         required: true
     },
-    entrevistaRRHH: {
-        type:String,
-        required: true
-    },
-    EntrevistaJefe: {
-        type:String,
-        required: true
-    },
-    medico: {
-        type:String,
-        required: true
-    },
-    ambiental: {
-        type:String,
-        required: true
-    },
-    Descripcion: [{
-        ADP : {type: mongoose.Schema.Types.Mixed},
-        EYD : {type: mongoose.Schema.Types.Mixed}
-    }]
 })
 
 const busquedasModelo = new mongoose.model("busquedas", busquedasEsquema)

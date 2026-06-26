@@ -16,13 +16,17 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 th Apellido
                 th Teléfono
                 th Email
+                th LinkedIn 
                 th Carrera o Especialidad
                     br
                     input.filtro(type="text" data-col="0" placeholder="Filtrar...")
                 th CV
                     br
                     input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-                th LinkedIn 
+                th Cargo/Planta
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                th Fecha/Procesos
                 th Acción
         tbody
         -var cantidad=0 
@@ -34,11 +38,13 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                     td(name="apellidos")= solicitante.apellidos
                     td(name="telefono")= solicitante.telefono
                     td(name="correo")= solicitante.correo
+                    td(name="linkedin")= solicitante.linkedIn
                     td(name="carrera")= solicitante.carrera
                     td
                         button.hmi(name="boton" value="cv"+"-"+solicitante.correo formtarget="_blank")
                             img.imgIcono(src="img/PDF.png", name="boton" value="cv"+"-"+solicitante.correo alt="Botón Acción")
-                    td(name="linkedin")= solicitante.linkedIn
+                    td(name="cargo")= solicitante.cargo
+                    td(name="procesos")= solicitante.procesos
                     td
                         button.hm(name="boton" value="eliminar"+"-"+solicitante.correo) Eliminar
                         button.hm(name="boton" value="editar"+"-"+solicitante.correo) Editar
@@ -53,11 +59,11 @@ div.containerSp(name="postulados" style={display : postulados})
         tr
             th Nombre
             th Apellido
+            th Carrera O Especialidad
+            th CV
             th Cargo
                 br
                 input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Carrera O Especialidad
-            th CV
             th Entrevistas RRHH
             th Entrevistas Jefe 
             th Médico
@@ -70,34 +76,37 @@ div.containerSp(name="postulados" style={display : postulados})
 div.containerSp(name="busquedas" style={display : busquedas})
     h1.h Búsquedas
     button.hm(name="boton" value="nuevaBusqueda") Agregar Busqueda
-    button.hm(name="boton" value="fBusqueda") Filtrar
-    input.input(type="", name="filtroBusquedas")
     table 
         tr
             th Codigo
+            th Tipo
             th Cargo
+                br
                 input.filtro(type="text" data-col="0" placeholder="Filtrar...")
             th Cliente
+                br
                 input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Correo Cliente
             th Fecha de Inicio
             th Fecha de Cierre
             th Estatus
+                br
                 input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Entrevistas RRHH 
-            th Entrevistas Jefe 
-            th Médico
-            th Ambiental
+            th Postulados
+            th En Proceso 
+            th Descartados
             th Acción
 
     dialog.ventana(name="busqueda" open=busqueda)
-        h1 Aguegue los datos de la Nueva Busqueda
+        h1 Agregue los datos de la Nueva Busqueda
         div.input-group
             label Codigo
             input.input(type="", name="codigo")
             br
             label Cargo
             input.input(type="", name="cargo")
+            br
+            label Tipo
+            input.input(type="", name="tipo")
             br
             label Cliente
             input.input(type="", name="cliente")
@@ -109,14 +118,19 @@ div.containerSp(name="busquedas" style={display : busquedas})
             input.input(type="", name="fInicioBusqueda")
             br
             label Responsabilidades
+            button.hm(name="boton" value="responsabilidades") Agregar
             input.input(type="", name="responsabilidades")
+            h3 Lista de Responsabilidades
+            ul
+                each r in responsabilidades
+                    li= r
             br
             label Lugar de Trabajo
             input.input(type="", name="lTrabajo")
             
         a(href="/procesosEspecificos") 
-            button.boton-ok(type= "submit" name="boton" value="cargarR") Cargar
-        a(href="/externo")
-            button.boton-nook(name="boton" value="cerrar") Cerrar
+            button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
+        a(href="/procesosEspecificos")
+            button.boton-nook(name="boton" value="busquedas") Cerrar
 
     

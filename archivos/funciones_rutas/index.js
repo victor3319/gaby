@@ -22,6 +22,7 @@ pdf(dataBuffer).then(function(datos){
 */
 
 var usuarioNavegacion = ""
+var responsabilidades = []
 
 //Configurar almacenamiento
         const storage = multer.diskStorage({
@@ -269,6 +270,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
+                responsabilidades : responsabilidades,
                 base1 : solicitudesEmpleo
             })
         }
@@ -284,6 +286,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
+                responsabilidades : responsabilidades,
                 base1 : base
                 })
         }else if(boton == "eliminar"){
@@ -315,14 +318,41 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
 
 
     //TABLA BUSQUEDAS
-        if(boton == "busquedas" || boton == "cerrarS"){
+        if(boton == "busquedas"){
+            responsabilidades = []
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 busquedas : js.mostrarOcultarContenido(),
+                responsabilidades : responsabilidades,
                 base1 : var_const.objetoSolicitudes
             })
+        }else if(boton == "nuevaBusqueda" || boton == "cerrarB"){
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                busquedas : js.mostrarOcultarContenido(),
+                busqueda : js.mostrar(),
+                responsabilidades : responsabilidades,
+                base1 : var_const.objetoSolicitudes
+            })
+        }else if(boton == "responsabilidades"){
+
+            var nuevaResponsabilidad = req.body.responsabilidades?.trim();
+            if(nuevaResponsabilidad){
+                responsabilidades.push(nuevaResponsabilidad)
+            }
+                res.render("procesosEspecificos.pug", {
+                    h1 : usuarioNavegacion.nombre, 
+                    accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                    proceso: "seleccion",
+                    busquedas : js.mostrarOcultarContenido(),
+                    busqueda : js.mostrar(),
+                    responsabilidades,
+                    base1 : var_const.objetoSolicitudes
+                })
         }
         //TABLA POSTULACIONES
         if(boton == "postulados" || boton == "cerrarS"){
@@ -331,6 +361,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 postulados : js.mostrarOcultarContenido(),
+                responsabilidades : responsabilidades,
                 base1 : var_const.objetoSolicitudes
                 })
     }

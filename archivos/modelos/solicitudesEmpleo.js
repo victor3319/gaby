@@ -45,22 +45,17 @@ const solicitudesEmpleoEsquema = new mongoose.Schema({
         type:String,
         required: true
     },
-    entrevistaRRHH: [{
-            fecha : {type: mongoose.Schema.Types.Mixed},
-            estado : {type: mongoose.Schema.Types.Mixed}
+    enProceso: [{
+            RRHH : { type: mongoose.Schema.Types.Mixed },
+            jefe : {type: mongoose.Schema.Types.Mixed},
+            pruebas : {type: mongoose.Schema.Types.Mixed},
+            medico : {type: mongoose.Schema.Types.Mixed},
+            ambiental : {type: mongoose.Schema.Types.Mixed}
         }],
-    entrevistaJefe: [{
-            fecha : {type: mongoose.Schema.Types.Mixed},
-            estado : {type: mongoose.Schema.Types.Mixed}
-        }],
-    medico: [{
-            fecha : {type: mongoose.Schema.Types.Mixed},
-            estado : {type: mongoose.Schema.Types.Mixed}
-        }],
-    ambiental: [{
-            fecha : {type: mongoose.Schema.Types.Mixed},
-            estado : {type: mongoose.Schema.Types.Mixed}
-        }],
+    estatus: {
+        type:String,
+        required: true
+    }
 })
 
 const solicitudesEmpleoModelo = new mongoose.model("solicitudesEmpleo", solicitudesEmpleoEsquema)
