@@ -11,6 +11,7 @@ const pdf = require("pdf-parse-new");
 const usuarioEnUsoDB = require("../modelos/usuarioEnUso");
 const usuariosDB = require("../modelos/usuarios");
 const solicitudesEmpleoDB = require("../modelos/solicitudesEmpleo")
+const busquedasDB = require("../modelos/busquedas")
 const console = require("console");
 
 //leer pdf
@@ -22,7 +23,7 @@ pdf(dataBuffer).then(function(datos){
 */
 
 var usuarioNavegacion = ""
-var responsabilidades = []
+var listaResponsabilidades = []
 
 //Configurar almacenamiento
         const storage = multer.diskStorage({
@@ -264,14 +265,18 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
     }else{ 
         var boton = req.body.boton
         var solicitudesEmpleo = await solicitudesEmpleoDB.find()
+        var busquedas = await busquedasDB.find()
+        var codigoBusqueda = busquedas.length + 1
 
         if(boton == "seleccion" || boton == "cerrarS"){
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
-                responsabilidades : responsabilidades,
-                base1 : solicitudesEmpleo
+                listaResponsabilidades,
+                base1 : solicitudesEmpleo,
+                tBusquedas : busquedas
+                //formData: req.body,
             })
         }
         console.log(req.body.boton)
@@ -286,7 +291,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
-                responsabilidades : responsabilidades,
+                listaResponsabilidades,
+                tBusquedas : busquedas,
                 base1 : base
                 })
         }else if(boton == "eliminar"){
@@ -319,40 +325,70 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
 
     //TABLA BUSQUEDAS
         if(boton == "busquedas"){
-            responsabilidades = []
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
-                busquedas : js.mostrarOcultarContenido(),
-                responsabilidades : responsabilidades,
+                pBusquedas : js.mostrarOcultarContenido(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
                 base1 : var_const.objetoSolicitudes
             })
         }else if(boton == "nuevaBusqueda" || boton == "cerrarB"){
+            listaResponsabilidades = []
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
-                busquedas : js.mostrarOcultarContenido(),
+                pBusquedas : js.mostrarOcultarContenido(),
                 busqueda : js.mostrar(),
-                responsabilidades : responsabilidades,
+                tBusquedas : busquedas,
+                codigoBusqueda : codigoBusqueda,
+                listaResponsabilidades,
                 base1 : var_const.objetoSolicitudes
             })
         }else if(boton == "responsabilidades"){
 
             var nuevaResponsabilidad = req.body.responsabilidades?.trim();
             if(nuevaResponsabilidad){
-                responsabilidades.push(nuevaResponsabilidad)
+                listaResponsabilidades.push(nuevaResponsabilidad)
             }
                 res.render("procesosEspecificos.pug", {
                     h1 : usuarioNavegacion.nombre, 
                     accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                     proceso: "seleccion",
-                    busquedas : js.mostrarOcultarContenido(),
+                    pBusquedas : js.mostrarOcultarContenido(),
                     busqueda : js.mostrar(),
-                    responsabilidades,
+                    listaResponsabilidades,
+                    formData: req.body,
+                    codigoBusqueda,
                     base1 : var_const.objetoSolicitudes
                 })
+        }else if(boton == "cargarB"){
+            
+            const {codigo, cargo, tipo, cliente, correoCliente, lTrabajo, fInicioBusqueda} = req.body;
+            var nuevaBusqueda = {
+                codigo,
+                cargo,
+                tipo,
+                cliente,
+                correoCliente,
+                estatus : "Activa",
+                lTrabajo,
+                fInicioBusqueda,
+                listaResponsabilidades
+            }
+            console.log(nuevaBusqueda)
+            await busquedasDB.create(nuevaBusqueda);
+            listaResponsabilidades = []
+             res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                pBusquedas : js.mostrarOcultarContenido(),
+                listaResponsabilidades,
+                base1 : var_const.objetoSolicitudes
+            })
         }
         //TABLA POSTULACIONES
         if(boton == "postulados" || boton == "cerrarS"){
@@ -361,7 +397,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 postulados : js.mostrarOcultarContenido(),
-                responsabilidades : responsabilidades,
+                listaResponsabilidades,
+                tBusquedas : busquedas,
                 base1 : var_const.objetoSolicitudes
                 })
     }

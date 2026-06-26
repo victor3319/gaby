@@ -8,7 +8,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
     h1.h Solicitudes de Empleo
     button.hm(name="boton" value="fCv1") Filtrar
     input.input(type="text" name="filtrocv1")
-    table(name="tabla")
+    table(name="tablaSolicitudes")
         thead 
             tr
                 th #
@@ -55,78 +55,99 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
 div.containerSp(name="postulados" style={display : postulados})
     h1.h Postulados
     input.input(type="", name="filtroPostulados")
-    table 
-        tr
-            th Nombre
-            th Apellido
-            th Carrera O Especialidad
-            th CV
-            th Cargo
-                br
-                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Entrevistas RRHH
-            th Entrevistas Jefe 
-            th Médico
-            th Ambiental 
-            th Estatus
-                br
-                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Acción
+    table(name="tablaPostulaciones")
+        thead
+            tr
+                th Nombre
+                th Apellido
+                th Carrera O Especialidad
+                th CV
+                th Cargo
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                th Entrevistas RRHH
+                th Entrevistas Jefe 
+                th Médico
+                th Ambiental 
+                th Estatus
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                th Acción
+        
 
-div.containerSp(name="busquedas" style={display : busquedas})
+div.containerSp(name="busquedas" style={display : pBusquedas})
     h1.h Búsquedas
     button.hm(name="boton" value="nuevaBusqueda") Agregar Busqueda
-    table 
-        tr
-            th Codigo
-            th Tipo
-            th Cargo
-                br
-                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Cliente
-                br
-                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Fecha de Inicio
-            th Fecha de Cierre
-            th Estatus
-                br
-                input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-            th Postulados
-            th En Proceso 
-            th Descartados
-            th Acción
+    table(name="tablabusquedas")
+        thead 
+            tr
+                th Codigo
+                th Tipo
+                th Cargo
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                th Cliente
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                th Estatus
+                    br
+                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                th Fecha de Inicio
+                th Fecha de Cierre
+                th Postulados
+                th En Proceso 
+                th Descartados
+                th Acción
+        tbody
+        -var cantidad=0 
+            each busqueda in tBusquedas
+                -cantidad=cantidad+1
+                tr
+                    td(name="codigo")= busqueda.codigo
+                    td(name="tipo")= busqueda.tipo
+                    td(name="cargo")= busqueda.cargo
+                    td(name="cliente")= busqueda.cliente
+                    td(name="estatus")= busqueda.estatus
+                    td(name="fInicioBusqueda")= busqueda.fInicioBusqueda
+                    td(name="fCierreBusqueda")= busqueda.fCierreBusqueda
+                    td(name="postulados")= busqueda.postulados
+                    td(name="enProceso")= busqueda.enProceso
+                    td(name="descartado")= busqueda.descartado
+                    td
+                        button.hm(name="boton" value="eliminar"+"-"+busqueda.codigo) Eliminar
+                        button.hm(name="boton" value="editar"+"-"+busqueda.codigo) Editar
 
     dialog.ventana(name="busqueda" open=busqueda)
         h1 Agregue los datos de la Nueva Busqueda
         div.input-group
             label Codigo
-            input.input(type="", name="codigo")
+            input.input(type="", name="codigo" value = codigoBusqueda)
             br
             label Cargo
-            input.input(type="", name="cargo")
+            input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
             br
             label Tipo
-            input.input(type="", name="tipo")
+            input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
             br
             label Cliente
-            input.input(type="", name="cliente")
+            input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
             br
             label Correo Cliente
-            input.input(type="", name="correoCliente")
+            input.input(type="", name="correoCliente" value=(formData && formData.correoCliente) || "")
             br
+            label Lugar de Trabajo
+            input.input(type="", name="lTrabajo" value=(formData && formData.lTrabajo) || "")
             label Fecha Inicio
-            input.input(type="", name="fInicioBusqueda")
+            input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
             br
             label Responsabilidades
             button.hm(name="boton" value="responsabilidades") Agregar
             input.input(type="", name="responsabilidades")
             h3 Lista de Responsabilidades
             ul
-                each r in responsabilidades
+                each r in listaResponsabilidades
                     li= r
             br
-            label Lugar de Trabajo
-            input.input(type="", name="lTrabajo")
             
         a(href="/procesosEspecificos") 
             button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar

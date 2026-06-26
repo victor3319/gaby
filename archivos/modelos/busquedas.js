@@ -10,6 +10,10 @@ const busquedasEsquema = new mongoose.Schema({
         type:String,
         required: true
     },
+    tipo: {
+        type:String,
+        required: true
+    },
     cliente: {
         type:String,
         required: true
@@ -18,33 +22,32 @@ const busquedasEsquema = new mongoose.Schema({
         type:String,
         required: true
     },
-    fechaInicio: {
+    lTrabajo: {
         type:String,
         required: true
     },
-    fechaCierre: {
+    fInicioBusqueda: {
         type:String,
         required: true
     },
-    estatus: {
-        type:String,
-        required: true
-    },
-    postulados: {
-        type:String,
-        required: true
-    },
+
+    fechaCierre: {type: mongoose.Schema.Types.Mixed},
+
+    estatus: {type: mongoose.Schema.Types.Mixed},
+
+    postulados: {type: mongoose.Schema.Types.Mixed},
+
     enProceso: {
         RRHH : {type: mongoose.Schema.Types.Mixed},
         jefe : {type: mongoose.Schema.Types.Mixed},
         pruebas : {type: mongoose.Schema.Types.Mixed},
         medico : {type: mongoose.Schema.Types.Mixed},
-        ambiental : {type: mongoose.Schema.Types.Mixed}
+        ambiental : {type: mongoose.Schema.Types.Mixed},
+        
     },
-    descartados: {
-        type:String,
-        required: true
-    },
+    responsabilidades: {type: mongoose.Schema.Types.Mixed},
+
+    descartado : {type: mongoose.Schema.Types.Mixed}
 })
 
 const busquedasModelo = new mongoose.model("busquedas", busquedasEsquema)
