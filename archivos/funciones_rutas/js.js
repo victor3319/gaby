@@ -161,6 +161,14 @@ async function solicitud(datos){
     return datos
 }
 
+function codigo(datos){
+    var datos1 = datos[0]
+    var codigos = datos.map(dato => Number(dato.codigo))
+    var nuevoCodigo = Math.max(...codigos) + 1
+    
+    return nuevoCodigo
+}
+
 
 
 module.exports = {
@@ -177,4 +185,5 @@ module.exports = {
     mostrarArchivo : mostrarArchivo,
     filtrarTabla : filtrarTabla,
     validacionUsuario : validacionUsuario,
+    codigo : codigo,
 }

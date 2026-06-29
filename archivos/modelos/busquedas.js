@@ -45,7 +45,7 @@ const busquedasEsquema = new mongoose.Schema({
         ambiental : {type: mongoose.Schema.Types.Mixed},
         
     },
-    responsabilidades: {type: mongoose.Schema.Types.Mixed},
+    listaResponsabilidades: {type: mongoose.Schema.Types.Mixed},
 
     descartado : {type: mongoose.Schema.Types.Mixed}
 })

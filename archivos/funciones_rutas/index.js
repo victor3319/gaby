@@ -266,8 +266,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         var boton = req.body.boton
         var solicitudesEmpleo = await solicitudesEmpleoDB.find()
         var busquedas = await busquedasDB.find()
-        var codigoBusqueda = busquedas.length + 1
-
+        var codigoBusqueda = js.codigo(busquedas)
+    
         if(boton == "seleccion" || boton == "cerrarS"){
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
@@ -279,7 +279,6 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 //formData: req.body,
             })
         }
-        console.log(req.body.boton)
     //TABLA DE SOLICITUDES
         var datosBoton = req.body.boton.split("-")
         var boton = datosBoton[0]
@@ -341,9 +340,9 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
-                busqueda : js.mostrar(),
+                agregarBusqueda : js.mostrar(),
                 tBusquedas : busquedas,
-                codigoBusqueda : codigoBusqueda,
+                codigoBusqueda,
                 listaResponsabilidades,
                 base1 : var_const.objetoSolicitudes
             })
@@ -358,7 +357,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                     accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                     proceso: "seleccion",
                     pBusquedas : js.mostrarOcultarContenido(),
-                    busqueda : js.mostrar(),
+                    agregarBusqueda : js.mostrar(),
+                    tBusquedas : busquedas,
                     listaResponsabilidades,
                     formData: req.body,
                     codigoBusqueda,
@@ -378,7 +378,6 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 fInicioBusqueda,
                 listaResponsabilidades
             }
-            console.log(nuevaBusqueda)
             await busquedasDB.create(nuevaBusqueda);
             listaResponsabilidades = []
              res.render("procesosEspecificos.pug", {
@@ -386,9 +385,27 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
+                tBusquedas : busquedas,
                 listaResponsabilidades,
                 base1 : var_const.objetoSolicitudes
             })
+        }else if(boton == "editarB"){
+            var regitroAEditar = await busquedasDB.find({ codigo: registro });
+            listaResponsabilidades = regitroAEditar[0].listaResponsabilidades
+            console.log(listaResponsabilidades)
+
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                pBusquedas : js.mostrarOcultarContenido(),
+                editarBusqueda : js.mostrar(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                formData: regitroAEditar[0],
+                base1 : var_const.objetoSolicitudes
+            })
+        
         }
         //TABLA POSTULACIONES
         if(boton == "postulados" || boton == "cerrarS"){

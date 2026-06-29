@@ -114,20 +114,20 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                     td(name="enProceso")= busqueda.enProceso
                     td(name="descartado")= busqueda.descartado
                     td
-                        button.hm(name="boton" value="eliminar"+"-"+busqueda.codigo) Eliminar
-                        button.hm(name="boton" value="editar"+"-"+busqueda.codigo) Editar
+                        button.hm(name="boton" value="eliminarB"+"-"+busqueda.codigo) Eliminar
+                        button.hm(name="boton" value="editarB"+"-"+busqueda.codigo) Editar
 
-    dialog.ventana(name="busqueda" open=busqueda)
+    dialog.ventana(name="busqueda" open=agregarBusqueda)
         h1 Agregue los datos de la Nueva Busqueda
         div.input-group
             label Codigo
             input.input(type="", name="codigo" value = codigoBusqueda)
             br
-            label Cargo
-            input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
-            br
             label Tipo
             input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
+            br
+            label Cargo
+            input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
             br
             label Cliente
             input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
@@ -151,6 +151,49 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
             
         a(href="/procesosEspecificos") 
             button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
+        a(href="/procesosEspecificos")
+            button.boton-nook(name="boton" value="busquedas") Cerrar
+
+    dialog.ventana(name="editarBusqueda" open=editarBusqueda)
+        h1 Edite los datos de la Busqueda
+        h2 Datos Básicos de la Búsqueda
+        div.input-group
+            label Tipo
+            input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
+            br
+            label Cargo
+            input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
+            br
+            label Cliente
+            input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
+            br
+            label Correo Cliente
+            input.input(type="", name="correoCliente" value=(formData && formData.correoCliente) || "")
+            br
+            label Lugar de Trabajo
+            input.input(type="", name="lTrabajo" value=(formData && formData.lTrabajo) || "")
+            label Fecha Inicio
+            input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
+            br
+            label Responsabilidades
+            button.hm(name="boton" value="responsabilidades") Agregar
+            input.input(type="", name="responsabilidades")
+            h3 Lista de Responsabilidades
+            ul
+                each r in listaResponsabilidades
+                    li= r
+            br
+            h2 Datos del Proceso de la Búsqueda
+            br
+            label Estatus
+            input.input(type="", name="lTrabajo" value=(formData && formData.estatus) || "")
+            br
+            h3 Procesos
+
+            
+            
+        a(href="/procesosEspecificos") 
+            button.boton-ok(type= "submit" name="boton" value="modificarB") Modificar
         a(href="/procesosEspecificos")
             button.boton-nook(name="boton" value="busquedas") Cerrar
 
