@@ -170,6 +170,26 @@ function codigo(datos){
 }
 
 
+function normalizarBody(body) {
+   
+    const bodyLimpio = {};
+
+    for (const clave in body) {
+        if (Array.isArray(body[clave])) {
+
+            const valores = body[clave].filter(v => v !== "");
+
+            bodyLimpio[clave] = valores.length ? valores[0] : "";
+        } else {
+            bodyLimpio[clave] = body[clave];
+        }
+    }
+
+    return bodyLimpio;
+}
+
+
+
 
 module.exports = {
     mostrar : mostrar,
@@ -186,4 +206,5 @@ module.exports = {
     filtrarTabla : filtrarTabla,
     validacionUsuario : validacionUsuario,
     codigo : codigo,
+    normalizarBody : normalizarBody,
 }

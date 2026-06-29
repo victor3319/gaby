@@ -235,7 +235,6 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
             var nuevaSolicitud = await js.solicitud(datos)
             await solicitudesEmpleoDB.create(nuevaSolicitud);
-            console.log(nuevaSolicitud)
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
                 //ejecucion: js.solicitud(datos, ruta),
@@ -279,7 +278,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 //formData: req.body,
             })
         }
-    //TABLA DE SOLICITUDES
+        //TABLA DE SOLICITUDES
         var datosBoton = req.body.boton.split("-")
         var boton = datosBoton[0]
         var registro = datosBoton[1]
@@ -311,7 +310,6 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         }/*else if(valorFiltroCv != ""){
             //var base = js.filtrarTabla(req.body.filtrocv, solicitudesEmpleo)
             //var base = await solicitudesEmpleoDB.find({texto:{$regex: textoBuscado, $options: "i"}})
-            //console.log(valorFiltroCv)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -322,7 +320,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         }*/
 
 
-    //TABLA BUSQUEDAS
+        //TABLA BUSQUEDAS
         if(boton == "busquedas"){
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
@@ -331,10 +329,11 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
-                base1 : var_const.objetoSolicitudes
+                base1 : solicitudesEmpleo
             })
         }else if(boton == "nuevaBusqueda" || boton == "cerrarB"){
             listaResponsabilidades = []
+            console.log(req.body)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -344,11 +343,12 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 tBusquedas : busquedas,
                 codigoBusqueda,
                 listaResponsabilidades,
-                base1 : var_const.objetoSolicitudes
+                base1 : solicitudesEmpleo
             })
-        }else if(boton == "responsabilidades"){
-
-            var nuevaResponsabilidad = req.body.responsabilidades?.trim();
+        }else if(boton == "agregarResponsabilidad"){
+            var bodyLimpio = js.normalizarBody(req.body)
+            var nuevaResponsabilidad = bodyLimpio.responsabilidadAgregada?.trim();
+            
             if(nuevaResponsabilidad){
                 listaResponsabilidades.push(nuevaResponsabilidad)
             }
@@ -360,11 +360,49 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                     agregarBusqueda : js.mostrar(),
                     tBusquedas : busquedas,
                     listaResponsabilidades,
-                    formData: req.body,
+                    formData: bodyLimpio,
                     codigoBusqueda,
-                    base1 : var_const.objetoSolicitudes
+                    base1 : solicitudesEmpleo
                 })
-        }else if(boton == "cargarB"){
+        }else if(boton == "editarResponsabilidades"){            
+            var bodyLimpio = js.normalizarBody(req.body);
+            var editarResponsabilidad = req.body.responsabilidadEditada?.trim();
+            if(editarResponsabilidad){
+                listaResponsabilidades.push(editarResponsabilidad)
+            }
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                pBusquedas : js.mostrarOcultarContenido(),
+                editarBusqueda : js.mostrar(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                formData: bodyLimpio,
+                base1 : solicitudesEmpleo
+            })
+        }else if(boton == "eliminarResponsabilidad"){
+            var bodyLimpio = js.normalizarBody(req.body);
+            var index = parseInt(bodyLimpio.indexEliminar);
+
+            if(!isNaN(index)){
+                listaResponsabilidades.splice(index, 1);
+            }
+    
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                pBusquedas : js.mostrarOcultarContenido(),
+                editarBusqueda : js.mostrar(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                formData: bodyLimpio,
+                base1 : solicitudesEmpleo
+            })
+        }  
+        
+        else if(boton == "cargarB"){
             
             const {codigo, cargo, tipo, cliente, correoCliente, lTrabajo, fInicioBusqueda} = req.body;
             var nuevaBusqueda = {
@@ -387,13 +425,12 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
-                base1 : var_const.objetoSolicitudes
+                base1 : solicitudesEmpleo
             })
         }else if(boton == "editarB"){
             var regitroAEditar = await busquedasDB.find({ codigo: registro });
             listaResponsabilidades = regitroAEditar[0].listaResponsabilidades
-            console.log(listaResponsabilidades)
-
+           
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -403,7 +440,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 tBusquedas : busquedas,
                 listaResponsabilidades,
                 formData: regitroAEditar[0],
-                base1 : var_const.objetoSolicitudes
+                base1 : solicitudesEmpleo
             })
         
         }
@@ -416,10 +453,10 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 postulados : js.mostrarOcultarContenido(),
                 listaResponsabilidades,
                 tBusquedas : busquedas,
-                base1 : var_const.objetoSolicitudes
+                base1 : solicitudesEmpleo
                 })
-    }
         }
+    }
      next()
 })
 

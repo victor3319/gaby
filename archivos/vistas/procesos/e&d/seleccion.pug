@@ -4,6 +4,8 @@ div.containerP
     button.hm(name="boton" value="busquedas") Búsqueda
     button.hm(name="boton" value="postulados") Postulados
 
+//TABAS SOLICITUDES
+
 div.containerSp(name="solicitudes" style={display : solicitudes})           
     h1.h Solicitudes de Empleo
     button.hm(name="boton" value="fCv1") Filtrar
@@ -50,7 +52,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                         button.hm(name="boton" value="editar"+"-"+solicitante.correo) Editar
                                     
 
-                
+//TABLAS POSTULADOS                
 
 div.containerSp(name="postulados" style={display : postulados})
     h1.h Postulados
@@ -73,11 +75,13 @@ div.containerSp(name="postulados" style={display : postulados})
                     br
                     input.filtro(type="text" data-col="0" placeholder="Filtrar...")
                 th Acción
-        
+
+//TABLAS BUSQUEDAS        
 
 div.containerSp(name="busquedas" style={display : pBusquedas})
     h1.h Búsquedas
-    button.hm(name="boton" value="nuevaBusqueda") Agregar Busqueda
+        form(method="POST" action="/e&d") 
+            button.hm(name="boton" value="nuevaBusqueda") Agregar Busqueda
     table(name="tablabusquedas")
         thead 
             tr
@@ -117,84 +121,89 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                         button.hm(name="boton" value="eliminarB"+"-"+busqueda.codigo) Eliminar
                         button.hm(name="boton" value="editarB"+"-"+busqueda.codigo) Editar
 
-    dialog.ventana(name="busqueda" open=agregarBusqueda)
-        h1 Agregue los datos de la Nueva Busqueda
-        div.input-group
-            label Codigo
-            input.input(type="", name="codigo" value = codigoBusqueda)
-            br
-            label Tipo
-            input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
-            br
-            label Cargo
-            input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
-            br
-            label Cliente
-            input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
-            br
-            label Correo Cliente
-            input.input(type="", name="correoCliente" value=(formData && formData.correoCliente) || "")
-            br
-            label Lugar de Trabajo
-            input.input(type="", name="lTrabajo" value=(formData && formData.lTrabajo) || "")
-            label Fecha Inicio
-            input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
-            br
-            label Responsabilidades
-            button.hm(name="boton" value="responsabilidades") Agregar
-            input.input(type="", name="responsabilidades")
-            h3 Lista de Responsabilidades
-            ul
-                each r in listaResponsabilidades
-                    li= r
-            br
-            
-        a(href="/procesosEspecificos") 
-            button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
-        a(href="/procesosEspecificos")
-            button.boton-nook(name="boton" value="busquedas") Cerrar
+    //AGREGAR BUSQUEDA
+    form(method="POST" action="/e&d") 
+        dialog.ventana(name="agregarBusqueda" open=agregarBusqueda)
+            h1 Agregue los datos de la Nueva Busqueda
+            div.input-group
+                label Codigo
+                input.input(type="", name="codigo" value = codigoBusqueda)
+                br
+                label Tipo
+                input.input(type="", name="tipoAgregado" value=(formData && formData.tipoAgregado) || "")
+                br
+                label Cargo
+                input.input(type="", name="cargoAgregado" value=(formData && formData.cargoAgregado) || "")
+                br
+                label Cliente
+                input.input(type="", name="clienteAgregado" value=(formData && formData.clienteAgregado) || "")
+                br
+                label Correo Cliente
+                input.input(type="", name="correoClienteAgregado" value=(formData && formData.correoClienteAgregado) || "")
+                br
+                label Lugar de Trabajo
+                input.input(type="", name="lTrabajoAgregado" value=(formData && formData.lTrabajoAgregado) || "")
+                label Fecha Inicio
+                input.input(type="date", name="fInicioBusquedaAgregado" value=(formData && formData.fInicioBusquedaAgregado) || "")
+                br
+                label Responsabilidades
+                button.hm(name="boton" value="agregarResponsabilidad-") Agregar
+                input.input(type="", name="responsabilidadAgregada")
+                h3 Lista de Responsabilidades
+                ul
+                    each r in listaResponsabilidades
+                        li= r
+                br
+                
+            a(href="/procesosEspecificos") 
+                button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
+            a(href="/procesosEspecificos")
+                button.boton-nook(name="boton" value="busquedas") Cerrar
 
-    dialog.ventana(name="editarBusqueda" open=editarBusqueda)
-        h1 Edite los datos de la Busqueda
-        h2 Datos Básicos de la Búsqueda
-        div.input-group
-            label Tipo
-            input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
-            br
-            label Cargo
-            input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
-            br
-            label Cliente
-            input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
-            br
-            label Correo Cliente
-            input.input(type="", name="correoCliente" value=(formData && formData.correoCliente) || "")
-            br
-            label Lugar de Trabajo
-            input.input(type="", name="lTrabajo" value=(formData && formData.lTrabajo) || "")
-            label Fecha Inicio
-            input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
-            br
-            label Responsabilidades
-            button.hm(name="boton" value="responsabilidades") Agregar
-            input.input(type="", name="responsabilidades")
-            h3 Lista de Responsabilidades
-            ul
-                each r in listaResponsabilidades
-                    li= r
-            br
-            h2 Datos del Proceso de la Búsqueda
-            br
-            label Estatus
-            input.input(type="", name="lTrabajo" value=(formData && formData.estatus) || "")
-            br
-            h3 Procesos
 
-            
-            
-        a(href="/procesosEspecificos") 
-            button.boton-ok(type= "submit" name="boton" value="modificarB") Modificar
-        a(href="/procesosEspecificos")
-            button.boton-nook(name="boton" value="busquedas") Cerrar
+    //EDITAR BUSQUEDA
+    form(method="POST" action="/e&d") 
+        dialog.ventana(name="editarBusqueda" open=editarBusqueda)
+            h1 Edite los datos de la Busqueda
+            h2 Datos Básicos de la Búsqueda
+            div.input-group
+                label Tipo
+                input.input(type="", name="tipoEditado" value=(formData && formData.tipoEditado) || "")
+                br
+                label Cargo
+                input.input(type="", name="cargoEditado" value=(formData && formData.cargoEditado) || "")
+                br
+                label Cliente
+                input.input(type="", name="clienteEditado" value=(formData && formData.clienteEditado) || "")
+                br
+                label Correo Cliente
+                input.input(type="", name="correoClienteEditado" value=(formData && formData.correoClienteEditado) || "")
+                br
+                label Lugar de Trabajo
+                input.input(type="", name="lTrabajoEditado" value=(formData && formData.lTrabajoEditado) || "")
+                label Fecha Inicio
+                input.input(type="date", name="fInicioBusquedaEditado" value=(formData && formData.fInicioBusquedaEditado) || "")
+                br
+                label Responsabilidades
+                button.hm(name="boton" value="editarResponsabilidades-") Agregar
+                input.input(type="", name="responsabilidadEditada")
+                h3 Lista de Responsabilidades
+                ul
+                    each r in listaResponsabilidades
+                        li= r                       
+                br
+                h2 Datos del Proceso de la Búsqueda
+                br
+                label Estatus
+                input.input(type="", name="estatusEditado" value=(formData && formData.estatusEditado) || "")
+                br
+                h3 Procesos
+
+                
+                
+            a(href="/procesosEspecificos") 
+                button.boton-ok(type= "submit" name="boton" value="modificarB") Modificar
+            a(href="/procesosEspecificos")
+                button.boton-nook(name="boton" value="busquedas") Cerrar
 
     
