@@ -381,13 +381,9 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 formData: bodyLimpio,
                 base1 : solicitudesEmpleo
             })
-        }else if(boton == "eliminarResponsabilidad"){
+        }else if(boton == "eliminarR"){
             var bodyLimpio = js.normalizarBody(req.body);
-            var index = parseInt(bodyLimpio.indexEliminar);
-
-            if(!isNaN(index)){
-                listaResponsabilidades.splice(index, 1);
-            }
+            listaResponsabilidades.splice(registro, 1)
     
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 

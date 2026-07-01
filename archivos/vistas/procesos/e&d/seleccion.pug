@@ -130,29 +130,31 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 input.input(type="", name="codigo" value = codigoBusqueda)
                 br
                 label Tipo
-                input.input(type="", name="tipoAgregado" value=(formData && formData.tipoAgregado) || "")
+                input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
                 br
                 label Cargo
-                input.input(type="", name="cargoAgregado" value=(formData && formData.cargoAgregado) || "")
+                input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
                 br
                 label Cliente
-                input.input(type="", name="clienteAgregado" value=(formData && formData.clienteAgregado) || "")
+                input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
                 br
                 label Correo Cliente
-                input.input(type="", name="correoClienteAgregado" value=(formData && formData.correoClienteAgregado) || "")
+                input.input(type="", name="correoCliente" value=(formData && formData.correoCliente) || "")
                 br
                 label Lugar de Trabajo
-                input.input(type="", name="lTrabajoAgregado" value=(formData && formData.lTrabajoAgregado) || "")
+                input.input(type="", name="lTrabajo" value=(formData && formData.lTrabajo) || "")
                 label Fecha Inicio
-                input.input(type="date", name="fInicioBusquedaAgregado" value=(formData && formData.fInicioBusquedaAgregado) || "")
+                input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
                 br
                 label Responsabilidades
-                button.hm(name="boton" value="agregarResponsabilidad-") Agregar
+                button.hm(name="boton" value="agregarResponsabilidad") Agregar
                 input.input(type="", name="responsabilidadAgregada")
                 h3 Lista de Responsabilidades
                 ul
-                    each r in listaResponsabilidades
-                        li= r
+                    each r, i in listaResponsabilidades
+                        li 
+                            span= r
+                            button.hm(name="boton" value="eliminarR"+"-"+i) Eliminar
                 br
                 
             a(href="/procesosEspecificos") 
@@ -168,34 +170,42 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
             h2 Datos Básicos de la Búsqueda
             div.input-group
                 label Tipo
-                input.input(type="", name="tipoEditado" value=(formData && formData.tipoEditado) || "")
+                input.input(type="", name="tipo" list="listaResp" value=(formData && formData.tipo) || "")
+                datalist#listaResp
+                    option(value="Efectivo")
+                    option(value="Agencia")
                 br
                 label Cargo
-                input.input(type="", name="cargoEditado" value=(formData && formData.cargoEditado) || "")
+                input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
                 br
                 label Cliente
-                input.input(type="", name="clienteEditado" value=(formData && formData.clienteEditado) || "")
+                input.input(type="", name="cliente" value=(formData && formData.cliente) || "")
                 br
                 label Correo Cliente
-                input.input(type="", name="correoClienteEditado" value=(formData && formData.correoClienteEditado) || "")
+                input.input(type="", name="correoCliente" value=(formData && formData.correoCliente) || "")
                 br
                 label Lugar de Trabajo
-                input.input(type="", name="lTrabajoEditado" value=(formData && formData.lTrabajoEditado) || "")
+                input.input(type="", name="lTrabajo" list="listaResp" value=(formData && formData.lTrabajo) || "")
+                datalist#listaResp
+                    option(value="Matínez")
+                    option(value="Escobar")
                 label Fecha Inicio
-                input.input(type="date", name="fInicioBusquedaEditado" value=(formData && formData.fInicioBusquedaEditado) || "")
+                input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
                 br
                 label Responsabilidades
-                button.hm(name="boton" value="editarResponsabilidades-") Agregar
+                button.hm(name="boton" value="editarResponsabilidades") Agregar
                 input.input(type="", name="responsabilidadEditada")
                 h3 Lista de Responsabilidades
                 ul
-                    each r in listaResponsabilidades
-                        li= r                       
+                    each r, i in listaResponsabilidades
+                        li 
+                            span= r
+                            button.hm(name="boton" value="eliminarR"+"-"+i) Eliminar                    
                 br
                 h2 Datos del Proceso de la Búsqueda
                 br
                 label Estatus
-                input.input(type="", name="estatusEditado" value=(formData && formData.estatusEditado) || "")
+                input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
                 br
                 h3 Procesos
 
