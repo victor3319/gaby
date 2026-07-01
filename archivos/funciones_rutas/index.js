@@ -318,6 +318,24 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 base1 : base
                 })
         }*/
+       //EDITAR BUSQUEDA
+        else if(boton == "editarBusqueda"){
+            var regitroAEditar = await solicitudesEmpleoDB.find({ correo: registro });
+            console.log(boton)
+            console.log(regitroAEditar)
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                solicitudes : js.mostrarOcultarContenido(),
+                editarSolicitud : js.mostrar(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                formData: regitroAEditar[0],
+                base1 : solicitudesEmpleo
+            })
+
+        }
 
 
         //TABLA BUSQUEDAS
@@ -440,18 +458,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             })
         
         }
-        //TABLA POSTULACIONES
-        if(boton == "postulados" || boton == "cerrarS"){
-            res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
-                proceso: "seleccion",
-                postulados : js.mostrarOcultarContenido(),
-                listaResponsabilidades,
-                tBusquedas : busquedas,
-                base1 : solicitudesEmpleo
-                })
-        }
+        
     }
      next()
 })

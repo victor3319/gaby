@@ -2,8 +2,7 @@ div.containerP
     h2.h  Selección y Empleo
     button.hm(name="boton" value="solicitudes") Solicitudes de Empleo
     button.hm(name="boton" value="busquedas") Búsqueda
-    button.hm(name="boton" value="postulados") Postulados
-
+   
 //TABAS SOLICITUDES
 
 div.containerSp(name="solicitudes" style={display : solicitudes})           
@@ -49,32 +48,52 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                     td(name="procesos")= solicitante.procesos
                     td
                         button.hm(name="boton" value="eliminar"+"-"+solicitante.correo) Eliminar
-                        button.hm(name="boton" value="editar"+"-"+solicitante.correo) Editar
+                        button.hm(name="boton" value="editarBusqueda"+"-"+solicitante.correo) Editar
+    //EDITAR SOLICITUD
+    form(method="POST" action="/e&d") 
+        dialog.ventana(name="editarSolicitud" open=editarSolicitud)
+            h1 Edite los datos de la solicitud
+            h2 Datos Básicos de la Solicitud
+            div.input-group
+                label Nombres
+                input.input(type="", name="nombres" value=(formData && formData.nombres) || "")
+                br
+                label Apellidos
+                input.input(type="", name="apellidos" value=(formData && formData.apellidos) || "")
+                br
+                label Teléfono
+                input.input(type="", name="telefono" value=(formData && formData.telefono) || "")
+                br
+                label email
+                input.input(type="", name="correo" value=(formData && formData.correo) || "")
+                br
+                label LinkedIn
+                input.input(type="", name="linkedIn" value=(formData && formData.linkedIn) || "")
+                br
+                label Carrera
+                input.input(type="", name="carrera" value=(formData && formData.carrera) || "")
+                br
+                label cv
+                input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
+                br
+                h2 Datos del Proceso de la Búsqueda
+                label Cargos
+                input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
+                br
+                label Estatus
+                input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
+                br
+                h3 Procesos
+                thead 
+                    tr
+                        th Fecha 
+                        th Proceso
+            a(href="/procesosEspecificos") 
+                button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
+            a(href="/procesosEspecificos")
+                button.boton-nook(name="boton" value="solicitudes") Cerrar
+
                                     
-
-//TABLAS POSTULADOS                
-
-div.containerSp(name="postulados" style={display : postulados})
-    h1.h Postulados
-    input.input(type="", name="filtroPostulados")
-    table(name="tablaPostulaciones")
-        thead
-            tr
-                th Nombre
-                th Apellido
-                th Carrera O Especialidad
-                th CV
-                th Cargo
-                    br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-                th Entrevistas RRHH
-                th Entrevistas Jefe 
-                th Médico
-                th Ambiental 
-                th Estatus
-                    br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
-                th Acción
 
 //TABLAS BUSQUEDAS        
 
@@ -208,6 +227,11 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
                 br
                 h3 Procesos
+                thead 
+                    tr
+                        th Fecha 
+                        th Proceso
+
 
                 
                 
