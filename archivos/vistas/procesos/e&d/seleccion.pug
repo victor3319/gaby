@@ -48,7 +48,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                     td(name="procesos")= solicitante.procesos
                     td
                         button.hm(name="boton" value="eliminar"+"-"+solicitante.correo) Eliminar
-                        button.hm(name="boton" value="editarBusqueda"+"-"+solicitante.correo) Editar
+                        button.hm(name="boton" value="editarSolicitud"+"-"+solicitante.correo) Editar
     //EDITAR SOLICITUD
     form(method="POST" action="/e&d") 
         dialog.ventana(name="editarSolicitud" open=editarSolicitud)
@@ -139,6 +139,7 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                     td
                         button.hm(name="boton" value="eliminarB"+"-"+busqueda.codigo) Eliminar
                         button.hm(name="boton" value="editarB"+"-"+busqueda.codigo) Editar
+                        button.hm(name="boton" value="buscarB"+"-"+busqueda.codigo) Buscar
 
     //AGREGAR BUSQUEDA
     form(method="POST" action="/e&d") 
@@ -224,16 +225,7 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 h2 Datos del Proceso de la Búsqueda
                 br
                 label Estatus
-                input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
-                br
-                h3 Procesos
-                thead 
-                    tr
-                        th Fecha 
-                        th Proceso
-
-
-                
+                input.input(type="", name="estatus" value=(formData && formData.estatus) || "")                
                 
             a(href="/procesosEspecificos") 
                 button.boton-ok(type= "submit" name="boton" value="modificarB") Modificar

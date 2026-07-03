@@ -319,7 +319,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 })
         }*/
        //EDITAR BUSQUEDA
-        else if(boton == "editarBusqueda"){
+        else if(boton == "editarSolicitud"){
             var regitroAEditar = await solicitudesEmpleoDB.find({ correo: registro });
             console.log(boton)
             console.log(regitroAEditar)
@@ -443,7 +443,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             })
         }else if(boton == "editarB"){
             var regitroAEditar = await busquedasDB.find({ codigo: registro });
-            listaResponsabilidades = regitroAEditar[0].listaResponsabilidades
+            listaResponsabilidades = regitroAEditar[0].listaResponsabilidades || []
            
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
