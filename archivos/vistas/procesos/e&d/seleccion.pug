@@ -73,9 +73,6 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 label Carrera
                 input.input(type="", name="carrera" value=(formData && formData.carrera) || "")
                 br
-                label cv
-                input.input(type="", name="tipo" value=(formData && formData.tipo) || "")
-                br
                 h2 Datos del Proceso de la Búsqueda
                 label Cargos
                 input.input(type="", name="cargo" value=(formData && formData.cargo) || "")
@@ -84,10 +81,16 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
                 br
                 h3 Procesos
-                thead 
-                    tr
-                        th Fecha 
-                        th Proceso
+                button.hm(type="button" onclick="agregarFila()") Agregar
+                table#mitabla
+                    thead 
+                        tr
+                            th Fecha 
+                            th Proceso
+                            th Resultado
+                            th Acción
+                    tbody                            
+
             a(href="/procesosEspecificos") 
                 button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
             a(href="/procesosEspecificos")
@@ -231,5 +234,59 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 button.boton-ok(type= "submit" name="boton" value="modificarB") Modificar
             a(href="/procesosEspecificos")
                 button.boton-nook(name="boton" value="busquedas") Cerrar
+
+
+script.
+
+    //TABLA AGREGAR Y ELIMIAR DE PROCESOS DE SELECCION
+  function agregarFila() {
+    const tabla = document.getElementById("mitabla").getElementsByTagName("tbody")[0];
+    const fila = tabla.insertRow();
+
+    // Columna Fecha
+    const celda1 = fila.insertCell(0);
+    const inputFecha = document.createElement("input");
+    inputFecha.type = "date";
+    inputFecha.className = "input";
+    celda1.appendChild(inputFecha);
+
+    // Columna Proceso
+    const celda2 = fila.insertCell(1);
+    const selectProceso = document.createElement("select");
+    selectProceso.name = "proceso";
+    selectProceso.innerHTML = `
+      <option value="seleccione">Seleccione</option>
+      <option value="RRHH">Entrevista RRHH</option>
+      <option value="jefe">Entrevista Jefe</option>
+      <option value="pruebas">Pruebas</option>
+      <option value="medico">Médico</option>
+      <option value="ambiental">Ambiental</option>`;
+    celda2.appendChild(selectProceso);
+
+    // Columna Resultado
+    const celda3 = fila.insertCell(2);
+    const selectResultado = document.createElement("select");
+    selectResultado.name = "resultado";
+    selectResultado.innerHTML = `
+      <option value="seleccione">Seleccione</option>
+      <option value="programado">Programado</option>
+      <option value="aprobado">Aprobado</option>
+      <option value="rechazado">Rechazado</option>`;
+    celda3.appendChild(selectResultado);
+
+    // Columna Acción
+    const celda4 = fila.insertCell(3);
+    const btnEliminar = document.createElement("button");
+    btnEliminar.type = "button";
+    btnEliminar.className = "hm";
+    btnEliminar.textContent = "Eliminar";
+    btnEliminar.onclick = function() { eliminarFila(btnEliminar); };
+    celda4.appendChild(btnEliminar);
+  }
+
+  function eliminarFila(boton) {
+    const fila = boton.closest("tr");
+    fila.remove();
+  }
 
     
