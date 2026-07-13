@@ -23,6 +23,14 @@ div.container
     div.busquedas
         div 
             h1 Selecciona las Vacantes a las que quieras postularte
+        each b, i in busquedasActivas
+            div.cuadroBusqueda
+                input(type="checkbox" name= "cargo" value= b.cargo)
+                h1= b.cargo
+                    ul
+                        each r, i in b.listaResponsabilidades
+                            li
+                                span= r
         div.cuadroBusqueda
             input(type="checkbox")
             h1 Técnico Electromecánico Escobar
@@ -55,23 +63,23 @@ div.container
 
 
 
-    dialog(name="completar" open=completar)
+    dialog.ventana(name="completar" open=completar)
         h1 Debe completar los datos, son obligatorio
         a(href="/externo")
             button.boton-nook(name="boton" value="cerrar") Cerrar
 
-    dialog(name="pdf" open=pdf)
+    dialog.ventana(name="pdf" open=pdf)
         h1 Debe cargar un archivo en formato pdf
         a(href="/externo")
             button.boton-nook(name="boton" value="cerrar") Cerrar
 
 
-    dialog(name="exito" open=exito)
+    dialog.ventana(name="exito" open=exito)
         h1 Sus datos fueron cargado con Éxito
         a(href="/externo")
             button.boton-nook(name="boton" value="cerrar") Cerrar
 
-    dialog(name="exito" open=registro)
+    dialog.ventana(name="exito" open=registro)
         h1 El correo ya esta registrado
         a(href="/externo")
             button.boton-nook(name="boton" value="cerrar") Cerrar

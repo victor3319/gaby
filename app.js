@@ -51,6 +51,10 @@ app.use((req, res, next) =>{
 //express bases
 app.set("bases", path.join(__dirname,"./archivos/bases"))
 
+
+//Parsear Datos de Formulario
+app.use(express.urlencoded({ extended: true }));
+
 //Escucha del Servidor
 app.listen(PORT, () => {
      console.log(`Servidor escuchando en http://localhost:${PORT}`)

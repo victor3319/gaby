@@ -13,6 +13,7 @@ const usuariosDB = require("../modelos/usuarios");
 const solicitudesEmpleoDB = require("../modelos/solicitudesEmpleo")
 const busquedasDB = require("../modelos/busquedas")
 const console = require("console");
+const { ClientEncryption } = require("mongodb");
 
 //leer pdf
 /*const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
@@ -193,12 +194,15 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
     var datos = req.body
     var cv = req.file
     var solicitudesEmpleo = await solicitudesEmpleoDB.find()
+    var busquedasActivas = await busquedasDB.find({ estatus: "Activa" })
     
     
     //SOLICITUD DE EMPLEO
     if(boton == "solicitud" || boton == "cerrar"){
+        
         res.render("procesosExternos.pug", {
-            proceso: "solicitud"
+            proceso: "solicitud",
+            busquedasActivas: busquedasActivas
         })
     }
 
@@ -215,21 +219,24 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
             archivo ==""){
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                completar: js.mostrar()
+                completar: js.mostrar(),
+                busquedasActivas: busquedasActivas
             })  
         }
         //VALIDACION DE ARCHIVO PDF
         if(js.pdfA(cv)== false || cv ==undefined){
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                pdf: js.mostrar()
+                pdf: js.mostrar(),
+                busquedasActivas: busquedasActivas
             })  
         }
         // VALIDACIONN DE REGISTRO
         if(js.validarRegistro(datos, solicitudesEmpleo)== true){
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                registro: js.mostrar()
+                registro: js.mostrar(),
+                busquedasActivas: busquedasActivas
             })
         // REGISTRAR SOLICITUD  
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
@@ -237,8 +244,8 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
             await solicitudesEmpleoDB.create(nuevaSolicitud);
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
-                //ejecucion: js.solicitud(datos, ruta),
-                exito: js.mostrar()
+                exito: js.mostrar(),
+                busquedasActivas: busquedasActivas
             })  
         }
         
@@ -472,6 +479,50 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 base1 : solicitudesEmpleo
             })
         
+        }else if(boton == "modificarB"){
+            var registro = req.body.codigo
+            const {codigo, tipo, cargo, cliente, correoCliente, lTrabajo, fInicioBusqueda, listaResponsabilidades, estatus} = req.body;
+            
+            var regitroAModificar = await busquedasDB.updateOne(
+                { codigo: registro },
+                { $set:{
+                    codigo: codigo,
+                    tipo: tipo,
+                    cargo: cargo,
+                    cliente: cliente,
+                    correoCliente: correoCliente,
+                    lTrabajo: lTrabajo,
+                    fInicioBusqueda: fInicioBusqueda,
+                    listaResponsabilidades: listaResponsabilidades,
+                    estatus: estatus,
+                }
+                }
+            );
+           
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                pBusquedas : js.mostrarOcultarContenido(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                formData: regitroAModificar[0],
+                base1 : solicitudesEmpleo
+            })
+        
+        }else if(boton = "eliminarB"){
+            await busquedasDB.deleteOne({codigo: registro});
+            var busquedas = await busquedasDB.find()
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                pBusquedas : js.mostrarOcultarContenido(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                //formData: regitroAModificar[0],
+                base1 : solicitudesEmpleo
+            })
         }
         
     }

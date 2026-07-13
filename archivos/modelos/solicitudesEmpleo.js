@@ -41,9 +41,8 @@ const solicitudesEmpleoEsquema = new mongoose.Schema({
     fechaSolicitud: { 
         type: Date, default: Date.now 
     },
-    cargo: {
-        type:String,
-        required: true
+    cargo: { 
+        type: mongoose.Schema.Types.Mixed 
     },
     enProceso: [{
             RRHH : { type: mongoose.Schema.Types.Mixed },

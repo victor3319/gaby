@@ -92,7 +92,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                     tbody                            
 
             a(href="/procesosEspecificos") 
-                button.boton-ok(type= "submit" name="boton" value="cargarB") Cargar
+                button.boton-ok(type= "submit" name="boton" value="modificarS") Cargar
             a(href="/procesosEspecificos")
                 button.boton-nook(name="boton" value="solicitudes") Cerrar
 
@@ -192,6 +192,9 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
             h1 Edite los datos de la Busqueda
             h2 Datos Básicos de la Búsqueda
             div.input-group
+                label Código 
+                input.input(type="", name="codigo" value=(formData && formData.codigo) || "" readonly)
+                br
                 label Tipo
                 input.input(type="", name="tipo" list="listaResp" value=(formData && formData.tipo) || "")
                 datalist#listaResp
@@ -223,9 +226,8 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                     each r, i in listaResponsabilidades
                         li 
                             span= r
-                            button.hm(name="boton" value="eliminarR"+"-"+i) Eliminar                    
-                br
-                h2 Datos del Proceso de la Búsqueda
+                            input(type="hidden" name="listaResponsabilidades" value=r)
+                            button.hm(type="submit" name="boton" value="eliminarR"+"-"+i) Eliminar                    
                 br
                 label Estatus
                 input.input(type="", name="estatus" value=(formData && formData.estatus) || "")                
@@ -257,8 +259,9 @@ script.
     selectProceso.innerHTML = `
       <option value="seleccione">Seleccione</option>
       <option value="RRHH">Entrevista RRHH</option>
-      <option value="jefe">Entrevista Jefe</option>
       <option value="pruebas">Pruebas</option>
+      <option value="jefe">Entrevista Jefe</option>
+      <option value="pruebasTecnic">Prueba Técnica</option>
       <option value="medico">Médico</option>
       <option value="ambiental">Ambiental</option>`;
     celda2.appendChild(selectProceso);
