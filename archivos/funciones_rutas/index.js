@@ -25,6 +25,7 @@ pdf(dataBuffer).then(function(datos){
 
 var usuarioNavegacion = ""
 var listaResponsabilidades = []
+var cargos = []
 
 //Configurar almacenamiento
         const storage = multer.diskStorage({
@@ -280,6 +281,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 listaResponsabilidades,
+                cargos,
                 base1 : solicitudesEmpleo,
                 tBusquedas : busquedas
                 //formData: req.body,
@@ -297,6 +299,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 listaResponsabilidades,
+                cargos,
                 tBusquedas : busquedas,
                 base1 : base
                 })
@@ -327,7 +330,9 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         }*/
        //EDITAR SOLICITUD
         else if(boton == "editarSolicitud"){
+            var datos = req.body
             var regitroAEditar = await solicitudesEmpleoDB.find({ correo: registro });
+            cargos = regitroAEditar[0].cargo
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -336,15 +341,19 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 editarSolicitud : js.mostrar(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 formData: regitroAEditar[0],
                 base1 : solicitudesEmpleo
             })
+            
 
         }
         //CARGAR MODIFICACIONES DE SOLICITUD
-        else if(boton == "cargarB"){
+        else if(boton == "modificarS"){
             var datos = req.body
-            console.log(datos)
+            var solicitudAEditar = await solicitudesEmpleoDB.find({ correo: datos.correo });
+            cargos = solicitudAEditar[0].cargo || []
+            console.log(cargos)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -353,7 +362,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 editarSolicitud : js.mostrar(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
-                //formData: regitroAEditar[0],
+                cargos,
                 base1 : solicitudesEmpleo
             })
         }
@@ -369,6 +378,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 base1 : solicitudesEmpleo
             })
         }else if(boton == "nuevaBusqueda" || boton == "cerrarB"){
@@ -383,6 +393,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 tBusquedas : busquedas,
                 codigoBusqueda,
                 listaResponsabilidades,
+                cargos,
                 base1 : solicitudesEmpleo
             })
         }else if(boton == "agregarResponsabilidad"){
@@ -400,12 +411,13 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                     agregarBusqueda : js.mostrar(),
                     tBusquedas : busquedas,
                     listaResponsabilidades,
+                    cargos,
                     formData: bodyLimpio,
                     codigoBusqueda,
                     base1 : solicitudesEmpleo
                 })
         }else if(boton == "editarResponsabilidades"){            
-            var bodyLimpio = js.normalizarBody(req.body);
+            //var bodyLimpio = js.normalizarBody(req.body);
             var editarResponsabilidad = req.body.responsabilidadEditada?.trim();
             if(editarResponsabilidad){
                 listaResponsabilidades.push(editarResponsabilidad)
@@ -418,6 +430,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 editarBusqueda : js.mostrar(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 formData: bodyLimpio,
                 base1 : solicitudesEmpleo
             })
@@ -433,6 +446,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 editarBusqueda : js.mostrar(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 formData: bodyLimpio,
                 base1 : solicitudesEmpleo
             })
@@ -461,6 +475,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 base1 : solicitudesEmpleo
             })
         }else if(boton == "editarB"){
@@ -475,6 +490,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 editarBusqueda : js.mostrar(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 formData: regitroAEditar[0],
                 base1 : solicitudesEmpleo
             })
@@ -506,6 +522,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
+                cargos,
                 formData: regitroAModificar[0],
                 base1 : solicitudesEmpleo
             })
@@ -520,7 +537,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
-                //formData: regitroAModificar[0],
+                cargos,
                 base1 : solicitudesEmpleo
             })
         }

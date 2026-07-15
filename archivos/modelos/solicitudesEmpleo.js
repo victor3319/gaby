@@ -52,8 +52,7 @@ const solicitudesEmpleoEsquema = new mongoose.Schema({
             ambiental : {type: mongoose.Schema.Types.Mixed}
         }],
     estatus: {
-        type:String,
-        required: true
+        type: mongoose.Schema.Types.Mixed
     }
 })
 
