@@ -312,6 +312,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
+                cargos,
                 base1 : borrado
             })
         }else if(boton == "cv"){
@@ -330,7 +331,6 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         }*/
        //EDITAR SOLICITUD
         else if(boton == "editarSolicitud"){
-            var datos = req.body
             var regitroAEditar = await solicitudesEmpleoDB.find({ correo: registro });
             cargos = regitroAEditar[0].cargo
             res.render("procesosEspecificos.pug", {
@@ -348,12 +348,64 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             
 
         }
-        //CARGAR MODIFICACIONES DE SOLICITUD
-        else if(boton == "modificarS"){
-            var datos = req.body
-            var solicitudAEditar = await solicitudesEmpleoDB.find({ correo: datos.correo });
-            cargos = solicitudAEditar[0].cargo || []
+        //AGREGAR CARGOS A SOLICITUD
+        else if(boton == "agregarCargo"){
+            var cargoAgregado = req.body.cargoAgregado?.trim();
+            if(cargoAgregado){
+                cargos.push(cargoAgregado)
+            }
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                solicitudes : js.mostrarOcultarContenido(),
+                editarSolicitud : js.mostrar(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                cargos,
+                base1 : solicitudesEmpleo
+            })
+        }
+        //ELIMINAR CARGOS DE SOLICITUD
+        else if(boton == "eliminarC"){
+            //var bodyLimpio = js.normalizarBody(req.body);
+            cargos.splice(registro, 1)
             console.log(cargos)
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                solicitudes : js.mostrarOcultarContenido(),
+                editarSolicitud : js.mostrar(),
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                cargos,
+                base1 : solicitudesEmpleo
+            })
+        }
+        //REGISTRAR EN BD MODIFICACIONES DE SOLICITUD
+        else if(boton == "modificarS"){
+            const {nombres, apellidos, telefono, correo, linkedIn, carrera, cargo, estatus, fechaProceso, proceso, resultado} = req.body
+            var enProceso = js.armadorProcesoSeleccion(fechaProceso, proceso, resultado)
+            var nuevosDatos = {nombres, apellidos, telefono, correo, linkedIn, carrera, cargo, estatus, enProceso}
+            console.log(registro)
+            var solicitudAModificarr = await solicitudesEmpleoDB.updateOne(
+                { codigo: registro },
+                { $set:{
+                    nombres,
+                    apellidos,
+                    cargo,
+                    telefono,
+                    correo,
+                    linkedIn,
+                    carrera, 
+                    cargo,
+                    enProceso,
+                    estatus,
+                }
+                }
+            );
+            //cargos = solicitudAEditar[0].cargo || []
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),

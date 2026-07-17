@@ -75,8 +75,8 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 br
                 h2 Datos del Proceso de la Búsqueda
                 h3 Cargos Postulados
-                button.hm(name="boton" value="agregarCargos") Agregar
-                input.input(type="", name="cargosAgregado")
+                button.hm(name="boton" value="agregarCargo") Agregar
+                input.input(type="", name="cargoAgregado")
                 ul
                     each c, i in cargos
                         li 
@@ -255,6 +255,7 @@ script.
     // Columna Fecha
     const celda1 = fila.insertCell(0);
     const inputFecha = document.createElement("input");
+    inputFecha.name = "fechaProceso"
     inputFecha.type = "date";
     inputFecha.className = "input";
     celda1.appendChild(inputFecha);
@@ -264,7 +265,7 @@ script.
     const selectProceso = document.createElement("select");
     selectProceso.name = "proceso";
     selectProceso.innerHTML = `
-      <option value="seleccione">Seleccione</option>
+      <option value="" disabled selected>Seleccione</option>
       <option value="RRHH">Entrevista RRHH</option>
       <option value="pruebas">Pruebas</option>
       <option value="jefe">Entrevista Jefe</option>
@@ -278,7 +279,7 @@ script.
     const selectResultado = document.createElement("select");
     selectResultado.name = "resultado";
     selectResultado.innerHTML = `
-      <option value="seleccione">Seleccione</option>
+      <option value="" disabled selected>Seleccione</option>
       <option value="programado">Programado</option>
       <option value="aprobado">Aprobado</option>
       <option value="rechazado">Rechazado</option>`;
@@ -293,7 +294,7 @@ script.
     btnEliminar.onclick = function() { eliminarFila(btnEliminar); };
     celda4.appendChild(btnEliminar);
   }
-
+    //Eliminar fila de tabla en edición de solicitud
   function eliminarFila(boton) {
     const fila = boton.closest("tr");
     fila.remove();

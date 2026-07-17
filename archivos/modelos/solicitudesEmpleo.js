@@ -23,8 +23,7 @@ const solicitudesEmpleoEsquema = new mongoose.Schema({
         required: true
     },
     sueldo: {
-        type:String,
-        required: true
+       type: mongoose.Schema.Types.Mixed 
     },
     linkedIn: {
         type:String,

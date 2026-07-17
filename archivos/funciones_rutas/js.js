@@ -169,6 +169,24 @@ function codigo(datos){
     return nuevoCodigo
 }
 
+function armadorProcesoSeleccion(fechaProceso, proceso, resultado){
+    var largoArray1 = fechaProceso.length
+    var largoArray2 = proceso.length
+    var largoArray3 = resultado.length
+    var mismoLargo = largoArray1 === largoArray2 && largoArray2 === largoArray3
+
+    var enProceso = {}
+
+    if(mismoLargo = true){
+        for (let i = 0; i < proceso.length; i++) {
+            const clave = proceso[i];
+            enProceso[clave] = [fechaProceso[i], resultado[i]];
+  }
+    }
+    
+    return enProceso
+}
+
 
 function normalizarBody(body) {
    
@@ -207,4 +225,5 @@ module.exports = {
     validacionUsuario : validacionUsuario,
     codigo : codigo,
     normalizarBody : normalizarBody,
+    armadorProcesoSeleccion : armadorProcesoSeleccion,
 }
