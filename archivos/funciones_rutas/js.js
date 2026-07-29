@@ -113,6 +113,7 @@ function mostrarOcultarContenido(){
 //ACCIONES EN TABLAS
 
 function filtrarTabla(datos, registros){
+    console.log(datos)
     //var base = JSON.parse(fs.readFileSync(rutaRegistros, "utf-8"));
     var array = datos.split(" ")
 
@@ -170,14 +171,17 @@ function codigo(datos){
 }
 
 function armadorProcesoSeleccion(fechaProceso, proceso, resultado){
-    var largoArray1 = fechaProceso.length
-    var largoArray2 = proceso.length
-    var largoArray3 = resultado.length
-    var mismoLargo = largoArray1 === largoArray2 && largoArray2 === largoArray3
-
+    var arrays = [fechaProceso, proceso, resultado]
+    var arraysValidos = arrays.filter(arr => Array.isArray(arr));
+    var completos = Number.isInteger(arraysValidos.length / 3) && arraysValidos.length / 3 > 0
+    /*var largoArray1 = fechaProceso.length || ""
+    var largoArray2 = proceso.length || ""
+    var largoArray3 = resultado.length || ""
+    var mismoLargo = largoArray1 === largoArray2 && largoArray2 === largoArray3*/    
+    console.log(completos)
     var enProceso = {}
 
-    if(mismoLargo = true){
+    if(completos == true){
         for (let i = 0; i < proceso.length; i++) {
             const clave = proceso[i];
             enProceso[clave] = [fechaProceso[i], resultado[i]];

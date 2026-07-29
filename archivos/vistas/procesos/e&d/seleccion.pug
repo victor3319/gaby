@@ -7,8 +7,6 @@ div.containerP
 
 div.containerSp(name="solicitudes" style={display : solicitudes})           
     h1.h Solicitudes de Empleo
-    button.hm(name="boton" value="fCv1") Filtrar
-    input.input(type="text" name="filtrocv1")
     table(name="tablaSolicitudes")
         thead 
             tr
@@ -20,13 +18,19 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 th LinkedIn 
                 th Carrera o Especialidad
                     br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                    div.contenedor-filtro
+                        input.input-filtro(type="text" data-col="0" placeholder="Palabra...")
+                        button.boton-filtro(name="boton" value="fEsp") 🔍
                 th CV
                     br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                    div.contenedor-filtro
+                        input.input-filtro(type="text" name="filtrocv1" data-col="0" placeholder="Palabra...")
+                        button.boton-filtro(name="boton" value="fCv1") 🔍
                 th Cargo/Planta
                     br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                    div.contenedor-filtro
+                        input.input-filtro(type="text" name="filtroCargos" data-col="0" placeholder="palabra...")
+                        button.boton-filtro(name="boton" value="fCargos") 🔍
                 th Fecha/Procesos
                 th Acción
         tbody
@@ -118,13 +122,19 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 th Tipo
                 th Cargo
                     br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                    div.contenedor-filtro
+                        input.input-filtro(type="text" data-col="0" placeholder="Palabra...")
+                        button.boton-filtro(name="boton" value="fCargoB") 🔍
                 th Cliente
                     br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                    div.contenedor-filtro
+                        input.input-filtro(type="text" data-col="0" placeholder="Palabra...")
+                        button.boton-filtro(name="boton" value="fClienteB") 🔍
                 th Estatus
                     br
-                    input.filtro(type="text" data-col="0" placeholder="Filtrar...")
+                    div.contenedor-filtro
+                        input.input-filtro(type="text" data-col="0" placeholder="Filtrar...")
+                        button.boton-filtro(name="boton" value="fEstatus") 🔍
                 th Fecha de Inicio
                 th Fecha de Cierre
                 th Postulados

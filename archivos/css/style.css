@@ -242,3 +242,34 @@ table{
     overflow-y: auto;
 
 }
+
+/*Formato para input y bonton de filtro*/
+.contenedor-filtro {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.input-filtro {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+
+.boton-filtro {
+  background-color: #f0f0f0;
+  width: 30px;
+  height: 20px;
+  border: none;
+  border-left: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton-filtro:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1);
+  cursor: pointer;
+}

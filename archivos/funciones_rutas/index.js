@@ -14,6 +14,7 @@ const solicitudesEmpleoDB = require("../modelos/solicitudesEmpleo")
 const busquedasDB = require("../modelos/busquedas")
 const console = require("console");
 const { ClientEncryption } = require("mongodb");
+const { isArray } = require("util");
 
 //leer pdf
 /*const dataBuffer = fs.readFileSync('./uploads/recibos/archivo-.pdf');
@@ -241,7 +242,10 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
             })
         // REGISTRAR SOLICITUD  
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
+            var cargoArray = [datos.cargo]
             var nuevaSolicitud = await js.solicitud(datos)
+            nuevaSolicitud.cargo = cargoArray
+            console.log(nuevaSolicitud)
             await solicitudesEmpleoDB.create(nuevaSolicitud);
             res.render("procesosExternos.pug", {
                 proceso: "solicitud",
@@ -287,6 +291,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 //formData: req.body,
             })
         }
+
+
         //TABLA DE SOLICITUDES
         var datosBoton = req.body.boton.split("-")
         var boton = datosBoton[0]
@@ -312,23 +318,46 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
+                tBusquedas : busquedas,
+                listaResponsabilidades, 
                 cargos,
                 base1 : borrado
             })
         }else if(boton == "cv"){
             res.setHeader('Content-Type', 'application/pdf');
             res.send(js.mostrarArchivo(datosBoton[1], solicitudesEmpleo))
-        }/*else if(valorFiltroCv != ""){
-            //var base = js.filtrarTabla(req.body.filtrocv, solicitudesEmpleo)
-            //var base = await solicitudesEmpleoDB.find({texto:{$regex: textoBuscado, $options: "i"}})
+        }
+        //Filtrar Por datos del CV
+        else if(boton == "fCv1"){
+            var textoBuscado = req.body.filtrocv1
+            var base = await solicitudesEmpleoDB.find({texto:{$regex: textoBuscado, $options: "i"}})
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
+                cargos,
+                tBusquedas : busquedas,
+                listaResponsabilidades,
                 base1 : base
                 })
-        }*/
+        }
+        //Filtrar por Cargos/Plantas
+        else if(boton == "fCargos"){
+            var textoBuscado = req.body.filtroCargos
+            var base = await solicitudesEmpleoDB.find({cargo:{$regex: textoBuscado, $options: "i"}})
+            console.log(solicitudesEmpleo[0].cargo)
+            res.render("procesosEspecificos.pug", {
+                h1 : usuarioNavegacion.nombre, 
+                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                proceso: "seleccion",
+                solicitudes : js.mostrarOcultarContenido(),
+                cargos,
+                tBusquedas : busquedas,
+                listaResponsabilidades,
+                base1 : base
+                })
+        }
        //EDITAR SOLICITUD
         else if(boton == "editarSolicitud"){
             var regitroAEditar = await solicitudesEmpleoDB.find({ correo: registro });
@@ -344,9 +373,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 cargos,
                 formData: regitroAEditar[0],
                 base1 : solicitudesEmpleo
-            })
-            
-
+            })          
         }
         //AGREGAR CARGOS A SOLICITUD
         else if(boton == "agregarCargo"){
@@ -363,6 +390,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 tBusquedas : busquedas,
                 listaResponsabilidades,
                 cargos,
+                formData : req.body,
                 base1 : solicitudesEmpleo
             })
         }
@@ -380,6 +408,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 tBusquedas : busquedas,
                 listaResponsabilidades,
                 cargos,
+                formData : req.body,
                 base1 : solicitudesEmpleo
             })
         }
@@ -388,9 +417,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             const {nombres, apellidos, telefono, correo, linkedIn, carrera, cargo, estatus, fechaProceso, proceso, resultado} = req.body
             var enProceso = js.armadorProcesoSeleccion(fechaProceso, proceso, resultado)
             var nuevosDatos = {nombres, apellidos, telefono, correo, linkedIn, carrera, cargo, estatus, enProceso}
-            console.log(registro)
             var solicitudAModificarr = await solicitudesEmpleoDB.updateOne(
-                { codigo: registro },
+                { correo: correo },
                 { $set:{
                     nombres,
                     apellidos,
@@ -405,13 +433,11 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 }
                 }
             );
-            //cargos = solicitudAEditar[0].cargo || []
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
-                editarSolicitud : js.mostrar(),
                 tBusquedas : busquedas,
                 listaResponsabilidades,
                 cargos,
