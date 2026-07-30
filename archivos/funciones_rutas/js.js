@@ -210,6 +210,18 @@ function normalizarBody(body) {
     return bodyLimpio;
 }
 
+//Para manejar distintos datos Array y String
+
+function variosTiposDatos(datos){
+    var datosDevueltos = ""
+    if(Array. isArray(datos)){
+        datosDevueltos = datos
+    }else if(typeof(datos) === "string"){
+        datosDevueltos = [datos]
+    }
+    return datosDevueltos
+}
+
 
 
 
@@ -230,4 +242,5 @@ module.exports = {
     codigo : codigo,
     normalizarBody : normalizarBody,
     armadorProcesoSeleccion : armadorProcesoSeleccion,
+    variosTiposDatos : variosTiposDatos,
 }

@@ -242,7 +242,7 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
             })
         // REGISTRAR SOLICITUD  
         }else if(nombres !="" && apellidos !="" && telefono !="" && email !="" && carrera !="" && sueldo !="" && archivo !=""){
-            var cargoArray = [datos.cargo]
+            var cargoArray = js.variosTiposDatos(datos.cargo)
             var nuevaSolicitud = await js.solicitud(datos)
             nuevaSolicitud.cargo = cargoArray
             console.log(nuevaSolicitud)
