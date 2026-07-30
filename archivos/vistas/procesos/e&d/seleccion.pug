@@ -51,8 +51,8 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                     td(name="cargo")= solicitante.cargo
                     td(name="procesos")= solicitante.procesos
                     td
-                        button.hm(name="boton" value="eliminar"+"-"+solicitante.correo) Eliminar
-                        button.hm(name="boton" value="editarSolicitud"+"-"+solicitante.correo) Editar
+                        button.hm(name="boton" value="eliminar"+"-"+solicitante.correo) ❌
+                        button.hm(name="boton" value="editarSolicitud"+"-"+solicitante.correo) ✏️
     //EDITAR SOLICITUD
     form(method="POST" action="/e&d") 
         dialog.ventana(name="editarSolicitud" open=editarSolicitud)
@@ -86,7 +86,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                         li 
                             span= c
                             input(type="hidden" name="cargo" value=c)
-                            button.hm(name="boton" value="eliminarC"+"-"+i) Eliminar
+                            button.hm(name="boton" value="eliminarC"+"-"+i) ❌
                 br
                 label Estatus
                 input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
@@ -157,9 +157,9 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                     td(name="enProceso")= busqueda.enProceso
                     td(name="descartado")= busqueda.descartado
                     td
-                        button.hm(name="boton" value="eliminarB"+"-"+busqueda.codigo) Eliminar
-                        button.hm(name="boton" value="editarB"+"-"+busqueda.codigo) Editar
-                        button.hm(name="boton" value="buscarB"+"-"+busqueda.codigo) Buscar
+                        button.hm(name="boton" value="eliminarB"+"-"+busqueda.codigo) ❌
+                        button.hm(name="boton" value="editarB"+"-"+busqueda.codigo) ✏️
+                        button.hm(name="boton" value="buscarB"+"-"+busqueda.codigo) 🔍
 
     //AGREGAR BUSQUEDA
     form(method="POST" action="/e&d") 
@@ -194,7 +194,7 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                     each r, i in listaResponsabilidades
                         li 
                             span= r
-                            button.hm(name="boton" value="eliminarR"+"-"+i) Eliminar
+                            button.hm(name="boton" value="eliminarR"+"-"+i) ❌
                 br
                 
             a(href="/procesosEspecificos") 
@@ -244,10 +244,10 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                         li 
                             span= r
                             input(type="hidden" name="listaResponsabilidades" value=r)
-                            button.hm(type="submit" name="boton" value="eliminarR"+"-"+i) Eliminar                    
+                            button.hm(type="submit" name="boton" value="eliminarR"+"-"+i) ❌        
                 br
                 label Estatus
-                input.input(type="", name="estatus" value=(formData && formData.estatus) || "")                
+                input.input(type="", name="estatus" value=(formData && formData.estatus) || "")               
                 
             a(href="/procesosEspecificos") 
                 button.boton-ok(type= "submit" name="boton" value="modificarB") Modificar
@@ -300,7 +300,7 @@ script.
     const btnEliminar = document.createElement("button");
     btnEliminar.type = "button";
     btnEliminar.className = "hm";
-    btnEliminar.textContent = "Eliminar";
+    btnEliminar.textContent = "❌";
     btnEliminar.onclick = function() { eliminarFila(btnEliminar); };
     celda4.appendChild(btnEliminar);
   }

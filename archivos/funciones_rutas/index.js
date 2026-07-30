@@ -191,6 +191,14 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
 })
 
 //RUTAS EXTERNAS
+
+router.get("/externo", async (req, res) => {
+    var busquedasActivas = await busquedasDB.find({ estatus: "Activa" })
+    res.render("procesosExternos.pug", {
+        proceso: "solicitud",
+        busquedasActivas: busquedasActivas
+    })
+});
 router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
     var boton = req.body.boton
     var datos = req.body
@@ -200,8 +208,7 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
     
     
     //SOLICITUD DE EMPLEO
-    if(boton == "solicitud" || boton == "cerrar"){
-        
+    if(boton == "solicitud" || boton == "cerrar"){        
         res.render("procesosExternos.pug", {
             proceso: "solicitud",
             busquedasActivas: busquedasActivas
@@ -361,7 +368,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
        //EDITAR SOLICITUD
         else if(boton == "editarSolicitud"){
             var regitroAEditar = await solicitudesEmpleoDB.find({ correo: registro });
-            cargos = regitroAEditar[0].cargo
+            cargos = js.variosTiposDatos(regitroAEditar[0].cargo)
+            console.log(cargos)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -396,8 +404,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         }
         //ELIMINAR CARGOS DE SOLICITUD
         else if(boton == "eliminarC"){
-            //var bodyLimpio = js.normalizarBody(req.body);
             cargos.splice(registro, 1)
+            cargos = js.variosTiposDatos(cargos)
             console.log(cargos)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 

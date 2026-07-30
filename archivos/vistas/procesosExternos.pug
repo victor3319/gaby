@@ -1,8 +1,6 @@
 extends layout2 
 
 block content2
-    a(href="/")
-        button.hm(name="boton" value="volver") Volver
     form(method="post" action="/externo" enctype="multipart/form-data")
         div.containerP
             if proceso == "fichaje"
