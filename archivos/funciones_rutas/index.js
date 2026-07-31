@@ -613,7 +613,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 base1 : solicitudesEmpleo
             })
         
-        }else if(boton = "eliminarB"){
+        }else if(boton == "eliminarB"){
             await busquedasDB.deleteOne({codigo: registro});
             var busquedas = await busquedasDB.find()
             res.render("procesosEspecificos.pug", {

@@ -7,6 +7,12 @@ div.containerP
 
 div.containerSp(name="solicitudes" style={display : solicitudes})           
     h1.h Solicitudes de Empleo
+    h3 Link para solicitdes de empleo
+    a(href="https://rowa-kd8i.onrender.com/externo" target="_blank") https://rowa-kd8i.onrender.com/externo
+    button.hm(name="boton" value="copiarL") 📋
+    br
+    div(style="text-align: right;")
+        button.hm(name="boton" value="descargarS") 📥
     table(name="tablaSolicitudes")
         thead 
             tr
@@ -79,7 +85,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 br
                 h2 Datos del Proceso de la Búsqueda
                 h3 Cargos Postulados
-                button.hm(name="boton" value="agregarCargo") Agregar
+                    button.hm(name="boton" value="agregarCargo") ➕
                 input.input(type="", name="cargoAgregado")
                 ul
                     each c, i in cargos
@@ -92,7 +98,7 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
                 input.input(type="", name="estatus" value=(formData && formData.estatus) || "")
                 br
                 h3 Procesos
-                button.hm(type="button" onclick="agregarFila()") Agregar
+                    button.hm(type="button" onclick="agregarFila()") ➕
                 table#mitabla
                     thead 
                         tr
@@ -113,8 +119,8 @@ div.containerSp(name="solicitudes" style={display : solicitudes})
 
 div.containerSp(name="busquedas" style={display : pBusquedas})
     h1.h Búsquedas
+        button.hm(name="boton" value="nuevaBusqueda") ➕
         form(method="POST" action="/e&d") 
-            button.hm(name="boton" value="nuevaBusqueda") Agregar Busqueda
     table(name="tablabusquedas")
         thead 
             tr
@@ -187,7 +193,7 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
                 br
                 label Responsabilidades
-                button.hm(name="boton" value="agregarResponsabilidad") Agregar
+                    button.hm(name="boton" value="agregarResponsabilidad") ➕
                 input.input(type="", name="responsabilidadAgregada")
                 h3 Lista de Responsabilidades
                 ul
@@ -236,7 +242,7 @@ div.containerSp(name="busquedas" style={display : pBusquedas})
                 input.input(type="date", name="fInicioBusqueda" value=(formData && formData.fInicioBusqueda) || "")
                 br
                 label Responsabilidades
-                button.hm(name="boton" value="editarResponsabilidades") Agregar
+                    button.hm(name="boton" value="editarResponsabilidades") ➕
                 input.input(type="", name="responsabilidadEditada")
                 h3 Lista de Responsabilidades
                 ul
