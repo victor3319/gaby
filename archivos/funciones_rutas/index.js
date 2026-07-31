@@ -353,7 +353,6 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         else if(boton == "fCargos"){
             var textoBuscado = req.body.filtroCargos
             var base = await solicitudesEmpleoDB.find({cargo:{$regex: textoBuscado, $options: "i"}})
-            console.log(solicitudesEmpleo[0].cargo)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -469,7 +468,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             })
         }else if(boton == "nuevaBusqueda" || boton == "cerrarB"){
             listaResponsabilidades = []
-            console.log(req.body)
+            console.log(codigoBusqueda)
             res.render("procesosEspecificos.pug", {
                 h1 : usuarioNavegacion.nombre, 
                 accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
@@ -485,7 +484,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         }else if(boton == "agregarResponsabilidad"){
             var bodyLimpio = js.normalizarBody(req.body)
             var nuevaResponsabilidad = bodyLimpio.responsabilidadAgregada?.trim();
-            
+            console.log("123")
             if(nuevaResponsabilidad){
                 listaResponsabilidades.push(nuevaResponsabilidad)
             }
@@ -498,7 +497,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                     tBusquedas : busquedas,
                     listaResponsabilidades,
                     cargos,
-                    formData: bodyLimpio,
+                    formData: req.body,
                     codigoBusqueda,
                     base1 : solicitudesEmpleo
                 })
@@ -517,7 +516,7 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 tBusquedas : busquedas,
                 listaResponsabilidades,
                 cargos,
-                formData: bodyLimpio,
+                formData: req.body,
                 base1 : solicitudesEmpleo
             })
         }else if(boton == "eliminarR"){

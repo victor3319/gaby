@@ -163,7 +163,9 @@ async function solicitud(datos){
 }
 
 function codigo(datos){
-    var datos1 = datos[0]
+     if (!datos.length) {
+        return 1
+    }
     var codigos = datos.map(dato => Number(dato.codigo))
     var nuevoCodigo = Math.max(...codigos) + 1
     

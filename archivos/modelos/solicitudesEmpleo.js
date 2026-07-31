@@ -26,8 +26,7 @@ const solicitudesEmpleoEsquema = new mongoose.Schema({
        type: mongoose.Schema.Types.Mixed 
     },
     linkedIn: {
-        type:String,
-        required: true
+        type: mongoose.Schema.Types.Mixed 
     },
     texto: {
         type:String,
