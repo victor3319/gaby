@@ -7,6 +7,7 @@ const path = require ("path");
 const multer = require("multer");
 const pdf = require("pdf-parse-new");
 const session = require('express-session');
+const crypto = require("crypto");
 
 //MODELOS IMPORTADOS
 const usuarioEnUsoDB = require("../modelos/usuarioEnUso");
@@ -42,6 +43,25 @@ var cargos = []
         const upload = multer({ storage });
 
 
+//Middleware para validar un unico logeo por Usuario
+
+async function validarSesion(req, res, next){
+    console.log("ENTRE AL MIDDLEWARE");
+    if(!req.session.usuario){
+        return res.redirect("/");
+    }
+    const usuario = await usuariosDB.findById(
+        req.session.usuario._id);
+
+        if(!usuario || usuario.sessionToken !== req.session.sessionToken){
+            req.session.destroy(() => {});
+            return res.redirect("/");
+        }
+        next();
+}
+
+//RUTAS DEL PROGRAMA
+
 router.get("/", (req, res, next) =>{
     usuarioNavegacion = ""
     res.render("index.pug")
@@ -50,40 +70,44 @@ router.get("/", (req, res, next) =>{
     return usuario
 })
 
-router.get("/home", async(req, res, next) =>{
-    /*if(usuarioNavegacion == ""){
-        res.render("index.pug")
-    }*/
+router.get("/home", validarSesion, async(req, res, next) =>{
+    console.log("ENTRE A HOME");
      if(!req.session.usuario){
         return res.redirect('/');
     }
     else{
         res.render("home.pug",{
             //h1 : usuarioNavegacion.nombre,
+            //accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
             h1: req.session.usuario.nombre,
-            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+            accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
         })
     }
     next()
 })
 
-router.get("/procesos", async(req, res, next) =>{
-    if(usuarioNavegacion == ""){
+router.get("/procesos", validarSesion, async(req, res, next) =>{
+    /*if(usuarioNavegacion == ""){
         res.render("index.pug")
-    }else{
+    }*/
+    if(!req.session.usuario){
+        return res.redirect('/');
+    }
+    else{
         const usuarioEnUso = await usuarioEnUsoDB.find()
         var proceso = req.body.proceso
         res.render("procesos.pug",{
-            h1 : usuarioNavegacion.nombre, 
-            accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1)
+            //h1 : usuarioNavegacion.nombre, 
+            //accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1)
+            h1: req.session.usuario.nombre,
+            accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
         })
     }
     next()
 })
 
-router.post("/new-entry", async (req, res, next)=>{   
+router.post("/new-entry", async (req, res)=>{   
     const usuarios = await usuariosDB.find()
-    //const usuarioEnUso = await usuarioEnUsoDB.find()
     
     var datos = req.body
     var boton = req.body.boton
@@ -94,41 +118,51 @@ router.post("/new-entry", async (req, res, next)=>{
         var validacion = js.validacionUsuario(datos, usuarios);
         if(validacion[0] == true){
             var usuariobase = (usuarios.filter(usuario => usuario.correo === validacion[2]))[0]
-            //usuarioNavegacion = usuariobase.toObject()
-            req.session.usuario = usuariobase.toObject()
-
-            res.render("home.pug", {
-                //h1 : usuarioNavegacion.nombre, 
-                //accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
-                h1 : req.session.usuario.nombre, 
-                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
-            })
+            const sessionToken = crypto.randomUUID();
+            await usuariosDB.updateOne(
+                { _id: usuariobase._id },
+                {$set: {
+                    sessionToken: sessionToken
+                    }
+                }
+            );
+            req.session.usuario = usuariobase
+            req.session.sessionToken = sessionToken;
+            req.session.save(err => {
+                if (err) {
+                    console.log(err);
+                    return res.redirect("/");
+                }
+                res.render("home.pug", {
+                    h1: req.session.usuario.nombre,
+                    accesos: Object.keys(req.session.usuario.accesos[0]).splice(1)
+                });
+            });
         }
         else{
             res.render("index.pug", {mostrar : js.mostrar()})
         }       
     }
-    next()
 })
 
 
 //RUTAS ADP
-router.post("/adp", upload.single('archivo'), (req, res, next)=>{
-    if(usuarioNavegacion == ""){
-        res.render("index.pug")
+router.post("/adp", validarSesion, upload.single('archivo'), (req, res, next)=>{
+    if(!req.session.usuario){
+        return res.redirect('/');
     }else{   
         var boton = req.body.boton  
         if(boton == "recibos" || boton == "cerrarR"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "recibos"
             })
         }
         if(boton == "cargarRecibos"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: boton,
                 recibos : js.mostrar()
             })
@@ -139,15 +173,15 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
             const {legajo, mes, ano, archivo} = req.body;
             if(legajo =="" || mes=="" || ano=="" || archivo==""){
                 res.render("procesosEspecificos.pug", {
-                    h1 : usuarioNavegacion.nombre, 
-                    accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                    h1: req.session.usuario.nombre,
+                    accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                     proceso: boton, 
                     completar : js.mostrar()
                 })
             }else{            
                     res.render("procesosEspecificos.pug", {
-                        h1 : usuarioNavegacion.nombre, 
-                        accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                        h1: req.session.usuario.nombre,
+                        accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                         proceso: boton
                     })    
             
@@ -173,15 +207,15 @@ router.post("/adp", upload.single('archivo'), (req, res, next)=>{
         //Cruce de Novedades
         if(boton == "novedades" || boton == "cerrarN"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: boton
             })
         }
         if(boton == "cruce"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: boton,
                 cruce : js.mostrar() 
             })
@@ -286,9 +320,9 @@ router.post("/externo", upload.single('archivo'), async(req, res, next)=>{
 
 
 //RUTAS EMPLEO Y DESARROLLO
-router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
-    if(usuarioNavegacion == ""){
-        res.render("index.pug")
+router.post("/e&d", validarSesion, upload.single('archivo'), async(req, res, next)=>{
+    if(!req.session.usuario){
+        return res.redirect('/');
     }else{ 
         var boton = req.body.boton
         var solicitudesEmpleo = await solicitudesEmpleoDB.find()
@@ -297,8 +331,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
     
         if(boton == "seleccion" || boton == "cerrarS"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 listaResponsabilidades,
                 cargos,
@@ -316,8 +350,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         if(boton == "solicitudes"){
             var base = solicitudesEmpleo
             res.render("procesosEspecificos.pug",{
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 listaResponsabilidades,
@@ -330,8 +364,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             await solicitudesEmpleoDB.deleteOne({correo: registro});
             var borrado = await solicitudesEmpleoDB.find()
             res.render("procesosEspecificos.pug",{
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
@@ -348,8 +382,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             var textoBuscado = req.body.filtrocv1
             var base = await solicitudesEmpleoDB.find({texto:{$regex: textoBuscado, $options: "i"}})
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 cargos,
@@ -363,8 +397,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             var textoBuscado = req.body.filtroCargos
             var base = await solicitudesEmpleoDB.find({cargo:{$regex: textoBuscado, $options: "i"}})
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 cargos,
@@ -379,8 +413,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             cargos = js.variosTiposDatos(regitroAEditar[0].cargo)
             console.log(cargos)
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 editarSolicitud : js.mostrar(),
@@ -398,8 +432,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 cargos.push(cargoAgregado)
             }
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 editarSolicitud : js.mostrar(),
@@ -416,8 +450,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             cargos = js.variosTiposDatos(cargos)
             console.log(cargos)
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 editarSolicitud : js.mostrar(),
@@ -450,8 +484,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 }
             );
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 solicitudes : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
@@ -466,8 +500,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
         //TABLA BUSQUEDAS
         if(boton == "busquedas"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
@@ -479,8 +513,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             listaResponsabilidades = []
             console.log(codigoBusqueda)
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 agregarBusqueda : js.mostrar(),
@@ -498,8 +532,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 listaResponsabilidades.push(nuevaResponsabilidad)
             }
                 res.render("procesosEspecificos.pug", {
-                    h1 : usuarioNavegacion.nombre, 
-                    accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                    h1: req.session.usuario.nombre,
+                    accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                     proceso: "seleccion",
                     pBusquedas : js.mostrarOcultarContenido(),
                     agregarBusqueda : js.mostrar(),
@@ -517,8 +551,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
                 listaResponsabilidades.push(editarResponsabilidad)
             }
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 editarBusqueda : js.mostrar(),
@@ -533,8 +567,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             listaResponsabilidades.splice(registro, 1)
     
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 editarBusqueda : js.mostrar(),
@@ -563,8 +597,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             await busquedasDB.create(nuevaBusqueda);
             listaResponsabilidades = []
              res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
@@ -577,8 +611,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             listaResponsabilidades = regitroAEditar[0].listaResponsabilidades || []
            
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 editarBusqueda : js.mostrar(),
@@ -610,8 +644,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             );
            
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
@@ -625,8 +659,8 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
             await busquedasDB.deleteOne({codigo: registro});
             var busquedas = await busquedasDB.find()
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: "seleccion",
                 pBusquedas : js.mostrarOcultarContenido(),
                 tBusquedas : busquedas,
@@ -641,25 +675,25 @@ router.post("/e&d", upload.single('archivo'), async(req, res, next)=>{
 })
 
 //RUTAS DE ADMINISTRADOR
-router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
-    if(usuarioNavegacion == ""){
-        res.render("index.pug")
+router.post("/administrador", validarSesion, upload.single('archivo'), (req, res, next)=>{
+    if(!req.session.usuario){
+        return res.redirect('/');
     }else{ 
         var boton = req.body.boton
         var proceso = req.body.proceso
         var subProceso = req.body.subProceso
         if(boton == "descargas"){
             res.render("procesos.pug",{
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
                 descargas : js.mostrar()
             })
         }
         if(boton == "procesos" && proceso == "accesos"){
             res.render("procesos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 subProcesos : js.listadoSecundario(var_const.procesos, proceso), 
                 completar : js.mostrar()
             })
@@ -667,8 +701,8 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
 
         if(boton == "procesos" && proceso != "accesos"){
             res.render("procesos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 subProcesos : js.listadoSecundario(var_const.procesos, proceso),
                 descargas2 : js.mostrar()
             })
@@ -676,8 +710,8 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
 
         if(boton == "subProcesos" && subProceso == "subProcesos"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 subProcesos : js.listadoSecundario(var_const.procesos, proceso)
             })
         }
@@ -685,15 +719,15 @@ router.post("/administrador", upload.single('archivo'), (req, res, next)=>{
 })
 
 //RUTA VOLVER DE PROCESOS ESPECIFICOS
-router.post("/procesosEspecificos", upload.single('archivo'), (req, res, next)=>{
-    if(usuarioNavegacion == ""){
-        res.render("index.pug")
+router.post("/procesosEspecificos", validarSesion, upload.single('archivo'), (req, res, next)=>{
+    if(!req.session.usuario){
+        return res.redirect('/');
     }else{ 
         var boton = req.body.boton
         if(boton == "cargarRecibos"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: boton
                 //recibos : js.mostrar()
             })
@@ -701,8 +735,8 @@ router.post("/procesosEspecificos", upload.single('archivo'), (req, res, next)=>
 
         if(boton == "novedades"){
             res.render("procesosEspecificos.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1: req.session.usuario.nombre,
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
                 proceso: boton 
                 //cruce : js.mostrar()
             })

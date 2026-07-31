@@ -21,7 +21,10 @@ const usuariosEsquema = new mongoose.Schema({
     accesos: [{
         ADP : {type: mongoose.Schema.Types.Mixed},
         EYD : {type: mongoose.Schema.Types.Mixed}
-    }]
+    }],
+    sessionToken:{
+        type: mongoose.Schema.Types.Mixed
+    }
 })
 
 const usuariosModelo = new mongoose.model("usuarios", usuariosEsquema)
