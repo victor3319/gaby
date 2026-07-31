@@ -7,6 +7,7 @@ const path = require ("path");
 const morgan = require("morgan");
 const pdf = require("pdf-parse-new")
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 async function conectarDB() {
   try {
@@ -59,6 +60,15 @@ app.use(express.urlencoded({ extended: true }));
 app.listen(PORT, () => {
      console.log(`Servidor escuchando en http://localhost:${PORT}`)
 });
+
+//Para Adminitrar Seciones de Usuarios Distintas
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'clave-secreta',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 10009    }
+      }));
 
 
 

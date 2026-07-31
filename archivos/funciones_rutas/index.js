@@ -6,6 +6,7 @@ const js = require("./js");
 const path = require ("path");
 const multer = require("multer");
 const pdf = require("pdf-parse-new");
+const session = require('express-session');
 
 //MODELOS IMPORTADOS
 const usuarioEnUsoDB = require("../modelos/usuarioEnUso");
@@ -24,7 +25,7 @@ pdf(dataBuffer).then(function(datos){
 // Número de páginas console.log ( datos.text ) ; // Contenido de texto completo console.log ( datos.info ) ; // Metadatos del PDF } ) ;)})
 */
 
-var usuarioNavegacion = ""
+//var usuarioNavegacion = ""
 var listaResponsabilidades = []
 var cargos = []
 
@@ -50,11 +51,16 @@ router.get("/", (req, res, next) =>{
 })
 
 router.get("/home", async(req, res, next) =>{
-    if(usuarioNavegacion == ""){
+    /*if(usuarioNavegacion == ""){
         res.render("index.pug")
-    }else{
+    }*/
+     if(!req.session.usuario){
+        return res.redirect('/');
+    }
+    else{
         res.render("home.pug",{
-            h1 : usuarioNavegacion.nombre,
+            //h1 : usuarioNavegacion.nombre,
+            h1: req.session.usuario.nombre,
             accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
         })
     }
@@ -77,7 +83,7 @@ router.get("/procesos", async(req, res, next) =>{
 
 router.post("/new-entry", async (req, res, next)=>{   
     const usuarios = await usuariosDB.find()
-    const usuarioEnUso = await usuarioEnUsoDB.find()
+    //const usuarioEnUso = await usuarioEnUsoDB.find()
     
     var datos = req.body
     var boton = req.body.boton
@@ -88,11 +94,14 @@ router.post("/new-entry", async (req, res, next)=>{
         var validacion = js.validacionUsuario(datos, usuarios);
         if(validacion[0] == true){
             var usuariobase = (usuarios.filter(usuario => usuario.correo === validacion[2]))[0]
-            usuarioNavegacion = usuariobase.toObject()
+            //usuarioNavegacion = usuariobase.toObject()
+            req.session.usuario = usuariobase.toObject()
 
             res.render("home.pug", {
-                h1 : usuarioNavegacion.nombre, 
-                accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                //h1 : usuarioNavegacion.nombre, 
+                //accesos: Object.keys(usuarioNavegacion.accesos[0]).splice(1),
+                h1 : req.session.usuario.nombre, 
+                accesos: Object.keys(req.session.usuario.accesos[0]).splice(1),
             })
         }
         else{
