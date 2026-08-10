@@ -90,6 +90,8 @@ router.get("/procesos", validarSesion, async(req, res, next) =>{
     /*if(usuarioNavegacion == ""){
         res.render("index.pug")
     }*/
+   console.log("procesos")
+   console.log(Object.keys(req.session.usuario.accesos[0]).splice(1))
     if(!req.session.usuario){
         return res.redirect('/');
     }

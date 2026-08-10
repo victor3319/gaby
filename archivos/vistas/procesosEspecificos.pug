@@ -18,4 +18,9 @@ block content1
                 include procesos/e&d/seleccion
             if proceso == "undefined"
                 include enConstruccion
-    
+    form(method="post" action="/comex" enctype="multipart/form-data")
+        div 
+            if proceso == "planificacion" || proceso == "cerrarS" || proceso == "cargarS"
+                include procesos/comex/planificacion
+            if proceso == "undefined"
+                include enConstruccion

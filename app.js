@@ -53,6 +53,7 @@ app.use(session({
 //express para leer rutas
 
 app.use(require("./archivos/funciones_rutas/index"))
+app.use(require("./archivos/funciones_rutas/comex"))
 
 app.use(express.static(statics))
 

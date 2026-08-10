@@ -3,15 +3,18 @@ extends layout
 block content1
     div.containerP
         
-        if accesos == "ADP,EYD"
+        if accesos == "ADP,EYD,COMEX"
             include procesos/adp/l_adp
             include procesos/e&d/l_e&d
+            include procesos/comex/l_comex
             include procesos/administrador/l_administrador
         else if accesos == "ADP"
             include procesos/adp/l_adp
             include procesos/administrador/l_administrador
         else if accesos == "EYD"
             include procesos/e&d/l_e&d
+        else if accesos == "COMEX"
+            include procesos/comex/l_comex
             
         
 
