@@ -8,5 +8,32 @@ div.cuadro
     button.hm(name="boton" value="fichar") Fichar
 div.cuadro
     h2.h Ubicación 
+    div(id="map")
+
+script.
+    if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+    function(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const map = L.map('map').setView([lat, lng], 16);
+    L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+    attribution: '&copy; OpenStreetMap'
+    }
+    ).addTo(map);
+    L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup('Tu ubicación')
+    .openPopup();
+    },
+    function(error) {
+    alert('No se pudo obtener la ubicación');
+    }
+    );
+    } else {
+    alert('Geolocalización no soportada');
+    }
 
     
