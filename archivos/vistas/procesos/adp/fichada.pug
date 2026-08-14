@@ -8,8 +8,9 @@ div.cuadro
     button.hm(name="boton" value="fichar") Fichar
 div.cuadro
     h2.h Ubicación 
-    div(id="map")
+    #map
 
+script(src="https://unpkg.com/leaflet/dist/leaflet.js")
 script.
     if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
